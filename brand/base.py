@@ -1,6 +1,6 @@
 """Base functions for brand"""
 
-
+import re
 import subprocess
 import itertools
 import os
@@ -82,11 +82,6 @@ def process_names(
                 print(available_name_msg + name)
             add_to_set(store, "available_names.p", name)
 
-
-#
-# from py2store import LocalPickleStore
-# store = LocalPickleStore(rootdir)
-
 vowels = "aeiouy"
 consonants = "bcdfghjklmnpqrstvwxz"
 fewer_consonants = "bdfglmnprstvz"
@@ -160,9 +155,6 @@ def try_some_cvcvcvs(
     print("--------------------------------------------------------------------------")
     process_names(names, store, same_line_print=same_line_print)
 
-
-from pyckup import grab
-import re
 
 checked_p = re.compile("- \d+: (\w+)")
 available_p = re.compile("---> Found available name: (\w+)")
