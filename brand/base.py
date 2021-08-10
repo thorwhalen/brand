@@ -5,6 +5,9 @@ import subprocess
 import itertools
 import os
 from typing import Callable, Union, Iterable, MutableMapping
+from time import sleep
+
+from brand.util import print_progress
 
 DFLT_ROOT_DIR = os.path.expanduser("~/tmp/domain_search/")
 
@@ -66,9 +69,6 @@ def process_names(
     same_line_print=False,
     available_name_msg="---> Found available name: ",
 ):
-    from ut import print_progress
-    from time import sleep
-
     skip_names = already_checked_names(store)
 
     for i, name in enumerate(filter(lambda x: x not in skip_names, names)):
