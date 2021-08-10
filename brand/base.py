@@ -82,6 +82,7 @@ def process_names(
                 print(available_name_msg + name)
             add_to_set(store, "available_names.p", name)
 
+
 vowels = "aeiouy"
 consonants = "bcdfghjklmnpqrstvwxz"
 fewer_consonants = "bdfglmnprstvz"
