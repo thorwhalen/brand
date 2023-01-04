@@ -7,6 +7,8 @@ import os
 from typing import Callable, Union, Iterable, MutableMapping
 from time import sleep
 
+import lexis
+
 from brand.util import print_progress
 
 DFLT_ROOT_DIR = os.path.expanduser("~/tmp/domain_search/")
@@ -14,7 +16,20 @@ DFLT_ROOT_DIR = os.path.expanduser("~/tmp/domain_search/")
 StoreType = Union[str, MutableMapping]
 
 
-def name_is_available(name, timeout=7):
+def english_words_gen(pattern='.*') -> Iterable[str]:
+    """
+    Get an iterable of English words
+
+    :param pattern: Regular expression to filter with
+
+    Tip: to sort by word length, do ``sorted(english_words_gen(..., key=len))``.
+
+    """
+    pattern = re.compile(pattern)
+    return filter(pattern.search, lexis.Lemmas())
+
+
+def domain_name_is_available(name, timeout=7, tld='.com'):
     """
     >>> name_is_available('google.com')
     False
@@ -23,7 +38,7 @@ def name_is_available(name, timeout=7):
     """
     try:
         if "." not in name:
-            name = name + ".com"
+            name = name + tld
         r = subprocess.run(["whois", name], capture_output=True, timeout=timeout)
         #     r = subprocess.run(['whois', '-Q', name], capture_output=True)
         try:
@@ -37,6 +52,7 @@ def name_is_available(name, timeout=7):
         print(f"!!! Timedout: whois {name}")
         return False
 
+name_is_available = domain_name_is_available  # back-compatibility alias
 
 # from graze import Graze
 # g = Graze(os.path.join(rootdir, 'htmls'))
