@@ -18,7 +18,15 @@ StoreType = Union[str, MutableMapping]
 
 def english_words_gen(pattern='.*') -> Iterable[str]:
     """
-    Get an iterable of English words
+    Get an iterable of English words.
+
+    You can pre-filter the words using regular expressions. 
+
+    Note that the dictionary is quite large; larger than the usual "scrabble-allowed" 
+    dictionaries.
+
+    Note that you often want to post-filter as well. 
+    You can do so simply by using the `filter` function.
 
     :param pattern: Regular expression to filter with
 
@@ -51,6 +59,7 @@ def domain_name_is_available(name, timeout=7, tld='.com'):
     except subprocess.TimeoutExpired:
         print(f"!!! Timedout: whois {name}")
         return False
+
 
 name_is_available = domain_name_is_available  # back-compatibility alias
 
@@ -204,3 +213,112 @@ def logs_diagnosis(log_text):
         d[k].append(v)
 
     return dict(d)
+
+# --------------------------------------------------------------------------------------
+# AI-based generation
+
+def ask_ai_to_generate_names(context):
+    """Ask the AI to generate names for a given context."""
+    import oa  # pip install oa  (will required an openai api key to be specified)
+
+    string_response = oa.ask.ai.suggest_names(context)
+    try:
+        return string_response.split("\n")
+    except Exception as e:
+        raise ValueError(
+            f"An error occured: {e}. "
+            f"Here's the raw response of the AI:\n{string_response}"
+        )
+
+
+# --------------------------------------------------------------------------------------
+# availability check
+
+import requests
+from functools import partial
+from typing import Callable
+
+ResponseBoolFunc = Callable[[requests.Response], bool]
+
+
+def status_code_says_it_is_available(
+    response,
+    *,
+    is_available_status_codes=(404, 410),
+    is_not_available_status_codes=(200, 301),
+):
+    """ """
+    if response.status_code in is_available_status_codes:
+        return True
+    elif response.status_code in is_not_available_status_codes:
+        return False
+    else:
+        raise ValueError(f"unexpected status code: {response.status_code}")
+
+
+status_code_says_it_is_available: ResponseBoolFunc
+
+
+def url_says_it_is_available(
+    name,
+    name_to_url: str,
+    response_bool_func: ResponseBoolFunc = status_code_says_it_is_available,
+    *,
+    request_func=requests.get,
+):
+    url = name_to_url(name)
+    response = request_func(url)
+    return response_bool_func(response)
+
+
+def template_based_availability_func(template: str):
+    return partial(url_says_it_is_available, name_to_url=template.format)
+
+
+from types import SimpleNamespace
+
+
+class IterableNamespace(SimpleNamespace):
+    def __iter__(self):
+        for attr in dir(is_available_as):
+            if not attr.startswith('_'):
+                yield attr
+
+
+def url_template_base_availability(templates: dict):
+    return IterableNamespace(
+        **{k: template_based_availability_func(v) for k, v in templates.items()}
+    )
+
+
+pypi_package_is_available = template_based_availability_func(
+    "https://pypi.org/project/{}/"
+)
+
+is_available_as = url_template_base_availability(
+    dict(
+        # www_dot_com="http://www.{}.com",  # produces ConnectionError
+        # domain_name="https://www.namecheap.com/domains/registration/results/?domain={}",  # Example using Namecheap for domain check
+        github_org="https://github.com/{}",
+        # twitter_profile="https://twitter.com/{}",  # response is always 200
+        # instagram_user="https://www.instagram.com/{}/",
+        # reddit_user="https://www.reddit.com/user/{}",  # response is always 200
+        pypi_project="https://pypi.org/project/{}",
+        npm_package="https://www.npmjs.com/package/{}",
+        # facebook_page="https://www.facebook.com/{}",  # response is always 200
+        # linkedin_company="https://www.linkedin.com/company/{}/",  # code 999
+        youtube_channel="https://www.youtube.com/{}",
+    )
+)
+
+# add some more complex ones
+is_available_as.domain_name = domain_name_is_available
+
+
+# github_org_is_available = template_based_availability_func("https://github.com/{}")
+is_available_as.__doc__ = """
+    >>> is_available_as.github_org('i2mint')
+    False
+    >>> is_available_as.github_org('__hopefully_this_does_not_exist__')
+    True
+"""
