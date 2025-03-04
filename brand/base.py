@@ -20,12 +20,12 @@ def english_words_gen(pattern='.*') -> Iterable[str]:
     """
     Get an iterable of English words.
 
-    You can pre-filter the words using regular expressions. 
+    You can pre-filter the words using regular expressions.
 
-    Note that the dictionary is quite large; larger than the usual "scrabble-allowed" 
+    Note that the dictionary is quite large; larger than the usual "scrabble-allowed"
     dictionaries.
 
-    Note that you often want to post-filter as well. 
+    Note that you often want to post-filter as well.
     You can do so simply by using the `filter` function.
 
     :param pattern: Regular expression to filter with
@@ -214,13 +214,39 @@ def logs_diagnosis(log_text):
 
     return dict(d)
 
+
 # --------------------------------------------------------------------------------------
 # AI-based generation
+
+brand_name_analysis_criteria = """
+• Meaningfulness & Flexibility: A name that communicates your brand’s core values creates immediate emotional resonance; however, if it’s too literal or specific, it can pigeonhole the brand, making future diversification or pivots more challenging.
+• Distinctiveness: A unique name helps the brand stand out in a crowded market, ensuring it isn’t easily confused with competitors.
+• Memorability: An easily recalled name fosters word-of-mouth promotion and ensures that the brand remains top-of-mind for consumers.
+• Pronounceability & Spelling: A name that is simple to say and spell reduces confusion, aids in effective communication, and enhances online searchability.
+• Simplicity: Short, concise names are generally more user-friendly and can be more easily integrated into marketing materials and digital platforms.
+• Future-Proofing: The chosen name should be adaptable enough to support brand evolution and expansion, avoiding constraints imposed by overly descriptive terms.
+• Legal Availability: It’s essential that the name can be trademarked and isn’t already in use to prevent costly legal disputes and ensure exclusive brand identity.
+• SEO & Digital Friendliness: A distinctive and searchable name enhances online visibility, making it easier for consumers to find and engage with the brand.
+• Cultural Sensitivity: The name should translate well across different languages and cultures, avoiding negative connotations or misinterpretations in global markets.
+• Visual & Aesthetic Appeal: A name that lends itself to a compelling visual identity can enhance logo design and overall brand presentation, reinforcing recognition.
+"""
+
 
 def ask_ai_to_generate_names(context):
     """Ask the AI to generate names for a given context."""
     import oa  # pip install oa  (will required an openai api key to be specified)
 
+    template = f"""
+    You are an expert in branding and you are helping a client come up with a name for
+    {{thing}}.
+    Suggest {{n:30}} names between {{min_length:1}} and {{max_length:15}} characters long.
+
+    Only output the names, one per line with no words before or after it, 
+    since I will be parsing the output.
+
+    You should choose these names in consideration of the following criteria:
+    {brand_name_analysis_criteria}
+    """
     string_response = oa.ask.ai.suggest_names(context)
     try:
         return string_response.split("\n")
@@ -229,6 +255,67 @@ def ask_ai_to_generate_names(context):
             f"An error occured: {e}. "
             f"Here's the raw response of the AI:\n{string_response}"
         )
+
+
+def ai_analyze_names(
+    names: Union[str, Iterable[str]], context: str = '', *, json_output=False
+):
+    """Ask the brand-expert AI to analyze names for a given context."""
+    import oa  # pip install oa  (will required an openai api key to be specified)
+
+    template = f"""
+    You are a brand consultant and you are helping a client come up with a name for 
+    their nes product or business. 
+    The context (may) be give below (if empty, just consider a general context).
+
+    The client has some ideas for names, given below. 
+    You need to analyze the names, score them, and list them from best to worst, 
+    explaining what the pros and cons of each name are.
+    Score should be from 1 to 9, with 1 being worst and 9 being best.
+
+    You will base your analysis on the following criteria:
+    {brand_name_analysis_criteria}
+
+    Names:
+    {{names}}
+
+    Context: {{context:}}
+    """
+
+    if not isinstance(names, str):
+        names = "\n".join(names)
+
+    if json_output:
+        ask_ai = oa.prompt_json_function(
+            template,
+            json_schema={
+                'name': 'RankedAnalysisSchema',
+                'properties': {
+                    'items': {
+                        'items': {
+                            'properties': {
+                                'analysis': {'type': 'string'},
+                                'name': {'type': 'string'},
+                                'score': {
+                                    'maximum': 9,
+                                    'minimum': 1,
+                                    'type': 'integer',
+                                },
+                            },
+                            'required': ['name', 'score', 'analysis'],
+                            'type': 'object',
+                        },
+                        'type': 'array',
+                    }
+                },
+                'required': ['items'],
+                'type': 'object',
+            },
+        )
+    else:
+        ask_ai = oa.prompt_function(template)
+
+    return ask_ai(names=names, context=context)
 
 
 # --------------------------------------------------------------------------------------
