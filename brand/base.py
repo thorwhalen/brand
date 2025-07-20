@@ -142,7 +142,7 @@ def ensure_dir(dirpath):
 
 def _get_name_generator(name_generator) -> Callable:
     if not callable(name_generator):
-        if isinstance(name_generator, str) & os.path.isfile(name_generator):
+        if isinstance(name_generator, str) and os.path.isfile(name_generator):
             with open(name_generator, "rt") as fp:
                 lines = fp.read().split("\n")
             name_generator = lambda: iter(lines)
