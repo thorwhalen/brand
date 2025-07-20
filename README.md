@@ -143,7 +143,7 @@ and to store its results as they check names.
 
 A store can be an actual `dict`, or a dict-like interface to files or a DB.
 
-We advise to use `py2store` (which is installed with `brand`) to make dict-like
+We recommend to use `dol` (which is installed with `brand`) to make dict-like
 interfaces to your storage system of choice.
 
 When you ask `brand` to make a store with no further specifications, 

@@ -8,12 +8,9 @@ from typing import Callable, Union, Iterable, MutableMapping
 from time import sleep
 
 import lexis
+from dol import PickleFiles
 
-from brand.util import print_progress
-
-DFLT_ROOT_DIR = os.path.expanduser("~/tmp/domain_search/")
-
-StoreType = Union[str, MutableMapping]
+from brand.util import print_progress, DFLT_ROOT_DIR, StoreType
 
 
 def english_words_gen(pattern='.*') -> Iterable[str]:
@@ -69,17 +66,23 @@ name_is_available = domain_name_is_available  # back-compatibility alias
 
 def add_to_set(store: StoreType, key, value):
     store = get_store(store)
-    store[key] = store.get(key, set()) | {value}
+    store[key] = set(store.get(key, set())) | {value}
 
 
-def available_names(store: StoreType = DFLT_ROOT_DIR):
+def available_names(store: StoreType = DFLT_ROOT_DIR, key="available_names.p"):
     store = get_store(store)
-    return set(store["available_names.p"])
+    if key not in store:
+        # If the key does not exist, create it
+        store[key] = []
+    return set(store[key])
 
 
-def not_available_names(store: StoreType = DFLT_ROOT_DIR):
+def not_available_names(store: StoreType = DFLT_ROOT_DIR, key="not_available.p"):
     store = get_store(store)
-    return set(store["not_available.p"])
+    if key not in store:
+        # If the key does not exist, create it
+        store[key] = []
+    return set(store[key])
 
 
 def already_checked_names(store: StoreType = DFLT_ROOT_DIR):
@@ -146,8 +149,14 @@ def _get_name_generator(name_generator) -> Callable:
             with open(name_generator, "rt") as fp:
                 lines = fp.read().split("\n")
             name_generator = lambda: iter(lines)
+        elif isinstance(name_generator, Iterable):
+            iterable = name_generator
+            name_generator = lambda: iter(iterable)
         else:
-            name_generator = lambda: iter(name_generator)
+            raise ValueError(
+                f"Expected a callable, a string (file path), or an iterable, "
+                f"but got: {name_generator}"
+            )
     assert isinstance(name_generator, Callable)
     return name_generator
 
@@ -155,9 +164,7 @@ def _get_name_generator(name_generator) -> Callable:
 def get_store(store: StoreType = DFLT_ROOT_DIR):
     if isinstance(store, str):
         if os.path.isdir(store):
-            from py2store import LocalPickleStore
-
-            store = LocalPickleStore(store)
+            store = PickleFiles(store)
         elif os.path.isfile(store):
             import pickle
 
