@@ -4,6 +4,8 @@ import re
 import subprocess
 import itertools
 import os
+import pickle
+from functools import partial
 from typing import Callable, Union, Iterable, MutableMapping
 from time import sleep
 
@@ -34,25 +36,93 @@ def english_words_gen(pattern='.*') -> Iterable[str]:
     return filter(pattern.search, lexis.Lemmas())
 
 
-def domain_name_is_available(name, timeout=7, tld='.com'):
+from timeout_decorator import timeout
+import socket
+import whois
+
+# Global timeout variables, allowing user to modify before calling functions
+# Note: If changing these is a frequent use case, consider making them parameters
+#       of the functions instead.
+DNS_TIMEOUT = 3  # seconds
+WHOIS_TIMEOUT = 12  # seconds
+
+
+@timeout(DNS_TIMEOUT)
+def domain_exists_socket(domain):
+    """
+    Check if a domain resolves via DNS lookup.
+
+    Args:
+        domain: Domain name (e.g., 'example.com').
+
+    Returns:
+        bool: True if domain resolves, False otherwise.
+    """
+    try:
+        socket.gethostbyname(domain)
+        return True
+    except socket.gaierror:
+        return False
+
+
+@timeout(WHOIS_TIMEOUT)
+def domain_exists_whois(domain):
+    """
+    Check if a domain is registered via WHOIS lookup.
+
+    Args:
+        domain: Domain name (e.g., 'example.com').
+
+    Returns:
+        bool: True if domain is registered, False if likely unregistered.
+    """
+    try:
+        w = whois.whois(domain)
+        return True
+    except Exception:
+        return False
+
+
+def domain_exists(domain, tld=".com"):
+    """
+    Check if a domain exists (is registered or resolves).
+    Uses fast DNS check first, then WHOIS if DNS fails to reduce false negatives.
+    Returns False if the domain is likely available (unregistered).
+
+    Args:
+        domain: Domain name (e.g., 'example', 'example.com').
+        tld: TLD to append if none provided (default '.com').
+
+    Returns:
+        bool: True if domain exists (registered or resolves), False if likely available.
+
+    Examples:
+        >>> domain_exists('google.com')
+        True
+        >>> domain_exists('asdfaksdjhfsd2384udifyiwue.org')
+        False
+    """
+    if "." not in domain:
+        domain = domain + tld
+
+    # Fast DNS check first
+    if domain_exists_socket(domain):
+        return True
+
+    # If DNS fails, double-check with WHOIS to reduce false negatives
+    return domain_exists_whois(domain)
+
+
+def domain_name_is_available(name, tld='.com'):
     """
     >>> name_is_available('google.com')
     False
     >>> name_is_available('asdfaksdjhfsd2384udifyiwue.org')
     True
     """
+
     try:
-        if "." not in name:
-            name = name + tld
-        r = subprocess.run(["whois", name], capture_output=True, timeout=timeout)
-        #     r = subprocess.run(['whois', '-Q', name], capture_output=True)
-        try:
-            contents = r.stdout.decode()
-            search_result = re.search(f"Domain Name: {name}", contents, re.IGNORECASE)
-            return search_result is None
-        except Exception as e:
-            print(f"!!! An error occured with name: {name}")
-            print(f"The error was: {e}")
+        return not domain_exists(name, tld=tld)
     except subprocess.TimeoutExpired:
         print(f"!!! Timedout: whois {name}")
         return False
@@ -163,30 +233,66 @@ def _get_name_generator(name_generator) -> Callable:
 
 def get_store(store: StoreType = DFLT_ROOT_DIR):
     if isinstance(store, str):
-        if os.path.isdir(store):
-            store = PickleFiles(store)
-        elif os.path.isfile(store):
-            import pickle
-
-            with open(store) as fp:
+        path = store
+        if os.path.isdir(path):
+            store = PickleFiles(path)
+        elif os.path.isfile(path):
+            with open(path) as fp:
                 store = pickle.load(fp)
+        # elif parent of path is a directory (but path itself is not) mkdir the path
+        elif os.path.isdir(os.path.dirname(path)):
+            ensure_dir(os.path.dirname(path))
+            store = PickleFiles(os.path.dirname(path))
+        else:
+            raise ValueError(f"Invalid store path: {path}")
     assert isinstance(store, MutableMapping)
     return store
 
 
-def try_some_cvcvcvs(
-    store: StoreType = DFLT_ROOT_DIR,
+def try_some_names(
     name_generator: Union[Callable, str, Iterable] = all_cvcvcv,
-    filt: Callable = few_uniques,
+    *,
+    store: StoreType = DFLT_ROOT_DIR,
+    filt: Callable = lambda x: True,
     same_line_print: bool = False,
+    process_names=process_names,
 ):
-
     name_generator = _get_name_generator(name_generator)
     store = get_store(store)
-    names = sorted(set(filter(filt, name_generator())) - already_checked_names(store))
+    _already_checked = set(already_checked_names(store))
+    names = sorted(
+        filter(
+            lambda name: name not in _already_checked and filt(name), name_generator()
+        )
+    )
     print(f"{len(names)} names will be checked...")
     print("--------------------------------------------------------------------------")
     process_names(names, store, same_line_print=same_line_print)
+    new_names = store['available_names.p']
+    return new_names
+
+
+try_some_cvcvcvs = partial(
+    try_some_names,
+    store=os.path.join(DFLT_ROOT_DIR, 'cvcvcv'),
+    name_generator=all_cvcvcv,
+    file=few_uniques,
+)
+
+# Original try_some_cvcvcvs
+# def try_some_cvcvcvs(
+#     store: StoreType = DFLT_ROOT_DIR,
+#     name_generator: Union[Callable, str, Iterable] = all_cvcvcv,
+#     filt: Callable = few_uniques,
+#     same_line_print: bool = False,
+# ):
+
+#     name_generator = _get_name_generator(name_generator)
+#     store = get_store(store)
+#     names = sorted(set(filter(filt, name_generator())) - already_checked_names(store))
+#     print(f"{len(names)} names will be checked...")
+#     print("--------------------------------------------------------------------------")
+#     process_names(names, store, same_line_print=same_line_print)
 
 
 checked_p = re.compile("- \d+: (\w+)")
