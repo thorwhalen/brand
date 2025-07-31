@@ -123,8 +123,8 @@ def domain_name_is_available(name, tld='.com'):
 
     try:
         return not domain_exists(name, tld=tld)
-    except subprocess.TimeoutExpired:
-        print(f"!!! Timedout: whois {name}")
+    except (TimeoutError, Exception) as e:
+        print(f"!!! Timedout or error: whois {name} ({type(e).__name__}: {e})")
         return False
 
 
@@ -166,13 +166,15 @@ def process_names(
     domain_suffix=".com",
     same_line_print=False,
     available_name_msg="---> Found available name: ",
+    progress_prints=False,
 ):
     skip_names = already_checked_names(store)
 
     for i, name in enumerate(filter(lambda x: x not in skip_names, names)):
         if i % 10 == 0:
             sleep(1)
-        print_progress(f"{i}: {name}", refresh=same_line_print)
+        if progress_prints:
+            print_progress(f"{i}: {name}", refresh=same_line_print)
         if not name_is_available(name + domain_suffix):
             add_to_set(store, "not_available.p", name)
         else:
@@ -241,8 +243,8 @@ def get_store(store: StoreType = DFLT_ROOT_DIR):
                 store = pickle.load(fp)
         # elif parent of path is a directory (but path itself is not) mkdir the path
         elif os.path.isdir(os.path.dirname(path)):
-            ensure_dir(os.path.dirname(path))
-            store = PickleFiles(os.path.dirname(path))
+            ensure_dir(path)
+            store = PickleFiles(path)
         else:
             raise ValueError(f"Invalid store path: {path}")
     assert isinstance(store, MutableMapping)
