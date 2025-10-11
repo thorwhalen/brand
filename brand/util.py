@@ -3,10 +3,10 @@
 import os
 from typing import Union, MutableMapping
 from datetime import datetime
-from config2py import get_app_data_folder, process_path
+from config2py import get_app_config_folder, process_path
 
 
-APP_ROOT_DIR = get_app_data_folder("brand")
+APP_ROOT_DIR = get_app_config_folder("brand")
 DFLT_ROOT_DIR = process_path(
     os.path.join(APP_ROOT_DIR, "domain_search/"),
     ensure_dir_exists=True,
