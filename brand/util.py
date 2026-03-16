@@ -1,7 +1,8 @@
 """Util functions"""
 
 import os
-from typing import Union, MutableMapping
+from typing import Union
+from collections.abc import MutableMapping
 from datetime import datetime
 from config2py import get_app_config_folder, process_path
 

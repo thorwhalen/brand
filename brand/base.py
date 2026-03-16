@@ -6,7 +6,8 @@ import itertools
 import os
 import pickle
 from functools import partial
-from typing import Callable, Union, Iterable, MutableMapping
+from typing import Union
+from collections.abc import Callable, Iterable, MutableMapping
 from time import sleep
 
 import lexis
@@ -218,7 +219,7 @@ def ensure_dir(dirpath):
 def _get_name_generator(name_generator) -> Callable:
     if not callable(name_generator):
         if isinstance(name_generator, str) and os.path.isfile(name_generator):
-            with open(name_generator, "rt") as fp:
+            with open(name_generator) as fp:
                 lines = fp.read().split("\n")
             name_generator = lambda: iter(lines)
         elif isinstance(name_generator, Iterable):
@@ -252,7 +253,7 @@ def get_store(store: StoreType = DFLT_ROOT_DIR):
 
 
 def try_some_names(
-    name_generator: Union[Callable, str, Iterable] = all_cvcvcv,
+    name_generator: Callable | str | Iterable = all_cvcvcv,
     *,
     store: StoreType = DFLT_ROOT_DIR,
     filt: Callable = lambda x: True,
@@ -297,10 +298,10 @@ try_some_cvcvcvs = partial(
 #     process_names(names, store, same_line_print=same_line_print)
 
 
-checked_p = re.compile("- \d+: (\w+)")
-available_p = re.compile("---> Found available name: (\w+)")
-timedout_p = re.compile("!!! Timedout: whois (\w+).com")
-error_p = re.compile("!!! An error occured with name: (\w+).com")
+checked_p = re.compile(r"- \d+: (\w+)")
+available_p = re.compile(r"---> Found available name: (\w+)")
+timedout_p = re.compile(r"!!! Timedout: whois (\w+).com")
+error_p = re.compile(r"!!! An error occured with name: (\w+).com")
 
 
 def logs_diagnosis(log_text):
@@ -373,7 +374,7 @@ def ask_ai_to_generate_names(context):
 
 
 def ai_analyze_names(
-    names: Union[str, Iterable[str]], context: str = '', *, json_output=False
+    names: str | Iterable[str], context: str = '', *, json_output=False
 ):
     """Ask the brand-expert AI to analyze names for a given context."""
     import oa  # pip install oa  (will required an openai api key to be specified)
@@ -438,7 +439,7 @@ def ai_analyze_names(
 
 import requests
 from functools import partial
-from typing import Callable
+from collections.abc import Callable
 
 ResponseBoolFunc = Callable[[requests.Response], bool]
 
