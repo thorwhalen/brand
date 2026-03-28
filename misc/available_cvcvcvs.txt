@@ -1,5 +1,3 @@
-bacafa.com
-bacaga.com
 bacaha.com
 bacaqa.com
 bacawa.com
@@ -23,7 +21,6 @@ bapava.com
 bapawa.com
 bapaxa.com
 bapaza.com
-baqata.com
 baqava.com
 baqawa.com
 baqaxa.com
@@ -47,7 +44,6 @@ begewe.com
 begeze.com
 bemene.com
 bemepe.com
-bemese.com
 bepere.com
 bepese.com
 bepeve.com
@@ -66,9 +62,7 @@ bifipi.com
 bifivi.com
 bifiwi.com
 bifizi.com
-bigizi.com
 biliwi.com
-bimipi.com
 bimiri.com
 bimizi.com
 binipi.com
@@ -101,7 +95,6 @@ bufupu.com
 bufuru.com
 bufusu.com
 bufuvu.com
-bufuzu.com
 bugunu.com
 bugusu.com
 buguvu.com
@@ -118,7 +111,6 @@ bunupu.com
 bunusu.com
 bunuvu.com
 bunuwu.com
-bunuzu.com
 bupuru.com
 bupusu.com
 bupuvu.com
@@ -230,7 +222,6 @@ cahata.com
 cahaxa.com
 cahaza.com
 cajaqa.com
-cajawa.com
 cajaxa.com
 cajaza.com
 cakapa.com
@@ -250,10 +241,8 @@ cavawa.com
 cawaxa.com
 caxaza.com
 dafapa.com
-dafava.com
 dafaxa.com
 dagaka.com
-dagaqa.com
 dagaxa.com
 dahaqa.com
 dahawa.com
@@ -278,7 +267,6 @@ davawa.com
 dawaxa.com
 daxaza.com
 defege.com
-defeme.com
 defepe.com
 defese.com
 defeve.com
@@ -291,8 +279,6 @@ delewe.com
 demewe.com
 denepe.com
 denewe.com
-depese.com
-depeve.com
 depewe.com
 depeze.com
 derewe.com
@@ -303,18 +289,14 @@ difivi.com
 difiwi.com
 diliwi.com
 dimipi.com
-dimiwi.com
 dinipi.com
 diniri.com
 diniwi.com
-dipiri.com
 dipivi.com
 dipiwi.com
 diriti.com
-dirivi.com
 diriwi.com
 disiwi.com
-ditiwi.com
 diviwi.com
 dofovo.com
 dofowo.com
@@ -389,7 +371,6 @@ dygymy.com
 dygyny.com
 dygypy.com
 dygyry.com
-dygysy.com
 dygyvy.com
 dygywy.com
 dygyzy.com
@@ -413,7 +394,6 @@ dynyry.com
 dynysy.com
 dynyty.com
 dynyvy.com
-dynywy.com
 dynyzy.com
 dypyry.com
 dypysy.com
@@ -430,7 +410,6 @@ dysyty.com
 dysyvy.com
 dysywy.com
 dytyvy.com
-dytywy.com
 dyvywy.com
 dyvyzy.com
 dywyzy.com
@@ -444,7 +423,6 @@ fahaja.com
 fahapa.com
 fahaqa.com
 fahava.com
-fajaka.com
 fajapa.com
 fajaqa.com
 fajawa.com
@@ -460,7 +438,6 @@ fapava.com
 fapawa.com
 fapaxa.com
 fapaza.com
-faqasa.com
 faqata.com
 faqava.com
 faqawa.com
@@ -473,13 +450,11 @@ faxaza.com
 fegeme.com
 fegepe.com
 fegere.com
-fegese.com
 fegete.com
 fegeve.com
 fegewe.com
 fegeze.com
 felewe.com
-feleze.com
 femese.com
 femewe.com
 femeze.com
@@ -511,10 +486,8 @@ fipiri.com
 fipisi.com
 fipivi.com
 fipizi.com
-firisi.com
 firiti.com
 firiwi.com
-firizi.com
 fisiti.com
 fisivi.com
 fisiwi.com
@@ -523,11 +496,9 @@ fitiwi.com
 fiviwi.com
 fivizi.com
 fiwizi.com
-fogomo.com
 fogopo.com
 fogovo.com
 fogowo.com
-fonozo.com
 foporo.com
 fopovo.com
 fopowo.com
@@ -542,11 +513,9 @@ fulunu.com
 fuluzu.com
 fumupu.com
 fumuru.com
-fumusu.com
 fumutu.com
 fumuvu.com
 fumuzu.com
-funupu.com
 funusu.com
 funutu.com
 funuvu.com
@@ -673,13 +642,10 @@ gisivi.com
 gisiwi.com
 gisizi.com
 gitiwi.com
-gitizi.com
 giviwi.com
 giwizi.com
-gomowo.com
 gosowo.com
 govowo.com
-guluvu.com
 gumunu.com
 gumupu.com
 gumuru.com
@@ -755,7 +721,6 @@ haqata.com
 haqawa.com
 haqaxa.com
 haqaza.com
-haraxa.com
 hasaxa.com
 hasaza.com
 haxaza.com
@@ -763,7 +728,6 @@ jakaqa.com
 jakaxa.com
 jamaqa.com
 lemepe.com
-lemeve.com
 lenepe.com
 lepese.com
 lepeve.com
@@ -775,7 +739,6 @@ leseze.com
 letewe.com
 leteze.com
 levewe.com
-leveze.com
 leweze.com
 limiwi.com
 linipi.com
@@ -792,7 +755,6 @@ lowozo.com
 lumupu.com
 lumuru.com
 lumuvu.com
-lumuwu.com
 lunupu.com
 lunuru.com
 lunusu.com
@@ -853,12 +815,10 @@ mevewe.com
 meveze.com
 meweze.com
 mipivi.com
-mipiwi.com
 mipizi.com
 miriwi.com
 mitiwi.com
 miviwi.com
-mopovo.com
 mopozo.com
 mowozo.com
 munupu.com
@@ -903,20 +863,15 @@ mytywy.com
 myvywy.com
 myvyzy.com
 mywyzy.com
-napawa.com
 nepese.com
-nepeve.com
 nepewe.com
 nepeze.com
 nerewe.com
 neveze.com
 nipivi.com
-nipiwi.com
 nipizi.com
 nirisi.com
-nirivi.com
 nirizi.com
-nisiti.com
 nisiwi.com
 nisizi.com
 nitiwi.com
@@ -954,7 +909,6 @@ nyryty.com
 nyryvy.com
 nyrywy.com
 nyryzy.com
-nysyty.com
 nysyvy.com
 nysywy.com
 nysyzy.com
@@ -973,7 +927,6 @@ peseze.com
 pevewe.com
 peveze.com
 peweze.com
-pirivi.com
 piriwi.com
 pisivi.com
 pisizi.com
@@ -983,11 +936,9 @@ pivizi.com
 piwizi.com
 porowo.com
 posowo.com
-posozo.com
 povowo.com
 powozo.com
 purusu.com
-purutu.com
 puruvu.com
 puruwu.com
 puruzu.com
@@ -1011,7 +962,6 @@ pytywy.com
 pyvywy.com
 pyvyzy.com
 pywyzy.com
-rasaza.com
 ravawa.com
 retewe.com
 reteze.com
@@ -1049,7 +999,6 @@ siwizi.com
 sutuvu.com
 sutuzu.com
 suvuwu.com
-suvuzu.com
 suwuzu.com
 sytyvy.com
 syvywy.com

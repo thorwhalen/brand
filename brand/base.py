@@ -131,6 +131,126 @@ def domain_name_is_available(name, tld='.com'):
 
 name_is_available = domain_name_is_available  # back-compatibility alias
 
+
+def _dns_is_available(domain, timeout=3):
+    """Fast DNS-only check. Returns True if domain does NOT resolve (likely available)."""
+    old_timeout = socket.getdefaulttimeout()
+    try:
+        socket.setdefaulttimeout(timeout)
+        socket.gethostbyname(domain)
+        return False  # resolved -> exists -> not available
+    except (socket.gaierror, socket.timeout, OSError):
+        return True  # no DNS -> likely available
+    finally:
+        socket.setdefaulttimeout(old_timeout)
+
+
+def _whois_is_available(domain):
+    """WHOIS-based check. Returns True if domain appears unregistered."""
+    try:
+        w = whois.whois(domain)
+        if w.domain_name:
+            return False
+        return True
+    except Exception:
+        return True  # whois error on nonsense domains usually means unregistered
+
+
+def batch_check_available(
+    names,
+    *,
+    tld='.com',
+    dns_workers=20,
+    whois_workers=5,
+    whois_batch_sleep=1,
+    on_available=None,
+    on_progress=None,
+):
+    """Two-pass domain availability check: fast DNS then WHOIS verification.
+
+    Pass 1 (fast, parallel): DNS lookup filters out domains that resolve.
+    Pass 2 (slower, parallel): WHOIS verification on DNS-negative candidates.
+
+    Args:
+        names: Iterable of domain names (without TLD).
+        tld: TLD to append (default '.com').
+        dns_workers: Number of parallel DNS workers.
+        whois_workers: Number of parallel WHOIS workers.
+        whois_batch_sleep: Seconds to sleep between WHOIS batches.
+        on_available: Optional callback(name) when a name is confirmed available.
+        on_progress: Optional callback(phase, checked, total, available_count).
+
+    Returns:
+        dict with keys 'available', 'not_available', 'dns_negative' (pre-whois).
+    """
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    names = list(names)
+    total = len(names)
+
+    # --- Pass 1: DNS ---
+    dns_negative = []  # no DNS -> candidates for availability
+    dns_positive = []  # DNS resolves -> definitely not available
+
+    def _dns_check(name):
+        domain = name + tld if '.' not in name else name
+        return name, _dns_is_available(domain)
+
+    with ThreadPoolExecutor(max_workers=dns_workers) as executor:
+        futures = {executor.submit(_dns_check, n): n for n in names}
+        done = 0
+        for future in as_completed(futures):
+            name, is_avail = future.result()
+            done += 1
+            if is_avail:
+                dns_negative.append(name)
+            else:
+                dns_positive.append(name)
+            if on_progress and done % 100 == 0:
+                on_progress('dns', done, total, len(dns_negative))
+
+    if on_progress:
+        on_progress('dns', total, total, len(dns_negative))
+
+    # --- Pass 2: WHOIS verification on DNS-negative candidates ---
+    available = []
+    whois_not_available = []
+
+    def _whois_check(name):
+        domain = name + tld if '.' not in name else name
+        return name, _whois_is_available(domain)
+
+    whois_total = len(dns_negative)
+    batch_size = whois_workers * 2
+
+    for batch_start in range(0, whois_total, batch_size):
+        batch = dns_negative[batch_start:batch_start + batch_size]
+
+        with ThreadPoolExecutor(max_workers=whois_workers) as executor:
+            futures = {executor.submit(_whois_check, n): n for n in batch}
+            for future in as_completed(futures):
+                name, is_avail = future.result()
+                if is_avail:
+                    available.append(name)
+                    if on_available:
+                        on_available(name)
+                else:
+                    whois_not_available.append(name)
+
+        checked = min(batch_start + batch_size, whois_total)
+        if on_progress:
+            on_progress('whois', checked, whois_total, len(available))
+
+        if batch_start + batch_size < whois_total:
+            sleep(whois_batch_sleep)
+
+    return {
+        'available': sorted(available),
+        'not_available': sorted(dns_positive + whois_not_available),
+        'dns_negative': sorted(dns_negative),
+    }
+
+
 # from graze import Graze
 # g = Graze(os.path.join(rootdir, 'htmls'))
 
@@ -279,7 +399,7 @@ try_some_cvcvcvs = partial(
     try_some_names,
     store=os.path.join(DFLT_ROOT_DIR, 'cvcvcv'),
     name_generator=all_cvcvcv,
-    file=few_uniques,
+    filt=few_uniques,
 )
 
 # Original try_some_cvcvcvs
