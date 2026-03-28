@@ -1,0 +1,31 @@
+{
+  "name": "python_package",
+  "description": "Python package naming: needs PyPI availability, short name, easy to type. Keyboard distance matters.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "spelling_transparency", "keyboard_distance", "name_length", "substring_hazards", "novelty"]
+    },
+    {
+      "type": "filter",
+      "rules": {"name_length": {"op": "<=", "value": 8}}
+    },
+    {
+      "type": "filter",
+      "top_n": 200,
+      "by": "keyboard_distance"
+    },
+    {
+      "type": "score",
+      "scorers": ["pypi"]
+    },
+    {
+      "type": "filter",
+      "rules": {"pypi": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["github_org"]
+    }
+  ]
+}

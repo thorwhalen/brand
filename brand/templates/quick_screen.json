@@ -1,0 +1,15 @@
+{
+  "name": "quick_screen",
+  "description": "Fast, local-only checks. No network calls. For rapidly screening thousands of candidates.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "stress_pattern", "spelling_transparency", "sound_symbolism", "novelty", "substring_hazards", "letter_balance", "keyboard_distance", "name_length"]
+    },
+    {
+      "type": "filter",
+      "top_n": 100,
+      "by": "spelling_transparency"
+    }
+  ]
+}

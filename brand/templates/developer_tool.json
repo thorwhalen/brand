@@ -1,0 +1,27 @@
+{
+  "name": "developer_tool",
+  "description": "Developer tool / CLI: short (4-6 chars), easy to type, no profanity substrings, PyPI + npm + GitHub.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["name_length", "syllables", "keyboard_distance", "spelling_transparency", "substring_hazards", "novelty"]
+    },
+    {
+      "type": "filter",
+      "rules": {"name_length": {"op": "<=", "value": 6}}
+    },
+    {
+      "type": "filter",
+      "top_n": 300,
+      "by": "keyboard_distance"
+    },
+    {
+      "type": "score",
+      "scorers": ["pypi", "npm", "github_org"]
+    },
+    {
+      "type": "filter",
+      "rules": {"pypi": true}
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "open_source",
+  "description": "Open source project: GitHub org, PyPI, npm. Fun/memorable over professional. Less trademark concern.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "spelling_transparency", "sound_symbolism", "novelty", "substring_hazards", "keyboard_distance", "name_length"]
+    },
+    {
+      "type": "filter",
+      "top_n": 300,
+      "by": "novelty"
+    },
+    {
+      "type": "score",
+      "scorers": ["github_org", "pypi", "npm"]
+    },
+    {
+      "type": "filter",
+      "rules": {"github_org": true}
+    }
+  ]
+}

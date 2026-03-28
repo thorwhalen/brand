@@ -1,0 +1,26 @@
+{
+  "name": "full_audit",
+  "description": "The everything pipeline. All scorers, all checks. Expensive but thorough.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "stress_pattern", "spelling_transparency", "sound_symbolism", "novelty", "existing_word", "substring_hazards", "letter_balance", "keyboard_distance", "name_length"]
+    },
+    {
+      "type": "score",
+      "scorers": ["cross_linguistic", "phonetic_neighbors"]
+    },
+    {
+      "type": "score",
+      "scorers": ["dns_com", "dns_net", "dns_org", "dns_io", "dns_ai", "dns_co", "dns_dev", "dns_app"]
+    },
+    {
+      "type": "score",
+      "scorers": ["whois_com"]
+    },
+    {
+      "type": "score",
+      "scorers": ["github_org", "pypi", "npm", "youtube"]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "youtube_channel",
+  "description": "YouTube channel / content brand: YouTube availability, memorable, pronounceable, .com nice-to-have.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "stress_pattern", "spelling_transparency", "sound_symbolism", "novelty", "substring_hazards", "name_length"]
+    },
+    {
+      "type": "filter",
+      "top_n": 300,
+      "by": "spelling_transparency"
+    },
+    {
+      "type": "score",
+      "scorers": ["youtube"]
+    },
+    {
+      "type": "filter",
+      "rules": {"youtube": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["dns_com"]
+    }
+  ]
+}

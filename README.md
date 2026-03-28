@@ -1,188 +1,218 @@
-<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
-
-- [brand](#brand)
-- [How to use](#how-to-use)
-   * [Name Availability Check](#name-availability-check)
-   * [Generate English Words](#generate-english-words)
-   * [ask_ai_to_generate_names](#ask_ai_to_generate_names)
-- [More examples](#more-examples)
-   * [Example script](#example-script)
-   * [name_is_available](#name_is_available)
-   * [The store](#the-store)
-   * [process_names](#process_names)
-- [Motivation](#motivation)
-
-<!-- TOC end -->
-
-<!-- TOC --><a name="brand"></a>
 # brand
 
-Tools to find names for things.
+A composable pipeline for brand name generation, evaluation, and availability checking.
 
-Both to generate names, but also check if they're "available" 
-(e.g. as domain names, project names, github organization names, etc.)
+Not just domain checking — a full brand naming workbench. Generate candidates, score them
+on phonetics, linguistics, and sound symbolism, filter by availability across platforms,
+and persist every intermediate result for inspection and branching.
 
-To install:	```pip install brand```
-
-<!-- TOC --><a name="how-to-use"></a>
-# How to use
-
-Check out this [demo notebook](https://github.com/thorwhalen/brand/blob/master/misc/brand_demo.ipynb).
-
-<!-- TOC --><a name="name-availability-check"></a>
-## Name Availability Check
-
-```python
-from brand import is_available_as
-```
-
-Check out the available categories you can check (this will evolve over time, as we add methods).
-
-```python
-list(is_available_as)
-```
+To install:
 
 ```
-['domain_name', 'github_org', 'npm_package', 'pypi_project', 'youtube_channel']
+pip install brand
+pip install brand[phonetics]   # adds BLICK, epitran, panphon
+pip install brand[all]         # everything including AI generation
 ```
 
-```python
->>> is_available_as.github_org('thorwhalen')
-False
->>> is_available_as.github_org('__hopefully_this_one_is_available__')
-True
->>> is_available_as.pypi_project('numpy')
-False
->>> is_available_as.pypi_project('__hopefully_this_one_is_available__')
-True
-```
+## Quick Start
 
-<!-- TOC --><a name="generate-english-words"></a>
-## Generate English Words
-
-```python
-from brand import english_words_gen
-
-# all two letter words starting with 'z'
-list(english_words_gen('^z.$'))
-```
-
-```
-['zr', 'zn', 'zb', 'zu']
-```
-
-<!-- TOC --><a name="ask_ai_to_generate_names"></a>
-## ask_ai_to_generate_names
-
-```python
-from brand import ask_ai_to_generate_names
-
-ask_ai_to_generate_names(
-    'For a company that will develop AI-based tools for the financial industry'
-)
-```
-
-```
-['FinAI',
- 'MoneyMind',
- 'InvestBotics',
- ...
- 'FinanceComradeAI',
- 'WallStWizardAI']
- ```
-
-<!-- TOC --><a name="more-examples"></a>
-# More examples
-
-<!-- TOC --><a name="example-script"></a>
-## Example script
-
-`search_names.py` shows an example of how to assemble 
-`brand` functionalities to write a script that will search
-names of the form `CVCVCV` (`C` for consonant, `V` for vowel)
-with no more than `4` unique letters and where either the 
-consonants or the vowels are all the same.
-
-```
-...
-(10)12:49:07 - 2255: nesebe
-(10)12:49:08 - 2256: nesede
-(10)12:49:09 - 2257: nesefe
----> Found available name: nesefe
-(10)12:49:09 - 2258: nesege
----> Found available name: nesege
-(10)12:49:09 - 2259: nesele
----> Found available name: nesele
-(10)12:49:11 - 2260: neseme
----> Found available name: neseme
-(10)12:49:11 - 2261: nesene
-```
-
-<!-- TOC --><a name="name_is_available"></a>
-## name_is_available
-
-`name_is_available` checks if a name is available using the system's
-`whois` command.
-
-```python
-from brand import name_is_available
-assert name_is_available('google.com') is False
-assert name_is_available('asdfaksdjhfsd2384udifyiwue.org') is True
-```
-
-<!-- TOC --><a name="the-store"></a>
-## The store
-
-First, you'll need to provide a "store". 
-That is, a dict-like object that will hold the names you've checked so far, 
-under keys `available_names.p` and `not_available.p` (which contains the names
-that were checked, but not available). 
-
-The functions use this both to not check what you've already checked, 
-and to store its results as they check names.
-
-A store can be an actual `dict`, or a dict-like interface to files or a DB.
-
-We recommend to use `dol` (which is installed with `brand`) to make dict-like
-interfaces to your storage system of choice.
-
-When you ask `brand` to make a store with no further specifications, 
-it makes a directory and places files in there for you.
+Evaluate a single name:
 
 ```python
 import brand
-s = brand.get_store()
+
+result = brand.evaluate_name('figiri')
+print(result['scores'])
+# {'syllables': 3, 'stress_pattern': 'unknown', 'spelling_transparency': 0.88,
+#  'sound_symbolism': {'profile': 'modern/sharp', ...}, 'novelty': 1.0, ...}
 ```
 
-Now you can use that store to see what's already available from 
-past work (if anything).
+## Pipelines
+
+The core abstraction is a **pipeline** — a sequence of Generate, Score, and Filter
+stages that progressively enriches, scores, and narrows a set of candidate names.
+
+### Run a pre-configured template
 
 ```python
-available = brand.available_names(s)
-not_available = brand.not_available_names(s)
-len(available), len(not_available)
+results = brand.run_pipeline('tech_startup', names=['figiri', 'lumex', 'voxen'])
+
+for candidate in results['candidates']:
+    print(f"{candidate['name']}: {candidate['scores']}")
 ```
 
-<!-- TOC --><a name="process_names"></a>
-## process_names
+Available templates:
 
-`process_names` will take some `names` (specified as an iterable, 
-generator function, or pickle file) and check if each is available, 
-saving the results in the given store.
+| Template | Use case |
+|---|---|
+| `quick_screen` | Fast local-only checks. No network. Screen thousands in seconds. |
+| `tech_startup` | .com + GitHub + full phonolinguistic battery |
+| `python_package` | PyPI + GitHub + short name + keyboard distance |
+| `consumer_global` | Cross-linguistic safety + trademark + .com mandatory |
+| `developer_tool` | Short (4-6 chars), easy to type, PyPI + npm + GitHub |
+| `ai_ml_product` | .ai TLD preferred, modern sound profile, high distinctiveness |
+| `consultancy` | Professional tone, .com mandatory, company registration |
+| `open_source` | GitHub + PyPI + npm, fun/memorable, less trademark concern |
+| `youtube_channel` | YouTube availability, memorable, pronounceable |
+| `full_audit` | Every scorer, every check. Thorough but expensive. |
+
+### Build a custom pipeline
 
 ```python
-try_these = ['google.com', 'gaggle.com', 'giggle.org', 'asdfiou3t.org']
-process_names(try_these)
+from brand import Generate, Score, Filter, run_pipeline
+
+results = run_pipeline([
+    Generate('cvcvcv_filtered'),
+    Score(['syllables', 'spelling_transparency', 'sound_symbolism', 'novelty']),
+    Filter(top_n=500, by='spelling_transparency'),
+    Score(['dns_com', 'dns_io']),
+    Filter(rules={'dns_com': True}),
+    Score(['whois_com']),
+    Filter(rules={'whois_com': True}),
+    Score(['github_org']),
+])
+
+print(f"{len(results['candidates'])} names survived the pipeline")
+print(f"Artifacts saved to: {results['project_dir']}")
 ```
 
+Every run persists intermediate artifacts to disk. You can resume from any stage,
+branch from any checkpoint, and inspect what happened at each step.
 
-<!-- TOC --><a name="motivation"></a>
-# Motivation
+## Registry
 
-Choosing a good name for companies, products, or projects is crucial because it forms the foundation of your brand identity, making a lasting first impression on your audience. A well-chosen name can communicate your values, evoke the right emotions, and set you apart from competitors. It needs to be memorable, easy to pronounce, and relevant to your target market. Moreover, ensuring that the name is available across key domains and platforms avoids legal issues, protects your brand, and maintains a consistent presence online. In short, a strong name is vital for building recognition, trust, and loyalty.
+All components are discoverable:
 
-Finding a good name is challenging because it must balance a range of constraints and objectives. It may need to reflect the values, sentiment, or aspirations of a targeted audience, while avoiding associations that might alienate others. Even when choosing a name with semantic flexibility—keeping it vague to allow the brand to evolve—you still want it to be pronounceable, visually appealing, and memorable. On top of these considerations, the name often needs to be available as a domain, social media handle, or product name, which can be frustrating when your ideal choice is already taken. These constraints can slow down the creative process, leading to compromises and sometimes resulting in names that lack inspiration or are later regretted.
+```python
+import brand
 
-The brand package is designed to streamline the often difficult and time-consuming process of naming by automating both name generation and availability checking. With its name generation feature, the package helps users come up with creative, relevant, and flexible names that align with their brand's goals and target audience. It offers options to create names that are memorable, pronounceable, and visually appealing, while also allowing for semantic flexibility.
+# See what's available
+list(brand.scorers)        # ['syllables', 'phonotactic', 'dns_com', ...]
+list(brand.generators)     # ['cvcvcv', 'ai_suggest', 'morpheme_combiner', ...]
+brand.list_templates()     # ['tech_startup', 'python_package', ...]
 
-In addition to generating names, the brand package integrates powerful tools for checking name availability across important platforms such as domain names, social media handles, and other key online spaces. This automated checking saves users the hassle of manually searching for name availability on each platform, ensuring that the chosen name is free to use without conflicts. By addressing both the creative and logistical challenges of naming, the brand package accelerates the process and helps avoid the pitfalls of last-minute compromises, ultimately leading to stronger, more meaningful brand identities.
+# Inspect a scorer
+brand.scorers['dns_com'].cost            # 'cheap'
+brand.scorers['dns_com'].requires_network  # True
+brand.scorers['whois_com'].latency       # 'slow'
+```
+
+### Register a custom scorer
+
+```python
+@brand.scorers.register('my_vowel_ratio')
+def my_vowel_ratio(name: str) -> float:
+    vowels = sum(1 for c in name.lower() if c in 'aeiouy')
+    return vowels / len(name)
+
+# Now use it in a pipeline
+results = brand.run_pipeline([
+    Generate('from_list', params={'names': ['alpha', 'beta', 'omega']}),
+    Score(['my_vowel_ratio', 'syllables']),
+])
+```
+
+## Generators
+
+```python
+# CVCVCV combinatoric (371k+ candidates)
+names = list(brand.generators['cvcvcv']())
+
+# CVCVCV with few-uniques filter
+names = list(brand.generators['cvcvcv_filtered']())
+
+# Custom CV pattern
+names = list(brand.generators['pattern'](pattern='CVCCV'))
+
+# Morpheme combiner (portmanteau-style)
+names = list(brand.generators['morpheme_combiner'](
+    prefixes=['lum', 'vox', 'syn'],
+    suffixes=['ify', 'io', 'ar'],
+))
+
+# AI-assisted (requires 'oa' package)
+names = list(brand.generators['ai_suggest'](context='AI data tools'))
+
+# From a file or list
+names = list(brand.generators['from_list'](names=['alpha', 'beta']))
+```
+
+## Scorers
+
+### Phonetic (local, fast)
+- `syllables` — syllable count via CMU dict or vowel heuristic
+- `stress_pattern` — stress digits from ARPAbet (trochaic "10" is ideal)
+- `phonotactic` — BLICK well-formedness (0 = perfect English phonotactics) [requires `brand[phonetics]`]
+- `articulatory_complexity` — place-of-articulation transitions [requires `brand[phonetics]`]
+- `sound_symbolism` — front/back vowel and voiceless/voiced ratios mapped to brand archetypes
+
+### Linguistic (local, fast)
+- `novelty` — word frequency inverse (1.0 = novel, 0.0 = very common)
+- `existing_word` — collision with known English words
+- `spelling_transparency` — grapheme-to-phoneme ambiguity score
+- `substring_hazards` — profanity substring scan
+
+### Linguistic (network)
+- `cross_linguistic` — word frequency in 11 languages
+- `phonetic_neighbors` — similar-sounding words via Datamuse API
+
+### Visual / Typing
+- `letter_balance` — ascender/descender/neutral proportions
+- `keyboard_distance` — mean QWERTY distance between consecutive letters
+- `name_length` — character count
+
+### Availability (network)
+- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability
+- `whois_com` — WHOIS verification (.com)
+- `github_org` — GitHub organization
+- `pypi` — PyPI project
+- `npm` — npm package
+- `youtube` — YouTube channel
+
+## Name Availability Check (legacy API)
+
+The original availability-checking API still works:
+
+```python
+from brand import is_available_as
+
+list(is_available_as)
+# ['domain_name', 'github_org', 'npm_package', 'pypi_project', 'youtube_channel']
+
+is_available_as.github_org('thorwhalen')  # False
+is_available_as.pypi_project('brand')     # False
+
+from brand import domain_name_is_available
+domain_name_is_available('google')        # False
+```
+
+## AI-Assisted Workflows
+
+### Generate names with AI
+
+```python
+from brand import ask_ai_to_generate_names
+names = ask_ai_to_generate_names('AI-powered data visualization platform')
+```
+
+### Analyze names with AI
+
+```python
+from brand import ai_analyze_names
+analysis = ai_analyze_names(['figiri', 'lumex', 'datavox'], context='data viz platform')
+```
+
+## Claude Skills and Agents
+
+When using this project with Claude Code, several skills and agents are available:
+
+**Skills** (in `.claude/skills/`):
+- `brand-evaluate` — Structured name evaluation combining computed metrics + expert judgment
+- `brand-generate` — Creative name generation using available generators
+- `brand-pipeline-designer` — Interactive pipeline design based on your specific needs
+- `brand-research` — Deep cross-linguistic, cultural, and competitive research on a name
+
+**Agents** (in `.claude/agents/`):
+- `brand-scout` — Autonomous generate-evaluate-recommend cycle
+- `brand-audit` — Comprehensive risk/opportunity audit of existing names
+- `brand-pipeline-runner` — Pipeline execution, monitoring, resumption, and comparison

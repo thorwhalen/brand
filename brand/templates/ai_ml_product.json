@@ -1,0 +1,23 @@
+{
+  "name": "ai_ml_product",
+  "description": "AI/ML product: .ai TLD preferred, modern/technical sound profile, distinctiveness high priority.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "stress_pattern", "sound_symbolism", "spelling_transparency", "novelty", "substring_hazards", "name_length"]
+    },
+    {
+      "type": "filter",
+      "top_n": 500,
+      "by": "novelty"
+    },
+    {
+      "type": "score",
+      "scorers": ["dns_ai", "dns_com", "dns_io"]
+    },
+    {
+      "type": "score",
+      "scorers": ["github_org", "pypi"]
+    }
+  ]
+}

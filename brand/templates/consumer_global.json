@@ -1,0 +1,39 @@
+{
+  "name": "consumer_global",
+  "description": "Consumer brand for global markets: heavy cross-linguistic safety, trademark search, .com mandatory, sound symbolism tuned for warmth/trust.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "stress_pattern", "spelling_transparency", "sound_symbolism", "novelty", "name_length"]
+    },
+    {
+      "type": "filter",
+      "top_n": 500,
+      "by": "spelling_transparency"
+    },
+    {
+      "type": "score",
+      "scorers": ["substring_hazards", "cross_linguistic"]
+    },
+    {
+      "type": "score",
+      "scorers": ["dns_com"]
+    },
+    {
+      "type": "filter",
+      "rules": {"dns_com": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["whois_com"]
+    },
+    {
+      "type": "filter",
+      "rules": {"whois_com": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["phonetic_neighbors"]
+    }
+  ]
+}

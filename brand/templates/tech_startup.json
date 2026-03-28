@@ -1,0 +1,35 @@
+{
+  "name": "tech_startup",
+  "description": "General tech startup: needs .com, GitHub org, flexible name, modern sound profile. Full phonolinguistic + availability battery.",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["syllables", "stress_pattern", "spelling_transparency", "sound_symbolism", "novelty", "substring_hazards", "letter_balance", "keyboard_distance", "name_length"]
+    },
+    {
+      "type": "filter",
+      "top_n": 500,
+      "by": "spelling_transparency"
+    },
+    {
+      "type": "score",
+      "scorers": ["dns_com", "dns_io"]
+    },
+    {
+      "type": "filter",
+      "rules": {"dns_com": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["whois_com"]
+    },
+    {
+      "type": "filter",
+      "rules": {"whois_com": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["github_org"]
+    }
+  ]
+}
