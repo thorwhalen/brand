@@ -35,16 +35,16 @@ def _require(package_name):
 
 def _get_arpabet(name: str) -> list[str] | None:
     """Get ARPAbet phones for *name* from the CMU dict, or None."""
-    pronouncing = _require('pronouncing')
+    pronouncing = _require("pronouncing")
     phones_list = pronouncing.phones_for_word(name.lower())
     if phones_list:
         return phones_list[0].split()
     return None
 
 
-def _get_ipa(name: str, lang='eng-Latn') -> str:
+def _get_ipa(name: str, lang="eng-Latn") -> str:
     """Transliterate *name* to IPA using epitran."""
-    epitran = _require('epitran')
+    epitran = _require("epitran")
     epi = epitran.Epitran(lang)
     return epi.transliterate(name.lower())
 
@@ -55,8 +55,8 @@ def _get_ipa(name: str, lang='eng-Latn') -> str:
 
 
 @scorers.register(
-    'syllables',
-    description='Count syllables (via CMU dict or vowel heuristic)',
+    "syllables",
+    description="Count syllables (via CMU dict or vowel heuristic)",
 )
 def syllable_count(name: str) -> int:
     """Count syllables in *name*.
@@ -70,7 +70,7 @@ def syllable_count(name: str) -> int:
     1
     """
     try:
-        pronouncing = _require('pronouncing')
+        pronouncing = _require("pronouncing")
         phones_list = pronouncing.phones_for_word(name.lower())
         if phones_list:
             return pronouncing.syllable_count(phones_list[0])
@@ -79,16 +79,16 @@ def syllable_count(name: str) -> int:
     # Fallback: count vowel groups
     import re
 
-    vowel_groups = re.findall(r'[aeiouy]+', name.lower())
+    vowel_groups = re.findall(r"[aeiouy]+", name.lower())
     count = len(vowel_groups)
     # Adjust for silent-e at end
-    if name.lower().endswith('e') and count > 1:
+    if name.lower().endswith("e") and count > 1:
         count -= 1
     return max(1, count)
 
 
 @scorers.register(
-    'stress_pattern',
+    "stress_pattern",
     description='Extract stress pattern (e.g. "10" = trochaic)',
 )
 def stress_pattern(name: str) -> str:
@@ -100,19 +100,19 @@ def stress_pattern(name: str) -> str:
     '01'
     """
     try:
-        pronouncing = _require('pronouncing')
+        pronouncing = _require("pronouncing")
         phones_list = pronouncing.phones_for_word(name.lower())
         if phones_list:
             return pronouncing.stresses(phones_list[0])
     except ImportError:
         pass
-    return 'unknown'
+    return "unknown"
 
 
 @scorers.register(
-    'phonotactic',
-    description='BLICK phonotactic well-formedness (0=perfect, higher=worse)',
-    requires_extras=('python-BLICK',),
+    "phonotactic",
+    description="BLICK phonotactic well-formedness (0=perfect, higher=worse)",
+    requires_extras=("python-BLICK",),
 )
 def phonotactic_score(name: str) -> float:
     """Compute BLICK phonotactic well-formedness score.
@@ -120,7 +120,7 @@ def phonotactic_score(name: str) -> float:
     A score of 0 means the name obeys all English phonotactic constraints
     perfectly.  Higher scores indicate increasingly ill-formed sequences.
     """
-    blick = _require('blick')
+    blick = _require("blick")
     try:
         result = blick.blick(name.lower())
         if result is not None:
@@ -134,9 +134,9 @@ def phonotactic_score(name: str) -> float:
 
 
 @scorers.register(
-    'articulatory_complexity',
-    description='Count place-of-articulation transitions between consonants',
-    requires_extras=('epitran', 'panphon'),
+    "articulatory_complexity",
+    description="Count place-of-articulation transitions between consonants",
+    requires_extras=("epitran", "panphon"),
 )
 def articulatory_complexity(name: str) -> float:
     """Measure articulatory complexity as mean feature distance between
@@ -145,12 +145,12 @@ def articulatory_complexity(name: str) -> float:
     Lower values = easier to pronounce.  Returns -1 if deps are missing.
     """
     try:
-        epitran_mod = _require('epitran')
-        panphon = _require('panphon')
+        epitran_mod = _require("epitran")
+        panphon = _require("panphon")
     except ImportError:
         return -1.0
 
-    epi = epitran_mod.Epitran('eng-Latn')
+    epi = epitran_mod.Epitran("eng-Latn")
     ft = panphon.FeatureTable()
 
     ipa = epi.transliterate(name.lower())
@@ -169,9 +169,9 @@ def articulatory_complexity(name: str) -> float:
 
 
 @scorers.register(
-    'sound_symbolism',
-    description='Sound symbolism profile (front/back vowel ratio, stop/fricative ratio)',
-    requires_extras=('epitran', 'panphon'),
+    "sound_symbolism",
+    description="Sound symbolism profile (front/back vowel ratio, stop/fricative ratio)",
+    requires_extras=("epitran", "panphon"),
 )
 def sound_symbolism(name: str) -> dict:
     """Compute a sound symbolism profile based on Klink (2000).
@@ -186,10 +186,10 @@ def sound_symbolism(name: str) -> dict:
     # Simple heuristic based on letter classification (no deps required)
     name_lower = name.lower()
 
-    front_vowels = set('eiy')
-    back_vowels = set('oua')
-    voiceless = set('ptksfc')
-    voiced = set('bdgvzjmnlr')
+    front_vowels = set("eiy")
+    back_vowels = set("oua")
+    voiceless = set("ptksfc")
+    voiced = set("bdgvzjmnlr")
 
     vowels_in_name = [c for c in name_lower if c in front_vowels | back_vowels]
     consonants_in_name = [c for c in name_lower if c in voiceless | voiced]
@@ -202,26 +202,24 @@ def sound_symbolism(name: str) -> dict:
     voiceless_ratio = (
         sum(1 for c in consonants_in_name if c in voiceless) / n_consonants
     )
-    voiced_ratio = (
-        sum(1 for c in consonants_in_name if c in voiced) / n_consonants
-    )
+    voiced_ratio = sum(1 for c in consonants_in_name if c in voiced) / n_consonants
 
     # Determine dominant profile
     if front_ratio > 0.6 and voiceless_ratio > 0.5:
-        profile = 'modern/sharp'
+        profile = "modern/sharp"
     elif back_ratio > 0.6 and voiced_ratio > 0.5:
-        profile = 'warm/powerful'
+        profile = "warm/powerful"
     elif front_ratio > 0.5 or voiceless_ratio > 0.5:
-        profile = 'balanced/modern'
+        profile = "balanced/modern"
     elif back_ratio > 0.5 or voiced_ratio > 0.5:
-        profile = 'balanced/warm'
+        profile = "balanced/warm"
     else:
-        profile = 'neutral'
+        profile = "neutral"
 
     return {
-        'front_vowel_ratio': round(front_ratio, 2),
-        'back_vowel_ratio': round(back_ratio, 2),
-        'voiceless_ratio': round(voiceless_ratio, 2),
-        'voiced_ratio': round(voiced_ratio, 2),
-        'profile': profile,
+        "front_vowel_ratio": round(front_ratio, 2),
+        "back_vowel_ratio": round(back_ratio, 2),
+        "voiceless_ratio": round(voiceless_ratio, 2),
+        "voiced_ratio": round(voiced_ratio, 2),
+        "profile": profile,
     }

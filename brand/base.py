@@ -15,7 +15,7 @@ from dol import PickleFiles
 from brand.util import print_progress, DFLT_ROOT_DIR, StoreType
 
 
-def english_words_gen(pattern='.*') -> Iterable[str]:
+def english_words_gen(pattern=".*") -> Iterable[str]:
     """
     Get an iterable of English words.
 
@@ -115,7 +115,7 @@ def domain_exists(domain, tld=".com"):
     return domain_exists_whois(domain)
 
 
-def domain_name_is_available(name, tld='.com'):
+def domain_name_is_available(name, tld=".com"):
     """
     >>> name_is_available('google.com')
     False
@@ -160,7 +160,7 @@ def _whois_is_available(domain):
 def batch_check_available(
     names,
     *,
-    tld='.com',
+    tld=".com",
     dns_workers=20,
     whois_workers=5,
     whois_batch_sleep=1,
@@ -194,7 +194,7 @@ def batch_check_available(
     dns_positive = []  # DNS resolves -> definitely not available
 
     def _dns_check(name):
-        domain = name + tld if '.' not in name else name
+        domain = name + tld if "." not in name else name
         return name, _dns_is_available(domain)
 
     with ThreadPoolExecutor(max_workers=dns_workers) as executor:
@@ -208,24 +208,24 @@ def batch_check_available(
             else:
                 dns_positive.append(name)
             if on_progress and done % 100 == 0:
-                on_progress('dns', done, total, len(dns_negative))
+                on_progress("dns", done, total, len(dns_negative))
 
     if on_progress:
-        on_progress('dns', total, total, len(dns_negative))
+        on_progress("dns", total, total, len(dns_negative))
 
     # --- Pass 2: WHOIS verification on DNS-negative candidates ---
     available = []
     whois_not_available = []
 
     def _whois_check(name):
-        domain = name + tld if '.' not in name else name
+        domain = name + tld if "." not in name else name
         return name, _whois_is_available(domain)
 
     whois_total = len(dns_negative)
     batch_size = whois_workers * 2
 
     for batch_start in range(0, whois_total, batch_size):
-        batch = dns_negative[batch_start:batch_start + batch_size]
+        batch = dns_negative[batch_start : batch_start + batch_size]
 
         with ThreadPoolExecutor(max_workers=whois_workers) as executor:
             futures = {executor.submit(_whois_check, n): n for n in batch}
@@ -240,15 +240,15 @@ def batch_check_available(
 
         checked = min(batch_start + batch_size, whois_total)
         if on_progress:
-            on_progress('whois', checked, whois_total, len(available))
+            on_progress("whois", checked, whois_total, len(available))
 
         if batch_start + batch_size < whois_total:
             sleep(whois_batch_sleep)
 
     return {
-        'available': sorted(available),
-        'not_available': sorted(dns_positive + whois_not_available),
-        'dns_negative': sorted(dns_negative),
+        "available": sorted(available),
+        "not_available": sorted(dns_positive + whois_not_available),
+        "dns_negative": sorted(dns_negative),
     }
 
 
@@ -392,13 +392,13 @@ def try_some_names(
     print(f"{len(names)} names will be checked...")
     print("--------------------------------------------------------------------------")
     process_names(names, store, same_line_print=same_line_print)
-    new_names = store['available_names.p']
+    new_names = store["available_names.p"]
     return new_names
 
 
 try_some_cvcvcvs = partial(
     try_some_names,
-    store=os.path.join(DFLT_ROOT_DIR, 'cvcvcv'),
+    store=os.path.join(DFLT_ROOT_DIR, "cvcvcv"),
     name_generator=all_cvcvcv,
     filt=few_uniques,
 )
@@ -495,7 +495,7 @@ def ask_ai_to_generate_names(context):
 
 
 def ai_analyze_names(
-    names: str | Iterable[str], context: str = '', *, json_output=False
+    names: str | Iterable[str], context: str = "", *, json_output=False
 ):
     """Ask the brand-expert AI to analyze names for a given context."""
     import oa  # pip install oa  (will required an openai api key to be specified)
@@ -526,27 +526,27 @@ def ai_analyze_names(
         ask_ai = oa.prompt_json_function(
             template,
             json_schema={
-                'name': 'RankedAnalysisSchema',
-                'properties': {
-                    'items': {
-                        'items': {
-                            'properties': {
-                                'analysis': {'type': 'string'},
-                                'name': {'type': 'string'},
-                                'score': {
-                                    'maximum': 9,
-                                    'minimum': 1,
-                                    'type': 'integer',
+                "name": "RankedAnalysisSchema",
+                "properties": {
+                    "items": {
+                        "items": {
+                            "properties": {
+                                "analysis": {"type": "string"},
+                                "name": {"type": "string"},
+                                "score": {
+                                    "maximum": 9,
+                                    "minimum": 1,
+                                    "type": "integer",
                                 },
                             },
-                            'required': ['name', 'score', 'analysis'],
-                            'type': 'object',
+                            "required": ["name", "score", "analysis"],
+                            "type": "object",
                         },
-                        'type': 'array',
+                        "type": "array",
                     }
                 },
-                'required': ['items'],
-                'type': 'object',
+                "required": ["items"],
+                "type": "object",
             },
         )
     else:
@@ -605,7 +605,7 @@ from types import SimpleNamespace
 class IterableNamespace(SimpleNamespace):
     def __iter__(self):
         for attr in dir(is_available_as):
-            if not attr.startswith('_'):
+            if not attr.startswith("_"):
                 yield attr
 
 

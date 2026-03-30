@@ -66,6 +66,7 @@ def _url_is_available(
 # Domain scorers
 # ---------------------------------------------------------------------------
 
+
 def _make_domain_scorer(tld: str, scorer_name: str):
     """Factory for DNS+WHOIS two-pass domain availability scorers."""
 
@@ -82,14 +83,14 @@ def _make_domain_scorer(tld: str, scorer_name: str):
 
 # Register domain scorers for common TLDs
 _TLDS = {
-    'dns_com': '.com',
-    'dns_net': '.net',
-    'dns_org': '.org',
-    'dns_io': '.io',
-    'dns_ai': '.ai',
-    'dns_co': '.co',
-    'dns_dev': '.dev',
-    'dns_app': '.app',
+    "dns_com": ".com",
+    "dns_net": ".net",
+    "dns_org": ".org",
+    "dns_io": ".io",
+    "dns_ai": ".ai",
+    "dns_co": ".co",
+    "dns_dev": ".dev",
+    "dns_app": ".app",
 }
 
 for _name, _tld in _TLDS.items():
@@ -97,22 +98,22 @@ for _name, _tld in _TLDS.items():
     # Quick DNS-only scorers
     scorers.register(
         _name,
-        cost='cheap',
+        cost="cheap",
         requires_network=True,
-        latency='fast',
+        latency="fast",
         parallelizable=True,
-        description=f'Domain availability for {_tld} (DNS + WHOIS)',
+        description=f"Domain availability for {_tld} (DNS + WHOIS)",
     )(_func)
 
 
 # WHOIS-only scorer (slower but more reliable)
 @scorers.register(
-    'whois_com',
-    cost='expensive',
+    "whois_com",
+    cost="expensive",
     requires_network=True,
-    latency='slow',
+    latency="slow",
     parallelizable=True,
-    description='WHOIS verification for .com domain',
+    description="WHOIS verification for .com domain",
 )
 def whois_com(name: str) -> bool:
     """Verify .com availability via WHOIS (slower, more reliable than DNS)."""
@@ -136,21 +137,21 @@ def _make_url_scorer(template: str, scorer_name: str, description: str):
 
 
 _PLATFORM_CHECKS = {
-    'github_org': (
-        'https://github.com/{}',
-        'GitHub organization availability',
+    "github_org": (
+        "https://github.com/{}",
+        "GitHub organization availability",
     ),
-    'pypi': (
-        'https://pypi.org/project/{}/',
-        'PyPI project name availability',
+    "pypi": (
+        "https://pypi.org/project/{}/",
+        "PyPI project name availability",
     ),
-    'npm': (
-        'https://www.npmjs.com/package/{}',
-        'npm package name availability',
+    "npm": (
+        "https://www.npmjs.com/package/{}",
+        "npm package name availability",
     ),
-    'youtube': (
-        'https://www.youtube.com/{}',
-        'YouTube channel name availability',
+    "youtube": (
+        "https://www.youtube.com/{}",
+        "YouTube channel name availability",
     ),
 }
 
@@ -158,9 +159,9 @@ for _name, (_template, _desc) in _PLATFORM_CHECKS.items():
     _func = _make_url_scorer(_template, _name, _desc)
     scorers.register(
         _name,
-        cost='moderate',
+        cost="moderate",
         requires_network=True,
-        latency='medium',
+        latency="medium",
         parallelizable=True,
         description=_desc,
     )(_func)

@@ -15,8 +15,8 @@ from brand.registry import scorers
 
 
 @scorers.register(
-    'novelty',
-    description='Novelty score via wordfreq (0=common word, 1=completely novel)',
+    "novelty",
+    description="Novelty score via wordfreq (0=common word, 1=completely novel)",
 )
 def novelty_score(name: str) -> float:
     """Measure how novel a name is using word frequency data.
@@ -36,7 +36,7 @@ def novelty_score(name: str) -> float:
             "Could not import 'wordfreq'. Install with: pip install wordfreq"
         )
 
-    freq = zipf_frequency(name.lower(), 'en')
+    freq = zipf_frequency(name.lower(), "en")
     if freq == 0:
         return 1.0
     # Zipf scale: ~1 = very rare, ~7 = ultra common
@@ -45,8 +45,8 @@ def novelty_score(name: str) -> float:
 
 
 @scorers.register(
-    'existing_word',
-    description='Check if name is an existing English word (True=collision)',
+    "existing_word",
+    description="Check if name is an existing English word (True=collision)",
 )
 def existing_word(name: str) -> bool:
     """Returns True if the name is a known English word (i.e., collision risk).
@@ -59,7 +59,7 @@ def existing_word(name: str) -> bool:
     try:
         from wordfreq import zipf_frequency
 
-        return zipf_frequency(name.lower(), 'en') > 0
+        return zipf_frequency(name.lower(), "en") > 0
     except ImportError:
         # Fallback to lexis
         try:
@@ -76,16 +76,16 @@ def existing_word(name: str) -> bool:
 
 
 @scorers.register(
-    'cross_linguistic',
-    description='Check if name means something in major world languages',
+    "cross_linguistic",
+    description="Check if name means something in major world languages",
     requires_network=True,
-    latency='medium',
-    cost='moderate',
+    latency="medium",
+    cost="moderate",
 )
 def cross_linguistic_check(
     name: str,
     *,
-    languages=('en', 'es', 'fr', 'de', 'pt', 'it', 'ja', 'zh', 'ar', 'hi', 'ru'),
+    languages=("en", "es", "fr", "de", "pt", "it", "ja", "zh", "ar", "hi", "ru"),
 ) -> dict:
     """Check word frequency across multiple languages.
 
@@ -95,7 +95,7 @@ def cross_linguistic_check(
     try:
         from wordfreq import zipf_frequency
     except ImportError:
-        return {'error': 'wordfreq not installed'}
+        return {"error": "wordfreq not installed"}
 
     flags = {}
     for lang in languages:
@@ -112,15 +112,33 @@ def cross_linguistic_check(
 # Common English profanity substrings to check (minimal built-in list).
 # For thorough checking, use LDNOOBW or cuss data files.
 _BUILTIN_BAD_SUBSTRINGS = {
-    'ass', 'damn', 'hell', 'shit', 'fuck', 'dick', 'cock', 'cunt',
-    'piss', 'slut', 'whore', 'nazi', 'rape', 'porn', 'anal', 'anus',
-    'tit', 'nig', 'fag', 'cum', 'poo',
+    "ass",
+    "damn",
+    "hell",
+    "shit",
+    "fuck",
+    "dick",
+    "cock",
+    "cunt",
+    "piss",
+    "slut",
+    "whore",
+    "nazi",
+    "rape",
+    "porn",
+    "anal",
+    "anus",
+    "tit",
+    "nig",
+    "fag",
+    "cum",
+    "poo",
 }
 
 
 @scorers.register(
-    'substring_hazards',
-    description='Scan for profanity substrings (window size 3-6)',
+    "substring_hazards",
+    description="Scan for profanity substrings (window size 3-6)",
 )
 def substring_hazards(name: str, *, bad_words: set | None = None) -> list[str]:
     """Slide a window of length 3-6 over the name and check against profanity lists.
@@ -151,11 +169,11 @@ def substring_hazards(name: str, *, bad_words: set | None = None) -> list[str]:
 
 
 @scorers.register(
-    'phonetic_neighbors',
-    description='Find words that sound like the name (Datamuse API)',
+    "phonetic_neighbors",
+    description="Find words that sound like the name (Datamuse API)",
     requires_network=True,
-    latency='medium',
-    cost='moderate',
+    latency="medium",
+    cost="moderate",
 )
 def phonetic_neighbors(name: str, *, max_results: int = 10) -> list[str]:
     """Query Datamuse for words that sound like *name*.
@@ -167,12 +185,12 @@ def phonetic_neighbors(name: str, *, max_results: int = 10) -> list[str]:
 
     try:
         r = requests.get(
-            'https://api.datamuse.com/words',
-            params={'sl': name, 'max': max_results},
+            "https://api.datamuse.com/words",
+            params={"sl": name, "max": max_results},
             timeout=10,
         )
         r.raise_for_status()
-        return [item['word'] for item in r.json()]
+        return [item["word"] for item in r.json()]
     except requests.RequestException:
         return []
 
@@ -183,22 +201,22 @@ def phonetic_neighbors(name: str, *, max_results: int = 10) -> list[str]:
 
 # Graphemes with multiple common pronunciations in English
 _AMBIGUOUS_GRAPHEMES = {
-    'c': 2,  # /k/ or /s/
-    'g': 2,  # /g/ or /dʒ/
-    'th': 2,  # /θ/ or /ð/
-    'ough': 6,  # through, though, thought, rough, cough, bough
-    'ch': 3,  # /tʃ/, /k/, /ʃ/
-    'gh': 2,  # /g/, silent
-    'ea': 3,  # /iː/, /ɛ/, /eɪ/
-    'oo': 2,  # /uː/, /ʊ/
-    'ou': 3,  # /aʊ/, /uː/, /ʌ/
-    'x': 2,  # /ks/, /gz/
+    "c": 2,  # /k/ or /s/
+    "g": 2,  # /g/ or /dʒ/
+    "th": 2,  # /θ/ or /ð/
+    "ough": 6,  # through, though, thought, rough, cough, bough
+    "ch": 3,  # /tʃ/, /k/, /ʃ/
+    "gh": 2,  # /g/, silent
+    "ea": 3,  # /iː/, /ɛ/, /eɪ/
+    "oo": 2,  # /uː/, /ʊ/
+    "ou": 3,  # /aʊ/, /uː/, /ʌ/
+    "x": 2,  # /ks/, /gz/
 }
 
 
 @scorers.register(
-    'spelling_transparency',
-    description='How unambiguously the name maps to one pronunciation',
+    "spelling_transparency",
+    description="How unambiguously the name maps to one pronunciation",
 )
 def spelling_transparency(name: str) -> float:
     """Score spelling transparency from 0 (very ambiguous) to 1 (transparent).

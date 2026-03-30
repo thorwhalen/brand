@@ -28,7 +28,7 @@ def _project_dir(project_name: str | None, *, pipeline_dir: str | None = None) -
     """Create and return the project directory path."""
     base = pipeline_dir or PIPELINES_DIR
     if project_name is None:
-        project_name = datetime.now().strftime('run_%Y%m%d_%H%M%S')
+        project_name = datetime.now().strftime("run_%Y%m%d_%H%M%S")
     path = os.path.join(base, project_name)
     os.makedirs(path, exist_ok=True)
     return path
@@ -44,7 +44,7 @@ def _stage_dir(project_path: str, stage_index: int, stage_type: str) -> str:
 
 def _write_json(path: str, data):
     """Write data as pretty-printed JSON."""
-    with open(path, 'w') as f:
+    with open(path, "w") as f:
         json.dump(data, f, indent=2, default=str)
 
 
@@ -65,8 +65,8 @@ def _run_generate(stage: Generate, *, context: str | None = None) -> list[str]:
     params = dict(stage.params)
 
     # Inject context if the generator accepts it and context is provided
-    if context and 'context' in gen_meta.func.__code__.co_varnames:
-        params.setdefault('context', context)
+    if context and "context" in gen_meta.func.__code__.co_varnames:
+        params.setdefault("context", context)
 
     result = gen_meta.func(**params)
     # Materialize iterables
@@ -94,10 +94,10 @@ def _run_score(
         else:
             for cand in candidates:
                 try:
-                    result = scorer_meta.func(cand['name'], **scorer_params)
+                    result = scorer_meta.func(cand["name"], **scorer_params)
                 except Exception as e:
-                    result = {'error': f"{type(e).__name__}: {e}"}
-                cand['scores'][scorer_name] = result
+                    result = {"error": f"{type(e).__name__}: {e}"}
+                cand["scores"][scorer_name] = result
 
     return candidates
 
@@ -114,10 +114,10 @@ def _score_parallel(
 
     def _score_one(cand):
         try:
-            result = scorer_meta.func(cand['name'], **scorer_params)
+            result = scorer_meta.func(cand["name"], **scorer_params)
         except Exception as e:
-            result = {'error': f"{type(e).__name__}: {e}"}
-        return cand['name'], result
+            result = {"error": f"{type(e).__name__}: {e}"}
+        return cand["name"], result
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {executor.submit(_score_one, c): c for c in candidates}
@@ -127,7 +127,7 @@ def _score_parallel(
             results[name] = result
 
     for cand in candidates:
-        cand['scores'][scorer_name] = results.get(cand['name'])
+        cand["scores"][scorer_name] = results.get(cand["name"])
 
     return candidates
 
@@ -157,12 +157,12 @@ def _run_filter(stage: Filter, candidates: list[dict]) -> list[dict]:
 
     # Apply top_n / top_pct
     if stage.top_n is not None or stage.top_pct is not None:
-        sort_key = stage.by or 'aggregate'
+        sort_key = stage.by or "aggregate"
 
         def _sort_value(cand):
-            if sort_key == 'aggregate':
-                return _compute_aggregate(cand['scores'])
-            val = cand['scores'].get(sort_key, 0)
+            if sort_key == "aggregate":
+                return _compute_aggregate(cand["scores"])
+            val = cand["scores"].get(sort_key, 0)
             if isinstance(val, bool):
                 return 1.0 if val else 0.0
             if isinstance(val, (int, float)):
@@ -192,7 +192,7 @@ def _apply_rules(candidates: list[dict], rules: dict) -> list[dict]:
     for cand in candidates:
         keep = True
         for scorer_name, expected in rules.items():
-            actual = cand['scores'].get(scorer_name)
+            actual = cand["scores"].get(scorer_name)
             if actual is None:
                 keep = False
                 break
@@ -208,8 +208,8 @@ def _apply_rules(candidates: list[dict], rules: dict) -> list[dict]:
                     keep = False
                     break
             elif isinstance(expected, dict):
-                op = expected.get('op', '>=')
-                val = expected.get('value', 0)
+                op = expected.get("op", ">=")
+                val = expected.get("value", 0)
                 if not _compare(actual, op, val):
                     keep = False
                     break
@@ -221,14 +221,14 @@ def _apply_rules(candidates: list[dict], rules: dict) -> list[dict]:
 def _compare(actual, op: str, value) -> bool:
     """Apply a comparison operator."""
     ops = {
-        '>=': lambda a, b: a >= b,
-        '<=': lambda a, b: a <= b,
-        '>': lambda a, b: a > b,
-        '<': lambda a, b: a < b,
-        '==': lambda a, b: a == b,
-        '!=': lambda a, b: a != b,
+        ">=": lambda a, b: a >= b,
+        "<=": lambda a, b: a <= b,
+        ">": lambda a, b: a > b,
+        "<": lambda a, b: a < b,
+        "==": lambda a, b: a == b,
+        "!=": lambda a, b: a != b,
     }
-    return ops.get(op, ops['>='])(actual, value)
+    return ops.get(op, ops[">="])(actual, value)
 
 
 # ---------------------------------------------------------------------------
@@ -290,8 +290,8 @@ def run_pipeline(
 
     # Save pipeline definition
     _write_json(
-        os.path.join(proj_dir, 'pipeline.json'),
-        {'stages': stages_to_dicts(stages), 'context': context},
+        os.path.join(proj_dir, "pipeline.json"),
+        {"stages": stages_to_dicts(stages), "context": context},
     )
 
     # Initialize candidates
@@ -303,10 +303,10 @@ def run_pipeline(
         prev_dirs = sorted(
             d
             for d in os.listdir(proj_dir)
-            if d.startswith(f'stage_{prev_stage_idx:02d}_')
+            if d.startswith(f"stage_{prev_stage_idx:02d}_")
         )
         if prev_dirs:
-            prev_path = os.path.join(proj_dir, prev_dirs[0], 'results.json')
+            prev_path = os.path.join(proj_dir, prev_dirs[0], "results.json")
             if os.path.exists(prev_path):
                 candidates = _read_json(prev_path)
         if candidates is None:
@@ -315,7 +315,7 @@ def run_pipeline(
                 f"no artifacts found for stage {prev_stage_idx} in {proj_dir}"
             )
     elif names is not None:
-        candidates = [{'name': n, 'scores': {}} for n in names]
+        candidates = [{"name": n, "scores": {}} for n in names]
 
     # Run stages
     start_idx = resume_from or 0
@@ -326,12 +326,12 @@ def run_pipeline(
                 # Already have candidates, skip generate
                 continue
             raw_names = _run_generate(stage, context=context)
-            candidates = [{'name': n, 'scores': {}} for n in raw_names]
+            candidates = [{"name": n, "scores": {}} for n in raw_names]
 
-            sdir = _stage_dir(proj_dir, i, 'generate')
+            sdir = _stage_dir(proj_dir, i, "generate")
             _write_json(
-                os.path.join(sdir, 'results.json'),
-                {'names': raw_names, 'count': len(raw_names)},
+                os.path.join(sdir, "results.json"),
+                {"names": raw_names, "count": len(raw_names)},
             )
 
         elif isinstance(stage, Score):
@@ -342,8 +342,8 @@ def run_pipeline(
                 )
             candidates = _run_score(stage, candidates)
 
-            sdir = _stage_dir(proj_dir, i, 'score')
-            _write_json(os.path.join(sdir, 'results.json'), candidates)
+            sdir = _stage_dir(proj_dir, i, "score")
+            _write_json(os.path.join(sdir, "results.json"), candidates)
 
         elif isinstance(stage, Filter):
             if candidates is None:
@@ -352,13 +352,13 @@ def run_pipeline(
             candidates = _run_filter(stage, candidates)
             after_count = len(candidates)
 
-            sdir = _stage_dir(proj_dir, i, 'filter')
+            sdir = _stage_dir(proj_dir, i, "filter")
             _write_json(
-                os.path.join(sdir, 'results.json'),
+                os.path.join(sdir, "results.json"),
                 {
-                    'before': before_count,
-                    'after': after_count,
-                    'candidates': candidates,
+                    "before": before_count,
+                    "after": after_count,
+                    "candidates": candidates,
                 },
             )
 
@@ -366,14 +366,14 @@ def run_pipeline(
             on_stage_complete(i, type(stage).__name__.lower(), len(candidates))
 
     # Write final results
-    final_dir = os.path.join(proj_dir, 'final')
+    final_dir = os.path.join(proj_dir, "final")
     os.makedirs(final_dir, exist_ok=True)
-    _write_json(os.path.join(final_dir, 'results.json'), candidates)
+    _write_json(os.path.join(final_dir, "results.json"), candidates)
 
     return {
-        'candidates': candidates,
-        'project_dir': proj_dir,
-        'stages_completed': len(stages),
+        "candidates": candidates,
+        "project_dir": proj_dir,
+        "stages_completed": len(stages),
     }
 
 
@@ -392,18 +392,17 @@ def load_template(name: str) -> list:
     >>> len(stages) > 0
     True
     """
-    templates_dir = os.path.join(os.path.dirname(__file__), 'templates')
+    templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 
     # Try .json file
-    json_path = os.path.join(templates_dir, f'{name}.json')
+    json_path = os.path.join(templates_dir, f"{name}.json")
     if os.path.exists(json_path):
         data = _read_json(json_path)
-        stage_dicts = data.get('stages', data) if isinstance(data, dict) else data
+        stage_dicts = data.get("stages", data) if isinstance(data, dict) else data
         return stages_from_dicts(stage_dicts)
 
     raise FileNotFoundError(
-        f"No template named {name!r}. "
-        f"Available templates: {list_templates()}"
+        f"No template named {name!r}. Available templates: {list_templates()}"
     )
 
 
@@ -413,13 +412,13 @@ def list_templates() -> list[str]:
     >>> 'quick_screen' in list_templates()
     True
     """
-    templates_dir = os.path.join(os.path.dirname(__file__), 'templates')
+    templates_dir = os.path.join(os.path.dirname(__file__), "templates")
     if not os.path.isdir(templates_dir):
         return []
     return sorted(
         os.path.splitext(f)[0]
         for f in os.listdir(templates_dir)
-        if f.endswith('.json') and not f.startswith('_')
+        if f.endswith(".json") and not f.startswith("_")
     )
 
 
@@ -458,7 +457,7 @@ def evaluate_name(
     """
     if scorers is not None:
         stages = [
-            Generate('from_list', params={'names': [name]}),
+            Generate("from_list", params={"names": [name]}),
             Score(scorers),
         ]
     elif template is not None:
@@ -466,21 +465,23 @@ def evaluate_name(
     else:
         # Default: quick local scoring
         stages = [
-            Generate('from_list', params={'names': [name]}),
-            Score([
-                'syllables',
-                'stress_pattern',
-                'spelling_transparency',
-                'sound_symbolism',
-                'novelty',
-                'substring_hazards',
-                'letter_balance',
-                'keyboard_distance',
-                'name_length',
-            ]),
+            Generate("from_list", params={"names": [name]}),
+            Score(
+                [
+                    "syllables",
+                    "stress_pattern",
+                    "spelling_transparency",
+                    "sound_symbolism",
+                    "novelty",
+                    "substring_hazards",
+                    "letter_balance",
+                    "keyboard_distance",
+                    "name_length",
+                ]
+            ),
         ]
 
     result = run_pipeline(stages, names=[name])
-    if result['candidates']:
-        return result['candidates'][0]
-    return {'name': name, 'scores': {}}
+    if result["candidates"]:
+        return result["candidates"][0]
+    return {"name": name, "scores": {}}

@@ -35,14 +35,14 @@ class Generate:
     params: dict = field(default_factory=dict)
 
     def to_dict(self):
-        d = {'type': 'generate', 'generator': self.generator}
+        d = {"type": "generate", "generator": self.generator}
         if self.params:
-            d['params'] = self.params
+            d["params"] = self.params
         return d
 
     @classmethod
     def from_dict(cls, d):
-        return cls(generator=d['generator'], params=d.get('params', {}))
+        return cls(generator=d["generator"], params=d.get("params", {}))
 
 
 @dataclass
@@ -71,17 +71,17 @@ class Score:
                 serialized.append(s)
             else:
                 name, params = s
-                serialized.append({'name': name, 'params': params})
-        return {'type': 'score', 'scorers': serialized}
+                serialized.append({"name": name, "params": params})
+        return {"type": "score", "scorers": serialized}
 
     @classmethod
     def from_dict(cls, d):
         scorers = []
-        for s in d.get('scorers', []):
+        for s in d.get("scorers", []):
             if isinstance(s, str):
                 scorers.append(s)
             else:
-                scorers.append((s['name'], s.get('params', {})))
+                scorers.append((s["name"], s.get("params", {})))
         return cls(scorers=scorers)
 
 
@@ -120,24 +120,24 @@ class Filter:
     rules: dict | None = None
 
     def to_dict(self):
-        d = {'type': 'filter'}
+        d = {"type": "filter"}
         if self.top_n is not None:
-            d['top_n'] = self.top_n
+            d["top_n"] = self.top_n
         if self.top_pct is not None:
-            d['top_pct'] = self.top_pct
+            d["top_pct"] = self.top_pct
         if self.by is not None:
-            d['by'] = self.by
+            d["by"] = self.by
         if self.rules is not None:
-            d['rules'] = self.rules
+            d["rules"] = self.rules
         return d
 
     @classmethod
     def from_dict(cls, d):
         return cls(
-            top_n=d.get('top_n'),
-            top_pct=d.get('top_pct'),
-            by=d.get('by'),
-            rules=d.get('rules'),
+            top_n=d.get("top_n"),
+            top_pct=d.get("top_pct"),
+            by=d.get("by"),
+            rules=d.get("rules"),
         )
 
 
@@ -146,9 +146,9 @@ class Filter:
 # ---------------------------------------------------------------------------
 
 _STAGE_TYPES = {
-    'generate': Generate,
-    'score': Score,
-    'filter': Filter,
+    "generate": Generate,
+    "score": Score,
+    "filter": Filter,
 }
 
 
@@ -158,11 +158,10 @@ def stage_from_dict(d: dict):
     >>> stage_from_dict({'type': 'generate', 'generator': 'cvcvcv'})
     Generate(generator='cvcvcv', params={})
     """
-    stage_type = d.get('type')
+    stage_type = d.get("type")
     if stage_type not in _STAGE_TYPES:
         raise ValueError(
-            f"Unknown stage type {stage_type!r}. "
-            f"Expected one of {list(_STAGE_TYPES)}"
+            f"Unknown stage type {stage_type!r}. Expected one of {list(_STAGE_TYPES)}"
         )
     return _STAGE_TYPES[stage_type].from_dict(d)
 

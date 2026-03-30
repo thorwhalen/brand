@@ -10,11 +10,11 @@ class ComponentMeta:
 
     func: object  # Callable
     name: str
-    cost: str = 'cheap'  # 'cheap' | 'moderate' | 'expensive'
+    cost: str = "cheap"  # 'cheap' | 'moderate' | 'expensive'
     requires_network: bool = False
-    latency: str = 'fast'  # 'fast' | 'medium' | 'slow'
+    latency: str = "fast"  # 'fast' | 'medium' | 'slow'
     parallelizable: bool = True
-    description: str = ''
+    description: str = ""
     requires_extras: tuple = ()
 
     def __call__(self, *args, **kwargs):
@@ -23,10 +23,10 @@ class ComponentMeta:
     def __repr__(self):
         tags = []
         if self.requires_network:
-            tags.append('network')
+            tags.append("network")
         tags.append(self.cost)
         tags.append(self.latency)
-        tag_str = ', '.join(tags)
+        tag_str = ", ".join(tags)
         return f"<{self.name} ({tag_str})>"
 
 
@@ -60,11 +60,11 @@ class Registry(Mapping):
         self,
         name=None,
         *,
-        cost='cheap',
+        cost="cheap",
         requires_network=False,
-        latency='fast',
+        latency="fast",
         parallelizable=True,
-        description='',
+        description="",
         requires_extras=(),
     ):
         """Register a function. Usable as decorator with or without arguments.
@@ -108,7 +108,7 @@ class Registry(Mapping):
 
     def __getitem__(self, key: str) -> ComponentMeta:
         if key not in self._items:
-            available = ', '.join(sorted(self._items))
+            available = ", ".join(sorted(self._items))
             raise KeyError(
                 f"No {self._name[:-1] if self._name.endswith('s') else self._name} "
                 f"named {key!r}. Available: [{available}]"
@@ -130,7 +130,7 @@ class Registry(Mapping):
 
 # -- Global registries -------------------------------------------------------
 
-scorers = Registry('scorers')
-generators = Registry('generators')
-filters = Registry('filters')
-pipelines = Registry('pipelines')
+scorers = Registry("scorers")
+generators = Registry("generators")
+filters = Registry("filters")
+pipelines = Registry("pipelines")

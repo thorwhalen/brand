@@ -11,9 +11,9 @@ from brand.registry import scorers
 # Letter anatomy constants
 # ---------------------------------------------------------------------------
 
-_ASCENDERS = set('bdfhklt')
-_DESCENDERS = set('gjpqy')
-_NEUTRAL = set('aceimnorsuvwxz')
+_ASCENDERS = set("bdfhklt")
+_DESCENDERS = set("gjpqy")
+_NEUTRAL = set("aceimnorsuvwxz")
 
 
 # ---------------------------------------------------------------------------
@@ -22,8 +22,8 @@ _NEUTRAL = set('aceimnorsuvwxz')
 
 
 @scorers.register(
-    'letter_balance',
-    description='Visual balance of ascenders, descenders, and neutral letters',
+    "letter_balance",
+    description="Visual balance of ascenders, descenders, and neutral letters",
 )
 def letter_balance(name: str) -> dict:
     """Analyze the visual balance of a name's letter anatomy.
@@ -43,11 +43,11 @@ def letter_balance(name: str) -> dict:
     neut = sum(1 for c in name_lower if c in _NEUTRAL)
 
     return {
-        'ascender_ratio': round(asc / n, 2),
-        'descender_ratio': round(desc / n, 2),
-        'neutral_ratio': round(neut / n, 2),
-        'has_ascenders': asc > 0,
-        'has_descenders': desc > 0,
+        "ascender_ratio": round(asc / n, 2),
+        "descender_ratio": round(desc / n, 2),
+        "neutral_ratio": round(neut / n, 2),
+        "has_ascenders": asc > 0,
+        "has_descenders": desc > 0,
     }
 
 
@@ -57,12 +57,32 @@ def letter_balance(name: str) -> dict:
 
 # QWERTY keyboard layout positions (row, col) for distance computation
 _QWERTY_POS = {
-    'q': (0, 0), 'w': (0, 1), 'e': (0, 2), 'r': (0, 3), 't': (0, 4),
-    'y': (0, 5), 'u': (0, 6), 'i': (0, 7), 'o': (0, 8), 'p': (0, 9),
-    'a': (1, 0), 's': (1, 1), 'd': (1, 2), 'f': (1, 3), 'g': (1, 4),
-    'h': (1, 5), 'j': (1, 6), 'k': (1, 7), 'l': (1, 8),
-    'z': (2, 0), 'x': (2, 1), 'c': (2, 2), 'v': (2, 3), 'b': (2, 4),
-    'n': (2, 5), 'm': (2, 6),
+    "q": (0, 0),
+    "w": (0, 1),
+    "e": (0, 2),
+    "r": (0, 3),
+    "t": (0, 4),
+    "y": (0, 5),
+    "u": (0, 6),
+    "i": (0, 7),
+    "o": (0, 8),
+    "p": (0, 9),
+    "a": (1, 0),
+    "s": (1, 1),
+    "d": (1, 2),
+    "f": (1, 3),
+    "g": (1, 4),
+    "h": (1, 5),
+    "j": (1, 6),
+    "k": (1, 7),
+    "l": (1, 8),
+    "z": (2, 0),
+    "x": (2, 1),
+    "c": (2, 2),
+    "v": (2, 3),
+    "b": (2, 4),
+    "n": (2, 5),
+    "m": (2, 6),
 }
 
 
@@ -76,8 +96,8 @@ def _key_distance(a: str, b: str) -> float:
 
 
 @scorers.register(
-    'keyboard_distance',
-    description='Average keyboard distance between consecutive letters (lower=easier to type)',
+    "keyboard_distance",
+    description="Average keyboard distance between consecutive letters (lower=easier to type)",
 )
 def keyboard_distance(name: str) -> float:
     """Mean Euclidean distance between consecutive key presses on QWERTY.
@@ -93,15 +113,13 @@ def keyboard_distance(name: str) -> float:
     if len(name_lower) < 2:
         return 0.0
 
-    distances = [
-        _key_distance(a, b) for a, b in zip(name_lower[:-1], name_lower[1:])
-    ]
+    distances = [_key_distance(a, b) for a, b in zip(name_lower[:-1], name_lower[1:])]
     return round(sum(distances) / len(distances), 2) if distances else 0.0
 
 
 @scorers.register(
-    'name_length',
-    description='Character count of the name',
+    "name_length",
+    description="Character count of the name",
 )
 def name_length(name: str) -> int:
     """Return the length of the name.

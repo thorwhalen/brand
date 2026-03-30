@@ -15,9 +15,9 @@ from brand.registry import generators
 # Constants
 # ---------------------------------------------------------------------------
 
-VOWELS = 'aeiouy'
-CONSONANTS = 'bcdfghjklmnpqrstvwxz'
-FEWER_CONSONANTS = 'bdfglmnprstvz'
+VOWELS = "aeiouy"
+CONSONANTS = "bcdfghjklmnpqrstvwxz"
+FEWER_CONSONANTS = "bdfglmnprstvz"
 
 _VOWELS_SET = set(VOWELS)
 _CONSONANTS_SET = set(CONSONANTS)
@@ -51,8 +51,8 @@ def few_uniques(w, *, max_uniques=4, max_unique_vowels=1, max_unique_consonants=
 
 
 @generators.register(
-    'cvcvcv',
-    description='Generate all 6-letter consonant-vowel-consonant-vowel-consonant-vowel names',
+    "cvcvcv",
+    description="Generate all 6-letter consonant-vowel-consonant-vowel-consonant-vowel names",
 )
 def cvcvcv(
     *,
@@ -67,7 +67,7 @@ def cvcvcv(
     ['bababa']
     """
     gen = map(
-        ''.join,
+        "".join,
         itertools.product(consonants, vowels, consonants, vowels, consonants, vowels),
     )
     if filt is not None:
@@ -76,8 +76,8 @@ def cvcvcv(
 
 
 @generators.register(
-    'cvcvcv_filtered',
-    description='CVCVCV names pre-filtered for few unique letters',
+    "cvcvcv_filtered",
+    description="CVCVCV names pre-filtered for few unique letters",
 )
 def cvcvcv_filtered(
     *,
@@ -94,12 +94,12 @@ def cvcvcv_filtered(
 
 
 @generators.register(
-    'pattern',
+    "pattern",
     description='Generate names matching a CV pattern (e.g. "CVCCV")',
 )
 def pattern_generator(
     *,
-    pattern: str = 'CVCVCV',
+    pattern: str = "CVCVCV",
     consonants: str = FEWER_CONSONANTS,
     vowels: str = VOWELS,
     filt=None,
@@ -113,24 +113,24 @@ def pattern_generator(
     """
     pools = []
     for char in pattern.upper():
-        if char == 'C':
+        if char == "C":
             pools.append(consonants)
-        elif char == 'V':
+        elif char == "V":
             pools.append(vowels)
         else:
             raise ValueError(f"Pattern must contain only 'C' and 'V', got {char!r}")
 
-    gen = map(''.join, itertools.product(*pools))
+    gen = map("".join, itertools.product(*pools))
     if filt is not None:
         gen = filter(filt, gen)
     return gen
 
 
 @generators.register(
-    'english_words',
-    description='English dictionary words filtered by regex',
+    "english_words",
+    description="English dictionary words filtered by regex",
 )
-def english_words(*, pattern: str = '.*') -> Iterable[str]:
+def english_words(*, pattern: str = ".*") -> Iterable[str]:
     """Generate English words matching a regex pattern.
 
     >>> 'cat' in list(english_words(pattern='^cat$'))
@@ -143,8 +143,8 @@ def english_words(*, pattern: str = '.*') -> Iterable[str]:
 
 
 @generators.register(
-    'from_list',
-    description='Load names from an explicit list',
+    "from_list",
+    description="Load names from an explicit list",
 )
 def from_list(*, names: list[str]) -> Iterable[str]:
     """Simply yield the provided names.
@@ -156,8 +156,8 @@ def from_list(*, names: list[str]) -> Iterable[str]:
 
 
 @generators.register(
-    'from_file',
-    description='Load names from a text file (one per line)',
+    "from_file",
+    description="Load names from a text file (one per line)",
 )
 def from_file(*, path: str) -> Iterable[str]:
     """Read names from a file, one name per line, stripping whitespace."""
@@ -169,11 +169,11 @@ def from_file(*, path: str) -> Iterable[str]:
 
 
 @generators.register(
-    'ai_suggest',
-    cost='expensive',
+    "ai_suggest",
+    cost="expensive",
     requires_network=True,
-    latency='slow',
-    description='AI-assisted name generation via OpenAI',
+    latency="slow",
+    description="AI-assisted name generation via OpenAI",
 )
 def ai_suggest(*, context: str, n: int = 30) -> Iterable[str]:
     """Use an LLM to brainstorm brand names for a given context.
@@ -184,8 +184,7 @@ def ai_suggest(*, context: str, n: int = 30) -> Iterable[str]:
         import oa
     except ImportError:
         raise ImportError(
-            "AI generation requires the 'oa' package. "
-            "Install with: pip install oa"
+            "AI generation requires the 'oa' package. Install with: pip install oa"
         )
 
     ask_fn = oa.prompt_function(
@@ -194,13 +193,13 @@ def ai_suggest(*, context: str, n: int = 30) -> Iterable[str]:
         "Output ONLY the names, one per line, no numbering or explanation."
     )
     response = ask_fn(context=context, n=n)
-    names = [line.strip() for line in response.strip().split('\n') if line.strip()]
+    names = [line.strip() for line in response.strip().split("\n") if line.strip()]
     return names
 
 
 @generators.register(
-    'morpheme_combiner',
-    description='Combine morpheme roots to create brand-like portmanteaus',
+    "morpheme_combiner",
+    description="Combine morpheme roots to create brand-like portmanteaus",
 )
 def morpheme_combiner(
     *,
@@ -214,14 +213,51 @@ def morpheme_combiner(
     """
     if prefixes is None:
         prefixes = [
-            'lum', 'clar', 'vox', 'flux', 'syn', 'lex', 'pho', 'zen',
-            'arc', 'neo', 'axi', 'ori', 'sol', 'nex', 'val', 'ver',
-            'alt', 'cor', 'prim', 'evo', 'gen', 'vis', 'aur', 'tel',
+            "lum",
+            "clar",
+            "vox",
+            "flux",
+            "syn",
+            "lex",
+            "pho",
+            "zen",
+            "arc",
+            "neo",
+            "axi",
+            "ori",
+            "sol",
+            "nex",
+            "val",
+            "ver",
+            "alt",
+            "cor",
+            "prim",
+            "evo",
+            "gen",
+            "vis",
+            "aur",
+            "tel",
         ]
     if suffixes is None:
         suffixes = [
-            'ify', 'ix', 'io', 'us', 'is', 'ia', 'eo', 'ar', 'um',
-            'os', 'al', 'en', 'yx', 'on', 'or', 'ux', 'ive', 'ent',
+            "ify",
+            "ix",
+            "io",
+            "us",
+            "is",
+            "ia",
+            "eo",
+            "ar",
+            "um",
+            "os",
+            "al",
+            "en",
+            "yx",
+            "on",
+            "or",
+            "ux",
+            "ive",
+            "ent",
         ]
 
     for prefix, suffix in itertools.product(prefixes, suffixes):
