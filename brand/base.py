@@ -10,7 +10,6 @@ from typing import Union
 from collections.abc import Callable, Iterable, MutableMapping
 from time import sleep
 
-import lexis
 from dol import PickleFiles
 
 from brand.util import print_progress, DFLT_ROOT_DIR, StoreType
@@ -33,6 +32,8 @@ def english_words_gen(pattern='.*') -> Iterable[str]:
     Tip: to sort by word length, do ``sorted(english_words_gen(..., key=len))``.
 
     """
+    import lexis
+
     pattern = re.compile(pattern)
     return filter(pattern.search, lexis.Lemmas())
 
