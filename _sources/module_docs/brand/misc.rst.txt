@@ -1,0 +1,4 @@
+brand.misc
+==========
+.. automodule:: brand.misc
+   :members:

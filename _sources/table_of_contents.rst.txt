@@ -1,0 +1,20 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/brand
+   module_docs/brand/_generators
+   module_docs/brand/_scorers
+   module_docs/brand/_scorers/availability
+   module_docs/brand/_scorers/linguistic
+   module_docs/brand/_scorers/phonetic
+   module_docs/brand/_scorers/visual
+   module_docs/brand/base
+   module_docs/brand/config
+   module_docs/brand/misc
+   module_docs/brand/pipeline
+   module_docs/brand/registry
+   module_docs/brand/search_names
+   module_docs/brand/stages
+   module_docs/brand/templates
+   module_docs/brand/util

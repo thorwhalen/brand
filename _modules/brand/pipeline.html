@@ -1,0 +1,619 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand.pipeline &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">brand.pipeline</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for brand.pipeline</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Pipeline engine: run, persist, resume, and branch evaluation pipelines.</span>
+
+<span class="sd">A pipeline is a list of stages (``Generate``, ``Score``, ``Filter``) that</span>
+<span class="sd">takes a stream of candidate names and progressively enriches, scores, filters,</span>
+<span class="sd">and narrows them.</span>
+
+<span class="sd">Every run creates a project folder with intermediate artifacts at each stage,</span>
+<span class="sd">allowing inspection, resumption, and branching.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">PIPELINES_DIR</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">scorers</span> <span class="k">as</span> <span class="n">scorer_registry</span><span class="p">,</span> <span class="n">generators</span> <span class="k">as</span> <span class="n">generator_registry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.stages</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generate</span><span class="p">,</span> <span class="n">Score</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">stages_to_dicts</span><span class="p">,</span> <span class="n">stages_from_dicts</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Persistence helpers</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_project_dir</span><span class="p">(</span><span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">pipeline_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create and return the project directory path.&quot;&quot;&quot;</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="n">pipeline_dir</span> <span class="ow">or</span> <span class="n">PIPELINES_DIR</span>
+    <span class="k">if</span> <span class="n">project_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">project_name</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;run_%Y%m</span><span class="si">%d</span><span class="s1">_%H%M%S&#39;</span><span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">project_name</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_stage_dir</span><span class="p">(</span><span class="n">project_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">stage_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stage_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create and return the directory for a specific stage.&quot;&quot;&quot;</span>
+    <span class="n">dirname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;stage_</span><span class="si">{</span><span class="n">stage_index</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">stage_type</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">project_path</span><span class="p">,</span> <span class="n">dirname</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_write_json</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write data as pretty-printed JSON.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_read_json</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read JSON data from a file.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Stage execution</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_generate</span><span class="p">(</span><span class="n">stage</span><span class="p">:</span> <span class="n">Generate</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute a Generate stage, returning a list of candidate names.&quot;&quot;&quot;</span>
+    <span class="n">gen_meta</span> <span class="o">=</span> <span class="n">generator_registry</span><span class="p">[</span><span class="n">stage</span><span class="o">.</span><span class="n">generator</span><span class="p">]</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">stage</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="c1"># Inject context if the generator accepts it and context is provided</span>
+    <span class="k">if</span> <span class="n">context</span> <span class="ow">and</span> <span class="s1">&#39;context&#39;</span> <span class="ow">in</span> <span class="n">gen_meta</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_varnames</span><span class="p">:</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;context&#39;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">gen_meta</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+    <span class="c1"># Materialize iterables</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_score</span><span class="p">(</span>
+    <span class="n">stage</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+    <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute a Score stage, enriching each candidate&#39;s scores dict.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">scorer_spec</span> <span class="ow">in</span> <span class="n">stage</span><span class="o">.</span><span class="n">scorers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">scorer_spec</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">scorer_name</span><span class="p">,</span> <span class="n">scorer_params</span> <span class="o">=</span> <span class="n">scorer_spec</span><span class="p">,</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scorer_name</span><span class="p">,</span> <span class="n">scorer_params</span> <span class="o">=</span> <span class="n">scorer_spec</span>
+
+        <span class="n">scorer_meta</span> <span class="o">=</span> <span class="n">scorer_registry</span><span class="p">[</span><span class="n">scorer_name</span><span class="p">]</span>
+
+        <span class="c1"># Decide parallelism</span>
+        <span class="k">if</span> <span class="n">scorer_meta</span><span class="o">.</span><span class="n">parallelizable</span> <span class="ow">and</span> <span class="n">scorer_meta</span><span class="o">.</span><span class="n">requires_network</span><span class="p">:</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="n">_score_parallel</span><span class="p">(</span>
+                <span class="n">candidates</span><span class="p">,</span> <span class="n">scorer_name</span><span class="p">,</span> <span class="n">scorer_meta</span><span class="p">,</span> <span class="n">scorer_params</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">cand</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">scorer_meta</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">cand</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">scorer_params</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+                <span class="n">cand</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">][</span><span class="n">scorer_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+    <span class="k">return</span> <span class="n">candidates</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_score_parallel</span><span class="p">(</span>
+    <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
+    <span class="n">scorer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">scorer_meta</span><span class="p">,</span>
+    <span class="n">scorer_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">max_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score candidates in parallel using a thread pool.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_score_one</span><span class="p">(</span><span class="n">cand</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">scorer_meta</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">cand</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">scorer_params</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">cand</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">result</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">_score_one</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">}</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+    <span class="k">for</span> <span class="n">cand</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="n">cand</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">][</span><span class="n">scorer_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cand</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">candidates</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_aggregate</span><span class="p">(</span><span class="n">scores</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a simple aggregate score from a scores dict.</span>
+
+<span class="sd">    Booleans are converted to 1.0/0.0.  Dicts and lists are skipped.</span>
+<span class="sd">    Non-numeric values are ignored.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">scores</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">v</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="k">if</span> <span class="n">values</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_filter</span><span class="p">(</span><span class="n">stage</span><span class="p">:</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute a Filter stage, reducing the candidate list.&quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">candidates</span>
+
+    <span class="c1"># Apply rules first</span>
+    <span class="k">if</span> <span class="n">stage</span><span class="o">.</span><span class="n">rules</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_apply_rules</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">stage</span><span class="o">.</span><span class="n">rules</span><span class="p">)</span>
+
+    <span class="c1"># Apply top_n / top_pct</span>
+    <span class="k">if</span> <span class="n">stage</span><span class="o">.</span><span class="n">top_n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">stage</span><span class="o">.</span><span class="n">top_pct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">sort_key</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">by</span> <span class="ow">or</span> <span class="s1">&#39;aggregate&#39;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_sort_value</span><span class="p">(</span><span class="n">cand</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sort_key</span> <span class="o">==</span> <span class="s1">&#39;aggregate&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_compute_aggregate</span><span class="p">(</span><span class="n">cand</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">])</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">cand</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sort_key</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                <span class="k">return</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">val</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mf">0.0</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">_sort_value</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">stage</span><span class="o">.</span><span class="n">top_n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span> <span class="n">stage</span><span class="o">.</span><span class="n">top_n</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">stage</span><span class="o">.</span><span class="n">top_pct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">*</span> <span class="n">stage</span><span class="o">.</span><span class="n">top_pct</span> <span class="o">/</span> <span class="mf">100.0</span><span class="p">))</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_rules</span><span class="p">(</span><span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="n">rules</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter candidates by score rules.</span>
+
+<span class="sd">    Rules map scorer names to expected values:</span>
+<span class="sd">    - True/False: exact boolean match</span>
+<span class="sd">    - number: minimum threshold</span>
+<span class="sd">    - dict with &#39;op&#39; and &#39;value&#39;: comparison</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cand</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="n">keep</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">scorer_name</span><span class="p">,</span> <span class="n">expected</span> <span class="ow">in</span> <span class="n">rules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">actual</span> <span class="o">=</span> <span class="n">cand</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">scorer_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">actual</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">expected</span><span class="p">:</span>
+                    <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                    <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">actual</span> <span class="o">&lt;</span> <span class="n">expected</span><span class="p">:</span>
+                    <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">op</span> <span class="o">=</span> <span class="n">expected</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;op&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;=&#39;</span><span class="p">)</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">expected</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_compare</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+                    <span class="n">keep</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+        <span class="k">if</span> <span class="n">keep</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cand</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compare</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a comparison operator.&quot;&quot;&quot;</span>
+    <span class="n">ops</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;&gt;=&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;=&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">b</span><span class="p">,</span>
+        <span class="s1">&#39;&gt;&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">,</span>
+        <span class="s1">&#39;==&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span><span class="p">,</span>
+        <span class="s1">&#39;!=&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">!=</span> <span class="n">b</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ops</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">ops</span><span class="p">[</span><span class="s1">&#39;&gt;=&#39;</span><span class="p">])(</span><span class="n">actual</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Main pipeline runner</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="run_pipeline">
+<a class="viewcode-back" href="../../module_docs/brand/pipeline.html#brand.pipeline.run_pipeline">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_pipeline</span><span class="p">(</span>
+    <span class="n">stages</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">resume_from</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">pipeline_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">on_stage_complete</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute a brand evaluation pipeline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stages : list | str</span>
+<span class="sd">        A list of stage objects (Generate, Score, Filter), or a template name</span>
+<span class="sd">        string to load from the templates registry.</span>
+<span class="sd">    names : list[str] | None</span>
+<span class="sd">        Pre-existing candidate names. If provided, skips the Generate stage.</span>
+<span class="sd">    context : str | None</span>
+<span class="sd">        Context string for AI generators and expert synthesis.</span>
+<span class="sd">    project_name : str | None</span>
+<span class="sd">        Name for the project folder. Auto-generated if not provided.</span>
+<span class="sd">    resume_from : int | None</span>
+<span class="sd">        Stage index to resume from. Loads prior artifacts from disk.</span>
+<span class="sd">    pipeline_dir : str | None</span>
+<span class="sd">        Override the default pipeline storage directory.</span>
+<span class="sd">    on_stage_complete : callable | None</span>
+<span class="sd">        Callback ``(stage_index, stage_type, n_candidates)`` after each stage.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        ``{&#39;candidates&#39;: [...], &#39;project_dir&#39;: str, &#39;stages_completed&#39;: int}``</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from brand.stages import Generate, Score, Filter</span>
+<span class="sd">    &gt;&gt;&gt; results = run_pipeline([</span>
+<span class="sd">    ...     Generate(&#39;from_list&#39;, params={&#39;names&#39;: [&#39;alpha&#39;, &#39;beta&#39;, &#39;gamma&#39;]}),</span>
+<span class="sd">    ...     Score([&#39;syllables&#39;, &#39;name_length&#39;]),</span>
+<span class="sd">    ... ])</span>
+<span class="sd">    &gt;&gt;&gt; len(results[&#39;candidates&#39;])</span>
+<span class="sd">    3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Handle template name</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stages</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="n">load_template</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
+
+    <span class="c1"># Set up project directory</span>
+    <span class="n">proj_dir</span> <span class="o">=</span> <span class="n">_project_dir</span><span class="p">(</span><span class="n">project_name</span><span class="p">,</span> <span class="n">pipeline_dir</span><span class="o">=</span><span class="n">pipeline_dir</span><span class="p">)</span>
+
+    <span class="c1"># Save pipeline definition</span>
+    <span class="n">_write_json</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">,</span> <span class="s1">&#39;pipeline.json&#39;</span><span class="p">),</span>
+        <span class="p">{</span><span class="s1">&#39;stages&#39;</span><span class="p">:</span> <span class="n">stages_to_dicts</span><span class="p">(</span><span class="n">stages</span><span class="p">),</span> <span class="s1">&#39;context&#39;</span><span class="p">:</span> <span class="n">context</span><span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Initialize candidates</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">resume_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">resume_from</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Load candidates from previous stage</span>
+        <span class="n">prev_stage_idx</span> <span class="o">=</span> <span class="n">resume_from</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">prev_dirs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="n">d</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;stage_</span><span class="si">{</span><span class="n">prev_stage_idx</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">_&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">prev_dirs</span><span class="p">:</span>
+            <span class="n">prev_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">,</span> <span class="n">prev_dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;results.json&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">prev_path</span><span class="p">):</span>
+                <span class="n">candidates</span> <span class="o">=</span> <span class="n">_read_json</span><span class="p">(</span><span class="n">prev_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Cannot resume from stage </span><span class="si">{</span><span class="n">resume_from</span><span class="si">}</span><span class="s2">: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;no artifacts found for stage </span><span class="si">{</span><span class="n">prev_stage_idx</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">proj_dir</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="p">{}}</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+
+    <span class="c1"># Run stages</span>
+    <span class="n">start_idx</span> <span class="o">=</span> <span class="n">resume_from</span> <span class="ow">or</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">stage</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">stages</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="n">start_idx</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">Generate</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Already have candidates, skip generate</span>
+                <span class="k">continue</span>
+            <span class="n">raw_names</span> <span class="o">=</span> <span class="n">_run_generate</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="p">[{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">n</span><span class="p">,</span> <span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="p">{}}</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">raw_names</span><span class="p">]</span>
+
+            <span class="n">sdir</span> <span class="o">=</span> <span class="n">_stage_dir</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;generate&#39;</span><span class="p">)</span>
+            <span class="n">_write_json</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sdir</span><span class="p">,</span> <span class="s1">&#39;results.json&#39;</span><span class="p">),</span>
+                <span class="p">{</span><span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="n">raw_names</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_names</span><span class="p">)},</span>
+            <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">Score</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Score stage at index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> has no candidates. &quot;</span>
+                    <span class="s2">&quot;A Generate stage or &#39;names&#39; parameter is required first.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="n">_run_score</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+
+            <span class="n">sdir</span> <span class="o">=</span> <span class="n">_stage_dir</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">)</span>
+            <span class="n">_write_json</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sdir</span><span class="p">,</span> <span class="s1">&#39;results.json&#39;</span><span class="p">),</span> <span class="n">candidates</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">Filter</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">candidates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Filter stage at index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> has no candidates.&quot;</span><span class="p">)</span>
+            <span class="n">before_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+            <span class="n">candidates</span> <span class="o">=</span> <span class="n">_run_filter</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">candidates</span><span class="p">)</span>
+            <span class="n">after_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+
+            <span class="n">sdir</span> <span class="o">=</span> <span class="n">_stage_dir</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;filter&#39;</span><span class="p">)</span>
+            <span class="n">_write_json</span><span class="p">(</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sdir</span><span class="p">,</span> <span class="s1">&#39;results.json&#39;</span><span class="p">),</span>
+                <span class="p">{</span>
+                    <span class="s1">&#39;before&#39;</span><span class="p">:</span> <span class="n">before_count</span><span class="p">,</span>
+                    <span class="s1">&#39;after&#39;</span><span class="p">:</span> <span class="n">after_count</span><span class="p">,</span>
+                    <span class="s1">&#39;candidates&#39;</span><span class="p">:</span> <span class="n">candidates</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">on_stage_complete</span><span class="p">:</span>
+            <span class="n">on_stage_complete</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">stage</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">))</span>
+
+    <span class="c1"># Write final results</span>
+    <span class="n">final_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">proj_dir</span><span class="p">,</span> <span class="s1">&#39;final&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">final_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_write_json</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">final_dir</span><span class="p">,</span> <span class="s1">&#39;results.json&#39;</span><span class="p">),</span> <span class="n">candidates</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;candidates&#39;</span><span class="p">:</span> <span class="n">candidates</span><span class="p">,</span>
+        <span class="s1">&#39;project_dir&#39;</span><span class="p">:</span> <span class="n">proj_dir</span><span class="p">,</span>
+        <span class="s1">&#39;stages_completed&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">stages</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Template loading</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="load_template">
+<a class="viewcode-back" href="../../module_docs/brand/pipeline.html#brand.pipeline.load_template">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_template</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a pipeline template by name.</span>
+
+<span class="sd">    Searches the built-in templates directory and returns a list of stage</span>
+<span class="sd">    objects.</span>
+
+<span class="sd">    &gt;&gt;&gt; stages = load_template(&#39;quick_screen&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; len(stages) &gt; 0</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">templates_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Try .json file</span>
+    <span class="n">json_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">templates_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">.json&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">json_path</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">_read_json</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span>
+        <span class="n">stage_dicts</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;stages&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="n">stages_from_dicts</span><span class="p">(</span><span class="n">stage_dicts</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;No template named </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">. &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;Available templates: </span><span class="si">{</span><span class="n">list_templates</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="list_templates">
+<a class="viewcode-back" href="../../module_docs/brand/pipeline.html#brand.pipeline.list_templates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_templates</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List available pipeline template names.</span>
+
+<span class="sd">    &gt;&gt;&gt; &#39;quick_screen&#39; in list_templates()</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">templates_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">templates_dir</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">f</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">templates_dir</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Convenience: evaluate a single name</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="evaluate_name">
+<a class="viewcode-back" href="../../module_docs/brand/pipeline.html#brand.pipeline.evaluate_name">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_name</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">scorers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate a single name with a quick scorecard.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        The candidate brand name.</span>
+<span class="sd">    template : str | None</span>
+<span class="sd">        Pipeline template to use. Defaults to ``&#39;quick_screen&#39;``.</span>
+<span class="sd">    scorers : list[str] | None</span>
+<span class="sd">        Explicit list of scorer names. Overrides template.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        ``{&#39;name&#39;: str, &#39;scores&#39;: {...}}``</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; result = evaluate_name(&#39;figiri&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; &#39;syllables&#39; in result[&#39;scores&#39;]</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">scorers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Generate</span><span class="p">(</span><span class="s1">&#39;from_list&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span><span class="p">]}),</span>
+            <span class="n">Score</span><span class="p">(</span><span class="n">scorers</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="k">elif</span> <span class="n">template</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="n">load_template</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Default: quick local scoring</span>
+        <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Generate</span><span class="p">(</span><span class="s1">&#39;from_list&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">name</span><span class="p">]}),</span>
+            <span class="n">Score</span><span class="p">([</span>
+                <span class="s1">&#39;syllables&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;stress_pattern&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;spelling_transparency&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;sound_symbolism&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;novelty&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;substring_hazards&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;letter_balance&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;keyboard_distance&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;name_length&#39;</span><span class="p">,</span>
+            <span class="p">]),</span>
+        <span class="p">]</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span><span class="n">stages</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;candidates&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;candidates&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;scores&#39;</span><span class="p">:</span> <span class="p">{}}</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

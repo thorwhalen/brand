@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand.stages &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="brand.templates" href="templates.html" />
+    <link rel="prev" title="brand.search_names" href="search_names.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search_names.html">brand.search_names</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">brand.stages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#brand.stages.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.stages.Generate"><code class="docutils literal notranslate"><span class="pre">Generate</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.stages.Score"><code class="docutils literal notranslate"><span class="pre">Score</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.stages.stage_from_dict"><code class="docutils literal notranslate"><span class="pre">stage_from_dict()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.stages.stages_from_dicts"><code class="docutils literal notranslate"><span class="pre">stages_from_dicts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.stages.stages_to_dicts"><code class="docutils literal notranslate"><span class="pre">stages_to_dicts()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">brand.stages</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/brand/stages.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-brand.stages">
+<span id="brand-stages"></span><h1>brand.stages<a class="headerlink" href="#module-brand.stages" title="Link to this heading"></a></h1>
+<p>Pipeline stage definitions: Generate, Score, Filter.</p>
+<p>Stages are simple dataclasses that describe <em>what</em> to do at each step of a
+pipeline.  They are serializable to/from dicts (and therefore JSON) so that
+pipeline definitions can be persisted and replayed.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="brand.stages.Filter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">brand.stages.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">top_n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_pct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">by</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/stages.html#Filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.stages.Filter" title="Link to this definition"></a></dt>
+<dd><p>Reduce the candidate set based on accumulated scores.</p>
+<p>Exactly one of <code class="docutils literal notranslate"><span class="pre">top_n</span></code>, <code class="docutils literal notranslate"><span class="pre">top_pct</span></code>, or <code class="docutils literal notranslate"><span class="pre">rules</span></code> should be set (or a
+combination).  Rules are dicts mapping scorer names to required values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> — exact match (good for boolean scorers like availability)</p></li>
+<li><p>A number — minimum threshold</p></li>
+<li><p>A dict <code class="docutils literal notranslate"><span class="pre">{&quot;op&quot;:</span> <span class="pre">&quot;&gt;=&quot;,</span> <span class="pre">&quot;value&quot;:</span> <span class="pre">5}</span></code> — comparison</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>top_n</strong> (<em>int</em><em> | </em><em>None</em>) – Keep the top <em>N</em> candidates by <code class="docutils literal notranslate"><span class="pre">by</span></code> scorer (or aggregate).</p></li>
+<li><p><strong>top_pct</strong> (<em>float</em><em> | </em><em>None</em>) – Keep the top <em>P%</em> of candidates.</p></li>
+<li><p><strong>by</strong> (<em>str</em><em> | </em><em>None</em>) – Scorer name to rank by. Defaults to <code class="docutils literal notranslate"><span class="pre">'aggregate'</span></code>.</p></li>
+<li><p><strong>rules</strong> (<em>dict</em><em> | </em><em>None</em>) – <code class="docutils literal notranslate"><span class="pre">{scorer_name:</span> <span class="pre">required_value}</span></code> mapping.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">Filter</span><span class="p">(</span><span class="n">rules</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dns_com&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="go">{&#39;type&#39;: &#39;filter&#39;, &#39;rules&#39;: {&#39;dns_com&#39;: True}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="brand.stages.Generate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">brand.stages.</span></span><span class="sig-name descname"><span class="pre">Generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">generator:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/stages.html#Generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.stages.Generate" title="Link to this definition"></a></dt>
+<dd><p>Produce candidate names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>generator</strong> (<em>str</em>) – Name of a registered generator (e.g. <code class="docutils literal notranslate"><span class="pre">'cvcvcv'</span></code>, <code class="docutils literal notranslate"><span class="pre">'ai_suggest'</span></code>).</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – Keyword arguments forwarded to the generator function.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">Generate</span><span class="p">(</span><span class="s1">&#39;cvcvcv&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;consonants&#39;</span><span class="p">:</span> <span class="s1">&#39;bdfglmnprstvz&#39;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="go">{&#39;type&#39;: &#39;generate&#39;, &#39;generator&#39;: &#39;cvcvcv&#39;, &#39;params&#39;: {&#39;consonants&#39;: &#39;bdfglmnprstvz&#39;}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="brand.stages.Score">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">brand.stages.</span></span><span class="sig-name descname"><span class="pre">Score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scorers:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/stages.html#Score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.stages.Score" title="Link to this definition"></a></dt>
+<dd><p>Compute one or more metrics on each candidate name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>scorers</strong> (<em>list</em>) – Each element is either a scorer name (str) or a <code class="docutils literal notranslate"><span class="pre">(name,</span> <span class="pre">params_dict)</span></code>
+tuple for scorers that need configuration.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">Score</span><span class="p">([</span><span class="s1">&#39;phonotactic&#39;</span><span class="p">,</span> <span class="s1">&#39;syllables&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;dns&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;tlds&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;.com&#39;</span><span class="p">,</span> <span class="s1">&#39;.io&#39;</span><span class="p">]})])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+<span class="go">&#39;score&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.stages.stage_from_dict">
+<span class="sig-prename descclassname"><span class="pre">brand.stages.</span></span><span class="sig-name descname"><span class="pre">stage_from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/stages.html#stage_from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.stages.stage_from_dict" title="Link to this definition"></a></dt>
+<dd><p>Deserialize a stage dict into its dataclass.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stage_from_dict</span><span class="p">({</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;generate&#39;</span><span class="p">,</span> <span class="s1">&#39;generator&#39;</span><span class="p">:</span> <span class="s1">&#39;cvcvcv&#39;</span><span class="p">})</span>
+<span class="go">Generate(generator=&#39;cvcvcv&#39;, params={})</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.stages.stages_from_dicts">
+<span class="sig-prename descclassname"><span class="pre">brand.stages.</span></span><span class="sig-name descname"><span class="pre">stages_from_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dicts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="../../_modules/brand/stages.html#stages_from_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.stages.stages_from_dicts" title="Link to this definition"></a></dt>
+<dd><p>Deserialize a list of dicts into stage objects.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.stages.stages_to_dicts">
+<span class="sig-prename descclassname"><span class="pre">brand.stages.</span></span><span class="sig-name descname"><span class="pre">stages_to_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/stages.html#stages_to_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.stages.stages_to_dicts" title="Link to this definition"></a></dt>
+<dd><p>Serialize a list of stages to a list of dicts.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="search_names.html" class="btn btn-neutral float-left" title="brand.search_names" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="templates.html" class="btn btn-neutral float-right" title="brand.templates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

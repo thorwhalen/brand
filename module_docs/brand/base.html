@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand.base &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="brand.config" href="config.html" />
+    <link rel="prev" title="brand._scorers.visual" href="_scorers/visual.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">brand.base</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.IterableNamespace"><code class="docutils literal notranslate"><span class="pre">IterableNamespace</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.ai_analyze_names"><code class="docutils literal notranslate"><span class="pre">ai_analyze_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.ask_ai_to_generate_names"><code class="docutils literal notranslate"><span class="pre">ask_ai_to_generate_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.batch_check_available"><code class="docutils literal notranslate"><span class="pre">batch_check_available()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.domain_exists"><code class="docutils literal notranslate"><span class="pre">domain_exists()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.domain_exists_socket"><code class="docutils literal notranslate"><span class="pre">domain_exists_socket()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.domain_exists_whois"><code class="docutils literal notranslate"><span class="pre">domain_exists_whois()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.domain_name_is_available"><code class="docutils literal notranslate"><span class="pre">domain_name_is_available()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.english_words_gen"><code class="docutils literal notranslate"><span class="pre">english_words_gen()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand.base.name_is_available"><code class="docutils literal notranslate"><span class="pre">name_is_available()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">brand.base</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/brand/base.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-brand.base">
+<span id="brand-base"></span><h1>brand.base<a class="headerlink" href="#module-brand.base" title="Link to this heading"></a></h1>
+<p>Base functions for brand</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="brand.base.IterableNamespace">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">IterableNamespace</span></span><a class="reference internal" href="../../_modules/brand/base.html#IterableNamespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.IterableNamespace" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.ai_analyze_names">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">ai_analyze_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#ai_analyze_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.ai_analyze_names" title="Link to this definition"></a></dt>
+<dd><p>Ask the brand-expert AI to analyze names for a given context.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.ask_ai_to_generate_names">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">ask_ai_to_generate_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#ask_ai_to_generate_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.ask_ai_to_generate_names" title="Link to this definition"></a></dt>
+<dd><p>Ask the AI to generate names for a given context.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.batch_check_available">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">batch_check_available</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">names</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tld</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.com'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dns_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whois_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">whois_batch_sleep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_available</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#batch_check_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.batch_check_available" title="Link to this definition"></a></dt>
+<dd><p>Two-pass domain availability check: fast DNS then WHOIS verification.</p>
+<p>Pass 1 (fast, parallel): DNS lookup filters out domains that resolve.
+Pass 2 (slower, parallel): WHOIS verification on DNS-negative candidates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>names</strong> – Iterable of domain names (without TLD).</p></li>
+<li><p><strong>tld</strong> – TLD to append (default ‘.com’).</p></li>
+<li><p><strong>dns_workers</strong> – Number of parallel DNS workers.</p></li>
+<li><p><strong>whois_workers</strong> – Number of parallel WHOIS workers.</p></li>
+<li><p><strong>whois_batch_sleep</strong> – Seconds to sleep between WHOIS batches.</p></li>
+<li><p><strong>on_available</strong> – Optional callback(name) when a name is confirmed available.</p></li>
+<li><p><strong>on_progress</strong> – Optional callback(phase, checked, total, available_count).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict with keys ‘available’, ‘not_available’, ‘dns_negative’ (pre-whois).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.domain_exists">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">domain_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tld</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.com'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#domain_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.domain_exists" title="Link to this definition"></a></dt>
+<dd><p>Check if a domain exists (is registered or resolves).
+Uses fast DNS check first, then WHOIS if DNS fails to reduce false negatives.
+Returns False if the domain is likely available (unregistered).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>domain</strong> – Domain name (e.g., ‘example’, ‘example.com’).</p></li>
+<li><p><strong>tld</strong> – TLD to append if none provided (default ‘.com’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if domain exists (registered or resolves), False if likely available.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">domain_exists</span><span class="p">(</span><span class="s1">&#39;google.com&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">domain_exists</span><span class="p">(</span><span class="s1">&#39;asdfaksdjhfsd2384udifyiwue.org&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.domain_exists_socket">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">domain_exists_socket</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#domain_exists_socket"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.domain_exists_socket" title="Link to this definition"></a></dt>
+<dd><p>Check if a domain resolves via DNS lookup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>domain</strong> – Domain name (e.g., ‘example.com’).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if domain resolves, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.domain_exists_whois">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">domain_exists_whois</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">domain</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#domain_exists_whois"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.domain_exists_whois" title="Link to this definition"></a></dt>
+<dd><p>Check if a domain is registered via WHOIS lookup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>domain</strong> – Domain name (e.g., ‘example.com’).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if domain is registered, False if likely unregistered.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.domain_name_is_available">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">domain_name_is_available</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tld</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.com'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#domain_name_is_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.domain_name_is_available" title="Link to this definition"></a></dt>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;google.com&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;asdfaksdjhfsd2384udifyiwue.org&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.english_words_gen">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">english_words_gen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.*'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/base.html#english_words_gen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.english_words_gen" title="Link to this definition"></a></dt>
+<dd><p>Get an iterable of English words.</p>
+<p>You can pre-filter the words using regular expressions.</p>
+<p>Note that the dictionary is quite large; larger than the usual “scrabble-allowed”
+dictionaries.</p>
+<p>Note that you often want to post-filter as well.
+You can do so simply by using the <cite>filter</cite> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pattern</strong> – Regular expression to filter with</p>
+</dd>
+</dl>
+<p>Tip: to sort by word length, do <code class="docutils literal notranslate"><span class="pre">sorted(english_words_gen(...,</span> <span class="pre">key=len))</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.base.name_is_available">
+<span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">name_is_available</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tld</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.com'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#brand.base.name_is_available" title="Link to this definition"></a></dt>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;google.com&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;asdfaksdjhfsd2384udifyiwue.org&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="_scorers/visual.html" class="btn btn-neutral float-left" title="brand._scorers.visual" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="config.html" class="btn btn-neutral float-right" title="brand.config" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

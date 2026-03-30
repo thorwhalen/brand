@@ -1,0 +1,4 @@
+brand._scorers.phonetic
+=======================
+.. automodule:: brand._scorers.phonetic
+   :members:

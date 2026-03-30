@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand._generators &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">brand._generators</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for brand._generators</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Name generators: combinatoric, morpheme-based, AI-assisted, and from-list.</span>
+
+<span class="sd">Each generator is a function that returns an iterable of candidate name strings.</span>
+<span class="sd">Generators are registered in the global ``generators`` registry.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">generators</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Constants</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">VOWELS</span> <span class="o">=</span> <span class="s1">&#39;aeiouy&#39;</span>
+<span class="n">CONSONANTS</span> <span class="o">=</span> <span class="s1">&#39;bcdfghjklmnpqrstvwxz&#39;</span>
+<span class="n">FEWER_CONSONANTS</span> <span class="o">=</span> <span class="s1">&#39;bdfglmnprstvz&#39;</span>
+
+<span class="n">_VOWELS_SET</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">VOWELS</span><span class="p">)</span>
+<span class="n">_CONSONANTS_SET</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">CONSONANTS</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Filter helpers (used as default pre-filters for generators)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="few_uniques">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.few_uniques">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">few_uniques</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_uniques</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_unique_vowels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_unique_consonants</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Keep names with limited unique letters and constrained vowel/consonant variety.</span>
+
+<span class="sd">    &gt;&gt;&gt; few_uniques(&#39;bababa&#39;)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; few_uniques(&#39;abcdef&#39;)</span>
+<span class="sd">    False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">letters</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_uniques</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">letters</span> <span class="o">&amp;</span> <span class="n">_VOWELS_SET</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_unique_vowels</span>
+        <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">letters</span> <span class="o">&amp;</span> <span class="n">_CONSONANTS_SET</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_unique_consonants</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Generators</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="cvcvcv">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.cvcvcv">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;cvcvcv&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Generate all 6-letter consonant-vowel-consonant-vowel-consonant-vowel names&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cvcvcv</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">consonants</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FEWER_CONSONANTS</span><span class="p">,</span>
+    <span class="n">vowels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">VOWELS</span><span class="p">,</span>
+    <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate CVCVCV combinations.</span>
+
+<span class="sd">    &gt;&gt;&gt; names = list(cvcvcv(consonants=&#39;b&#39;, vowels=&#39;a&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; names</span>
+<span class="sd">    [&#39;bababa&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gen</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
+        <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span>
+        <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">filt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gen</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">gen</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gen</span></div>
+
+
+
+<div class="viewcode-block" id="cvcvcv_filtered">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.cvcvcv_filtered">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;cvcvcv_filtered&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;CVCVCV names pre-filtered for few unique letters&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cvcvcv_filtered</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">consonants</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FEWER_CONSONANTS</span><span class="p">,</span>
+    <span class="n">vowels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">VOWELS</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;CVCVCV with the ``few_uniques`` filter applied.</span>
+
+<span class="sd">    &gt;&gt;&gt; names = list(cvcvcv_filtered(consonants=&#39;bd&#39;, vowels=&#39;ae&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; &#39;bababa&#39; in names</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">cvcvcv</span><span class="p">(</span><span class="n">consonants</span><span class="o">=</span><span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="o">=</span><span class="n">vowels</span><span class="p">,</span> <span class="n">filt</span><span class="o">=</span><span class="n">few_uniques</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="pattern_generator">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.pattern_generator">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;pattern&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Generate names matching a CV pattern (e.g. &quot;CVCCV&quot;)&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pattern_generator</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;CVCVCV&#39;</span><span class="p">,</span>
+    <span class="n">consonants</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FEWER_CONSONANTS</span><span class="p">,</span>
+    <span class="n">vowels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">VOWELS</span><span class="p">,</span>
+    <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all names matching a consonant/vowel pattern.</span>
+
+<span class="sd">    ``C`` = consonant, ``V`` = vowel.</span>
+
+<span class="sd">    &gt;&gt;&gt; len(list(pattern_generator(pattern=&#39;CV&#39;, consonants=&#39;b&#39;, vowels=&#39;a&#39;)))</span>
+<span class="sd">    1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pools</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span>
+            <span class="n">pools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">consonants</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;V&#39;</span><span class="p">:</span>
+            <span class="n">pools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vowels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pattern must contain only &#39;C&#39; and &#39;V&#39;, got </span><span class="si">{</span><span class="n">char</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">gen</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">pools</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">filt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">gen</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">gen</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gen</span></div>
+
+
+
+<div class="viewcode-block" id="english_words">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.english_words">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;english_words&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;English dictionary words filtered by regex&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">english_words</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;.*&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate English words matching a regex pattern.</span>
+
+<span class="sd">    &gt;&gt;&gt; &#39;cat&#39; in list(english_words(pattern=&#39;^cat$&#39;))</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">lexis</span>
+
+    <span class="n">compiled</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">compiled</span><span class="o">.</span><span class="n">search</span><span class="p">,</span> <span class="n">lexis</span><span class="o">.</span><span class="n">Lemmas</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="from_list">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.from_list">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;from_list&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Load names from an explicit list&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_list</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simply yield the provided names.</span>
+
+<span class="sd">    &gt;&gt;&gt; list(from_list(names=[&#39;alpha&#39;, &#39;beta&#39;]))</span>
+<span class="sd">    [&#39;alpha&#39;, &#39;beta&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">names</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="from_file">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.from_file">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;from_file&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Load names from a text file (one per line)&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read names from a file, one name per line, stripping whitespace.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">line</span></div>
+
+
+
+<div class="viewcode-block" id="ai_suggest">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.ai_suggest">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;ai_suggest&#39;</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;expensive&#39;</span><span class="p">,</span>
+    <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;slow&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;AI-assisted name generation via OpenAI&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ai_suggest</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use an LLM to brainstorm brand names for a given context.</span>
+
+<span class="sd">    Requires the ``oa`` package and an OpenAI API key.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">oa</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;AI generation requires the &#39;oa&#39; package. &quot;</span>
+            <span class="s2">&quot;Install with: pip install oa&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">ask_fn</span> <span class="o">=</span> <span class="n">oa</span><span class="o">.</span><span class="n">prompt_function</span><span class="p">(</span>
+        <span class="s2">&quot;You are an expert brand namer. Suggest </span><span class="si">{n}</span><span class="s2"> creative, memorable brand &quot;</span>
+        <span class="s2">&quot;names (1-15 characters each) for: </span><span class="si">{context}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;Output ONLY the names, one per line, no numbering or explanation.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">ask_fn</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+    <span class="k">return</span> <span class="n">names</span></div>
+
+
+
+<div class="viewcode-block" id="morpheme_combiner">
+<a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.morpheme_combiner">[docs]</a>
+<span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;morpheme_combiner&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Combine morpheme roots to create brand-like portmanteaus&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">morpheme_combiner</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">prefixes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">suffixes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Combine prefix and suffix morphemes to generate portmanteau-style names.</span>
+
+<span class="sd">    &gt;&gt;&gt; sorted(morpheme_combiner(prefixes=[&#39;lum&#39;], suffixes=[&#39;ix&#39;, &#39;ify&#39;]))</span>
+<span class="sd">    [&#39;lumify&#39;, &#39;lumix&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prefixes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">prefixes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;lum&#39;</span><span class="p">,</span> <span class="s1">&#39;clar&#39;</span><span class="p">,</span> <span class="s1">&#39;vox&#39;</span><span class="p">,</span> <span class="s1">&#39;flux&#39;</span><span class="p">,</span> <span class="s1">&#39;syn&#39;</span><span class="p">,</span> <span class="s1">&#39;lex&#39;</span><span class="p">,</span> <span class="s1">&#39;pho&#39;</span><span class="p">,</span> <span class="s1">&#39;zen&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;arc&#39;</span><span class="p">,</span> <span class="s1">&#39;neo&#39;</span><span class="p">,</span> <span class="s1">&#39;axi&#39;</span><span class="p">,</span> <span class="s1">&#39;ori&#39;</span><span class="p">,</span> <span class="s1">&#39;sol&#39;</span><span class="p">,</span> <span class="s1">&#39;nex&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;ver&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;alt&#39;</span><span class="p">,</span> <span class="s1">&#39;cor&#39;</span><span class="p">,</span> <span class="s1">&#39;prim&#39;</span><span class="p">,</span> <span class="s1">&#39;evo&#39;</span><span class="p">,</span> <span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;vis&#39;</span><span class="p">,</span> <span class="s1">&#39;aur&#39;</span><span class="p">,</span> <span class="s1">&#39;tel&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="k">if</span> <span class="n">suffixes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">suffixes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;ify&#39;</span><span class="p">,</span> <span class="s1">&#39;ix&#39;</span><span class="p">,</span> <span class="s1">&#39;io&#39;</span><span class="p">,</span> <span class="s1">&#39;us&#39;</span><span class="p">,</span> <span class="s1">&#39;is&#39;</span><span class="p">,</span> <span class="s1">&#39;ia&#39;</span><span class="p">,</span> <span class="s1">&#39;eo&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span> <span class="s1">&#39;um&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;os&#39;</span><span class="p">,</span> <span class="s1">&#39;al&#39;</span><span class="p">,</span> <span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;yx&#39;</span><span class="p">,</span> <span class="s1">&#39;on&#39;</span><span class="p">,</span> <span class="s1">&#39;or&#39;</span><span class="p">,</span> <span class="s1">&#39;ux&#39;</span><span class="p">,</span> <span class="s1">&#39;ive&#39;</span><span class="p">,</span> <span class="s1">&#39;ent&#39;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">prefixes</span><span class="p">,</span> <span class="n">suffixes</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">suffix</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

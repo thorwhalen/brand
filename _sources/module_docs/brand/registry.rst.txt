@@ -1,0 +1,4 @@
+brand.registry
+==============
+.. automodule:: brand.registry
+   :members:

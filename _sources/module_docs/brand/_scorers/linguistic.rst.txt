@@ -1,0 +1,4 @@
+brand._scorers.linguistic
+=========================
+.. automodule:: brand._scorers.linguistic
+   :members:

@@ -1,0 +1,796 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand.base &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">brand.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for brand.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Base functions for brand&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">MutableMapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">sleep</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dol</span><span class="w"> </span><span class="kn">import</span> <span class="n">PickleFiles</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_progress</span><span class="p">,</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">,</span> <span class="n">StoreType</span>
+
+
+<div class="viewcode-block" id="english_words_gen">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.english_words_gen">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">english_words_gen</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;.*&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get an iterable of English words.</span>
+
+<span class="sd">    You can pre-filter the words using regular expressions.</span>
+
+<span class="sd">    Note that the dictionary is quite large; larger than the usual &quot;scrabble-allowed&quot;</span>
+<span class="sd">    dictionaries.</span>
+
+<span class="sd">    Note that you often want to post-filter as well.</span>
+<span class="sd">    You can do so simply by using the `filter` function.</span>
+
+<span class="sd">    :param pattern: Regular expression to filter with</span>
+
+<span class="sd">    Tip: to sort by word length, do ``sorted(english_words_gen(..., key=len))``.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">lexis</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">,</span> <span class="n">lexis</span><span class="o">.</span><span class="n">Lemmas</span><span class="p">())</span></div>
+
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">timeout_decorator</span><span class="w"> </span><span class="kn">import</span> <span class="n">timeout</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">whois</span>
+
+<span class="c1"># Global timeout variables, allowing user to modify before calling functions</span>
+<span class="c1"># Note: If changing these is a frequent use case, consider making them parameters</span>
+<span class="c1">#       of the functions instead.</span>
+<span class="n">DNS_TIMEOUT</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># seconds</span>
+<span class="n">WHOIS_TIMEOUT</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># seconds</span>
+
+
+<div class="viewcode-block" id="domain_exists_socket">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.domain_exists_socket">[docs]</a>
+<span class="nd">@timeout</span><span class="p">(</span><span class="n">DNS_TIMEOUT</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">domain_exists_socket</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a domain resolves via DNS lookup.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        domain: Domain name (e.g., &#39;example.com&#39;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if domain resolves, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">gaierror</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="domain_exists_whois">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.domain_exists_whois">[docs]</a>
+<span class="nd">@timeout</span><span class="p">(</span><span class="n">WHOIS_TIMEOUT</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">domain_exists_whois</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a domain is registered via WHOIS lookup.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        domain: Domain name (e.g., &#39;example.com&#39;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if domain is registered, False if likely unregistered.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">whois</span><span class="o">.</span><span class="n">whois</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="domain_exists">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.domain_exists">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">domain_exists</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">tld</span><span class="o">=</span><span class="s2">&quot;.com&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if a domain exists (is registered or resolves).</span>
+<span class="sd">    Uses fast DNS check first, then WHOIS if DNS fails to reduce false negatives.</span>
+<span class="sd">    Returns False if the domain is likely available (unregistered).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        domain: Domain name (e.g., &#39;example&#39;, &#39;example.com&#39;).</span>
+<span class="sd">        tld: TLD to append if none provided (default &#39;.com&#39;).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if domain exists (registered or resolves), False if likely available.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; domain_exists(&#39;google.com&#39;)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; domain_exists(&#39;asdfaksdjhfsd2384udifyiwue.org&#39;)</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;.&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">domain</span><span class="p">:</span>
+        <span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span> <span class="o">+</span> <span class="n">tld</span>
+
+    <span class="c1"># Fast DNS check first</span>
+    <span class="k">if</span> <span class="n">domain_exists_socket</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1"># If DNS fails, double-check with WHOIS to reduce false negatives</span>
+    <span class="k">return</span> <span class="n">domain_exists_whois</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="domain_name_is_available">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.domain_name_is_available">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">domain_name_is_available</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">tld</span><span class="o">=</span><span class="s1">&#39;.com&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; name_is_available(&#39;google.com&#39;)</span>
+<span class="sd">    False</span>
+<span class="sd">    &gt;&gt;&gt; name_is_available(&#39;asdfaksdjhfsd2384udifyiwue.org&#39;)</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="n">domain_exists</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">tld</span><span class="o">=</span><span class="n">tld</span><span class="p">)</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">TimeoutError</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;!!! Timedout or error: whois </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<span class="n">name_is_available</span> <span class="o">=</span> <span class="n">domain_name_is_available</span>  <span class="c1"># back-compatibility alias</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dns_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fast DNS-only check. Returns True if domain does NOT resolve (likely available).&quot;&quot;&quot;</span>
+    <span class="n">old_timeout</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">getdefaulttimeout</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">gethostbyname</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># resolved -&gt; exists -&gt; not available</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gaierror</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">timeout</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># no DNS -&gt; likely available</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="n">old_timeout</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_whois_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;WHOIS-based check. Returns True if domain appears unregistered.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">whois</span><span class="o">.</span><span class="n">whois</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">domain_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># whois error on nonsense domains usually means unregistered</span>
+
+
+<div class="viewcode-block" id="batch_check_available">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.batch_check_available">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">batch_check_available</span><span class="p">(</span>
+    <span class="n">names</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">tld</span><span class="o">=</span><span class="s1">&#39;.com&#39;</span><span class="p">,</span>
+    <span class="n">dns_workers</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">whois_workers</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">whois_batch_sleep</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">on_available</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">on_progress</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Two-pass domain availability check: fast DNS then WHOIS verification.</span>
+
+<span class="sd">    Pass 1 (fast, parallel): DNS lookup filters out domains that resolve.</span>
+<span class="sd">    Pass 2 (slower, parallel): WHOIS verification on DNS-negative candidates.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        names: Iterable of domain names (without TLD).</span>
+<span class="sd">        tld: TLD to append (default &#39;.com&#39;).</span>
+<span class="sd">        dns_workers: Number of parallel DNS workers.</span>
+<span class="sd">        whois_workers: Number of parallel WHOIS workers.</span>
+<span class="sd">        whois_batch_sleep: Seconds to sleep between WHOIS batches.</span>
+<span class="sd">        on_available: Optional callback(name) when a name is confirmed available.</span>
+<span class="sd">        on_progress: Optional callback(phase, checked, total, available_count).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict with keys &#39;available&#39;, &#39;not_available&#39;, &#39;dns_negative&#39; (pre-whois).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+
+    <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+    <span class="c1"># --- Pass 1: DNS ---</span>
+    <span class="n">dns_negative</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># no DNS -&gt; candidates for availability</span>
+    <span class="n">dns_positive</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># DNS resolves -&gt; definitely not available</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dns_check</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">domain</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="n">tld</span> <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">_dns_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">dns_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">_dns_check</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">names</span><span class="p">}</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">is_avail</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">done</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">is_avail</span><span class="p">:</span>
+                <span class="n">dns_negative</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dns_positive</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">on_progress</span> <span class="ow">and</span> <span class="n">done</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">on_progress</span><span class="p">(</span><span class="s1">&#39;dns&#39;</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns_negative</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">on_progress</span><span class="p">:</span>
+        <span class="n">on_progress</span><span class="p">(</span><span class="s1">&#39;dns&#39;</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns_negative</span><span class="p">))</span>
+
+    <span class="c1"># --- Pass 2: WHOIS verification on DNS-negative candidates ---</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">whois_not_available</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_whois_check</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="n">domain</span> <span class="o">=</span> <span class="n">name</span> <span class="o">+</span> <span class="n">tld</span> <span class="k">if</span> <span class="s1">&#39;.&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">_whois_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
+
+    <span class="n">whois_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dns_negative</span><span class="p">)</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">whois_workers</span> <span class="o">*</span> <span class="mi">2</span>
+
+    <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">whois_total</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">dns_negative</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">whois_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+            <span class="n">futures</span> <span class="o">=</span> <span class="p">{</span><span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">_whois_check</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+                <span class="n">name</span><span class="p">,</span> <span class="n">is_avail</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">is_avail</span><span class="p">:</span>
+                    <span class="n">available</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">on_available</span><span class="p">:</span>
+                        <span class="n">on_available</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">whois_not_available</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">checked</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">whois_total</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">on_progress</span><span class="p">:</span>
+            <span class="n">on_progress</span><span class="p">(</span><span class="s1">&#39;whois&#39;</span><span class="p">,</span> <span class="n">checked</span><span class="p">,</span> <span class="n">whois_total</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">available</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span> <span class="o">&lt;</span> <span class="n">whois_total</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="n">whois_batch_sleep</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;available&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">available</span><span class="p">),</span>
+        <span class="s1">&#39;not_available&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dns_positive</span> <span class="o">+</span> <span class="n">whois_not_available</span><span class="p">),</span>
+        <span class="s1">&#39;dns_negative&#39;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dns_negative</span><span class="p">),</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="c1"># from graze import Graze</span>
+<span class="c1"># g = Graze(os.path.join(rootdir, &#39;htmls&#39;))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_to_set</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">get_store</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+    <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">store</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">set</span><span class="p">()))</span> <span class="o">|</span> <span class="p">{</span><span class="n">value</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">available_names</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;available_names.p&quot;</span><span class="p">):</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">get_store</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+        <span class="c1"># If the key does not exist, create it</span>
+        <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">not_available_names</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;not_available.p&quot;</span><span class="p">):</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">get_store</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">store</span><span class="p">:</span>
+        <span class="c1"># If the key does not exist, create it</span>
+        <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">already_checked_names</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">):</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">get_store</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">available_names</span><span class="p">(</span><span class="n">store</span><span class="p">)</span> <span class="o">|</span> <span class="n">not_available_names</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_names</span><span class="p">(</span>
+    <span class="n">names</span><span class="p">,</span>
+    <span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">,</span>
+    <span class="n">domain_suffix</span><span class="o">=</span><span class="s2">&quot;.com&quot;</span><span class="p">,</span>
+    <span class="n">same_line_print</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">available_name_msg</span><span class="o">=</span><span class="s2">&quot;---&gt; Found available name: &quot;</span><span class="p">,</span>
+    <span class="n">progress_prints</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">skip_names</span> <span class="o">=</span> <span class="n">already_checked_names</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">skip_names</span><span class="p">,</span> <span class="n">names</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">progress_prints</span><span class="p">:</span>
+            <span class="n">print_progress</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">refresh</span><span class="o">=</span><span class="n">same_line_print</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name_is_available</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="n">domain_suffix</span><span class="p">):</span>
+            <span class="n">add_to_set</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="s2">&quot;not_available.p&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">available_name_msg</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">available_name_msg</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">add_to_set</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="s2">&quot;available_names.p&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+
+<span class="n">vowels</span> <span class="o">=</span> <span class="s2">&quot;aeiouy&quot;</span>
+<span class="n">consonants</span> <span class="o">=</span> <span class="s2">&quot;bcdfghjklmnpqrstvwxz&quot;</span>
+<span class="n">fewer_consonants</span> <span class="o">=</span> <span class="s2">&quot;bdfglmnprstvz&quot;</span>
+
+<span class="n">_vowels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">vowels</span><span class="p">)</span>
+<span class="n">_consonants</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">consonants</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">all_cvcvcv</span><span class="p">(</span><span class="n">consonants</span><span class="o">=</span><span class="n">fewer_consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="o">=</span><span class="n">vowels</span><span class="p">):</span>
+    <span class="k">yield from</span> <span class="nb">map</span><span class="p">(</span>
+        <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span>
+        <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">few_uniques</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">max_uniks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_unik_vowels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_unik_consonants</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">letters</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_uniks</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">letters</span> <span class="o">&amp;</span> <span class="n">_vowels</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_unik_vowels</span>
+            <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">letters</span> <span class="o">&amp;</span> <span class="n">_consonants</span><span class="p">)</span> <span class="o">==</span> <span class="n">max_unik_consonants</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_dir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">dirpath</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Making the directory: </span><span class="si">{</span><span class="n">dirpath</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_name_generator</span><span class="p">(</span><span class="n">name_generator</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">name_generator</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_generator</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">name_generator</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">name_generator</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">name_generator</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">iter</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">):</span>
+            <span class="n">iterable</span> <span class="o">=</span> <span class="n">name_generator</span>
+            <span class="n">name_generator</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected a callable, a string (file path), or an iterable, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;but got: </span><span class="si">{</span><span class="n">name_generator</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name_generator</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">name_generator</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_store</span><span class="p">(</span><span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">store</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="n">PickleFiles</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="n">store</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+        <span class="c1"># elif parent of path is a directory (but path itself is not) mkdir the path</span>
+        <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">)):</span>
+            <span class="n">ensure_dir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="n">PickleFiles</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid store path: </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">MutableMapping</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">store</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">try_some_names</span><span class="p">(</span>
+    <span class="n">name_generator</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="n">all_cvcvcv</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">store</span><span class="p">:</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">DFLT_ROOT_DIR</span><span class="p">,</span>
+    <span class="n">filt</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">same_line_print</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">process_names</span><span class="o">=</span><span class="n">process_names</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">name_generator</span> <span class="o">=</span> <span class="n">_get_name_generator</span><span class="p">(</span><span class="n">name_generator</span><span class="p">)</span>
+    <span class="n">store</span> <span class="o">=</span> <span class="n">get_store</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+    <span class="n">_already_checked</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">already_checked_names</span><span class="p">(</span><span class="n">store</span><span class="p">))</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+        <span class="nb">filter</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_already_checked</span> <span class="ow">and</span> <span class="n">filt</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">name_generator</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span><span class="si">}</span><span class="s2"> names will be checked...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--------------------------------------------------------------------------&quot;</span><span class="p">)</span>
+    <span class="n">process_names</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">same_line_print</span><span class="o">=</span><span class="n">same_line_print</span><span class="p">)</span>
+    <span class="n">new_names</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="s1">&#39;available_names.p&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">new_names</span>
+
+
+<span class="n">try_some_cvcvcvs</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+    <span class="n">try_some_names</span><span class="p">,</span>
+    <span class="n">store</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DFLT_ROOT_DIR</span><span class="p">,</span> <span class="s1">&#39;cvcvcv&#39;</span><span class="p">),</span>
+    <span class="n">name_generator</span><span class="o">=</span><span class="n">all_cvcvcv</span><span class="p">,</span>
+    <span class="n">filt</span><span class="o">=</span><span class="n">few_uniques</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Original try_some_cvcvcvs</span>
+<span class="c1"># def try_some_cvcvcvs(</span>
+<span class="c1">#     store: StoreType = DFLT_ROOT_DIR,</span>
+<span class="c1">#     name_generator: Union[Callable, str, Iterable] = all_cvcvcv,</span>
+<span class="c1">#     filt: Callable = few_uniques,</span>
+<span class="c1">#     same_line_print: bool = False,</span>
+<span class="c1"># ):</span>
+
+<span class="c1">#     name_generator = _get_name_generator(name_generator)</span>
+<span class="c1">#     store = get_store(store)</span>
+<span class="c1">#     names = sorted(set(filter(filt, name_generator())) - already_checked_names(store))</span>
+<span class="c1">#     print(f&quot;{len(names)} names will be checked...&quot;)</span>
+<span class="c1">#     print(&quot;--------------------------------------------------------------------------&quot;)</span>
+<span class="c1">#     process_names(names, store, same_line_print=same_line_print)</span>
+
+
+<span class="n">checked_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;- \d+: (\w+)&quot;</span><span class="p">)</span>
+<span class="n">available_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;---&gt; Found available name: (\w+)&quot;</span><span class="p">)</span>
+<span class="n">timedout_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;!!! Timedout: whois (\w+).com&quot;</span><span class="p">)</span>
+<span class="n">error_p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;!!! An error occured with name: (\w+).com&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">logs_diagnosis</span><span class="p">(</span><span class="n">log_text</span><span class="p">):</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">tag_line</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">checked_p</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;checked&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">available_p</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;available&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">timedout_p</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;timedout&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">error_p</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">line</span>
+
+    <span class="n">w</span> <span class="o">=</span> <span class="n">log_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">map</span><span class="p">(</span><span class="n">tag_line</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># AI-based generation</span>
+
+<span class="n">brand_name_analysis_criteria</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">• Meaningfulness &amp; Flexibility: A name that communicates your brand’s core values creates immediate emotional resonance; however, if it’s too literal or specific, it can pigeonhole the brand, making future diversification or pivots more challenging.</span>
+<span class="s2">• Distinctiveness: A unique name helps the brand stand out in a crowded market, ensuring it isn’t easily confused with competitors.</span>
+<span class="s2">• Memorability: An easily recalled name fosters word-of-mouth promotion and ensures that the brand remains top-of-mind for consumers.</span>
+<span class="s2">• Pronounceability &amp; Spelling: A name that is simple to say and spell reduces confusion, aids in effective communication, and enhances online searchability.</span>
+<span class="s2">• Simplicity: Short, concise names are generally more user-friendly and can be more easily integrated into marketing materials and digital platforms.</span>
+<span class="s2">• Future-Proofing: The chosen name should be adaptable enough to support brand evolution and expansion, avoiding constraints imposed by overly descriptive terms.</span>
+<span class="s2">• Legal Availability: It’s essential that the name can be trademarked and isn’t already in use to prevent costly legal disputes and ensure exclusive brand identity.</span>
+<span class="s2">• SEO &amp; Digital Friendliness: A distinctive and searchable name enhances online visibility, making it easier for consumers to find and engage with the brand.</span>
+<span class="s2">• Cultural Sensitivity: The name should translate well across different languages and cultures, avoiding negative connotations or misinterpretations in global markets.</span>
+<span class="s2">• Visual &amp; Aesthetic Appeal: A name that lends itself to a compelling visual identity can enhance logo design and overall brand presentation, reinforcing recognition.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="ask_ai_to_generate_names">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.ask_ai_to_generate_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ask_ai_to_generate_names</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask the AI to generate names for a given context.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">oa</span>  <span class="c1"># pip install oa  (will required an openai api key to be specified)</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    You are an expert in branding and you are helping a client come up with a name for</span>
+<span class="s2">    </span><span class="se">{{</span><span class="s2">thing</span><span class="se">}}</span><span class="s2">.</span>
+<span class="s2">    Suggest </span><span class="se">{{</span><span class="s2">n:30</span><span class="se">}}</span><span class="s2"> names between </span><span class="se">{{</span><span class="s2">min_length:1</span><span class="se">}}</span><span class="s2"> and </span><span class="se">{{</span><span class="s2">max_length:15</span><span class="se">}}</span><span class="s2"> characters long.</span>
+
+<span class="s2">    Only output the names, one per line with no words before or after it, </span>
+<span class="s2">    since I will be parsing the output.</span>
+
+<span class="s2">    You should choose these names in consideration of the following criteria:</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">brand_name_analysis_criteria</span><span class="si">}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">string_response</span> <span class="o">=</span> <span class="n">oa</span><span class="o">.</span><span class="n">ask</span><span class="o">.</span><span class="n">ai</span><span class="o">.</span><span class="n">suggest_names</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">string_response</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;An error occured: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Here&#39;s the raw response of the AI:</span><span class="se">\n</span><span class="si">{</span><span class="n">string_response</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ai_analyze_names">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.ai_analyze_names">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ai_analyze_names</span><span class="p">(</span>
+    <span class="n">names</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">json_output</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ask the brand-expert AI to analyze names for a given context.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">oa</span>  <span class="c1"># pip install oa  (will required an openai api key to be specified)</span>
+
+    <span class="n">template</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    You are a brand consultant and you are helping a client come up with a name for </span>
+<span class="s2">    their nes product or business. </span>
+<span class="s2">    The context (may) be give below (if empty, just consider a general context).</span>
+
+<span class="s2">    The client has some ideas for names, given below. </span>
+<span class="s2">    You need to analyze the names, score them, and list them from best to worst, </span>
+<span class="s2">    explaining what the pros and cons of each name are.</span>
+<span class="s2">    Score should be from 1 to 9, with 1 being worst and 9 being best.</span>
+
+<span class="s2">    You will base your analysis on the following criteria:</span>
+<span class="s2">    </span><span class="si">{</span><span class="n">brand_name_analysis_criteria</span><span class="si">}</span>
+
+<span class="s2">    Names:</span>
+<span class="s2">    </span><span class="se">{{</span><span class="s2">names</span><span class="se">}}</span>
+
+<span class="s2">    Context: </span><span class="se">{{</span><span class="s2">context:</span><span class="se">}}</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">json_output</span><span class="p">:</span>
+        <span class="n">ask_ai</span> <span class="o">=</span> <span class="n">oa</span><span class="o">.</span><span class="n">prompt_json_function</span><span class="p">(</span>
+            <span class="n">template</span><span class="p">,</span>
+            <span class="n">json_schema</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;RankedAnalysisSchema&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;items&#39;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">{</span>
+                                <span class="s1">&#39;analysis&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">},</span>
+                                <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;string&#39;</span><span class="p">},</span>
+                                <span class="s1">&#39;score&#39;</span><span class="p">:</span> <span class="p">{</span>
+                                    <span class="s1">&#39;maximum&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+                                    <span class="s1">&#39;minimum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;integer&#39;</span><span class="p">,</span>
+                                <span class="p">},</span>
+                            <span class="p">},</span>
+                            <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;analysis&#39;</span><span class="p">],</span>
+                            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
+                        <span class="p">},</span>
+                        <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;array&#39;</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;required&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;items&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;object&#39;</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ask_ai</span> <span class="o">=</span> <span class="n">oa</span><span class="o">.</span><span class="n">prompt_function</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ask_ai</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># --------------------------------------------------------------------------------------</span>
+<span class="c1"># availability check</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="n">ResponseBoolFunc</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">requests</span><span class="o">.</span><span class="n">Response</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">status_code_says_it_is_available</span><span class="p">(</span>
+    <span class="n">response</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">is_available_status_codes</span><span class="o">=</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="mi">410</span><span class="p">),</span>
+    <span class="n">is_not_available_status_codes</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">301</span><span class="p">),</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">is_available_status_codes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">is_not_available_status_codes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;unexpected status code: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">status_code_says_it_is_available</span><span class="p">:</span> <span class="n">ResponseBoolFunc</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">url_says_it_is_available</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">,</span>
+    <span class="n">name_to_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">response_bool_func</span><span class="p">:</span> <span class="n">ResponseBoolFunc</span> <span class="o">=</span> <span class="n">status_code_says_it_is_available</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">request_func</span><span class="o">=</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">name_to_url</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">request_func</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response_bool_func</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">template_based_availability_func</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">url_says_it_is_available</span><span class="p">,</span> <span class="n">name_to_url</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleNamespace</span>
+
+
+<div class="viewcode-block" id="IterableNamespace">
+<a class="viewcode-back" href="../../module_docs/brand/base.html#brand.base.IterableNamespace">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">IterableNamespace</span><span class="p">(</span><span class="n">SimpleNamespace</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">is_available_as</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">attr</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">url_template_base_availability</span><span class="p">(</span><span class="n">templates</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">IterableNamespace</span><span class="p">(</span>
+        <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">template_based_availability_func</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">templates</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="p">)</span>
+
+
+<span class="n">pypi_package_is_available</span> <span class="o">=</span> <span class="n">template_based_availability_func</span><span class="p">(</span>
+    <span class="s2">&quot;https://pypi.org/project/</span><span class="si">{}</span><span class="s2">/&quot;</span>
+<span class="p">)</span>
+
+<span class="n">is_available_as</span> <span class="o">=</span> <span class="n">url_template_base_availability</span><span class="p">(</span>
+    <span class="nb">dict</span><span class="p">(</span>
+        <span class="c1"># www_dot_com=&quot;http://www.{}.com&quot;,  # produces ConnectionError</span>
+        <span class="c1"># domain_name=&quot;https://www.namecheap.com/domains/registration/results/?domain={}&quot;,  # Example using Namecheap for domain check</span>
+        <span class="n">github_org</span><span class="o">=</span><span class="s2">&quot;https://github.com/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="c1"># twitter_profile=&quot;https://twitter.com/{}&quot;,  # response is always 200</span>
+        <span class="c1"># instagram_user=&quot;https://www.instagram.com/{}/&quot;,</span>
+        <span class="c1"># reddit_user=&quot;https://www.reddit.com/user/{}&quot;,  # response is always 200</span>
+        <span class="n">pypi_project</span><span class="o">=</span><span class="s2">&quot;https://pypi.org/project/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">npm_package</span><span class="o">=</span><span class="s2">&quot;https://www.npmjs.com/package/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="c1"># facebook_page=&quot;https://www.facebook.com/{}&quot;,  # response is always 200</span>
+        <span class="c1"># linkedin_company=&quot;https://www.linkedin.com/company/{}/&quot;,  # code 999</span>
+        <span class="n">youtube_channel</span><span class="o">=</span><span class="s2">&quot;https://www.youtube.com/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># add some more complex ones</span>
+<span class="n">is_available_as</span><span class="o">.</span><span class="n">domain_name</span> <span class="o">=</span> <span class="n">domain_name_is_available</span>
+
+
+<span class="c1"># github_org_is_available = template_based_availability_func(&quot;https://github.com/{}&quot;)</span>
+<span class="n">is_available_as</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &gt;&gt;&gt; is_available_as.github_org(&#39;i2mint&#39;)</span>
+<span class="s2">    False</span>
+<span class="s2">    &gt;&gt;&gt; is_available_as.github_org(&#39;__hopefully_this_does_not_exist__&#39;)</span>
+<span class="s2">    True</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

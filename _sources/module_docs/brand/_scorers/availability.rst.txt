@@ -1,0 +1,4 @@
+brand._scorers.availability
+===========================
+.. automodule:: brand._scorers.availability
+   :members:

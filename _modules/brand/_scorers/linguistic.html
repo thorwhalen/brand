@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand._scorers.linguistic &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">brand._scorers.linguistic</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for brand._scorers.linguistic</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Linguistic and semantic scorers.</span>
+
+<span class="sd">These scorers check for existing word collisions, cross-linguistic meanings,</span>
+<span class="sd">profanity substrings, phonetic neighbors, and novelty.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">scorers</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Novelty / word frequency</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="novelty_score">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.novelty_score">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;novelty&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Novelty score via wordfreq (0=common word, 1=completely novel)&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">novelty_score</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Measure how novel a name is using word frequency data.</span>
+
+<span class="sd">    Returns 1.0 for completely novel strings (not in any corpus),</span>
+<span class="sd">    decreasing toward 0.0 for very common words.</span>
+
+<span class="sd">    &gt;&gt;&gt; novelty_score(&#39;the&#39;)  # very common</span>
+<span class="sd">    0.0</span>
+<span class="sd">    &gt;&gt;&gt; novelty_score(&#39;xyzqwk&#39;)  # novel</span>
+<span class="sd">    1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;Could not import &#39;wordfreq&#39;. Install with: pip install wordfreq&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s1">&#39;en&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="c1"># Zipf scale: ~1 = very rare, ~7 = ultra common</span>
+    <span class="c1"># Map to 0-1 where 1 = novel</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">freq</span> <span class="o">/</span> <span class="mf">7.0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="existing_word">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.existing_word">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;existing_word&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Check if name is an existing English word (True=collision)&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">existing_word</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns True if the name is a known English word (i.e., collision risk).</span>
+
+<span class="sd">    &gt;&gt;&gt; existing_word(&#39;apple&#39;)</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; existing_word(&#39;xyzqwk&#39;)</span>
+<span class="sd">    False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
+
+        <span class="k">return</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s1">&#39;en&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="c1"># Fallback to lexis</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">lexis</span>
+
+            <span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">lexis</span><span class="o">.</span><span class="n">Lemmas</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Cross-linguistic safety</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="cross_linguistic_check">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.cross_linguistic_check">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;cross_linguistic&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Check if name means something in major world languages&#39;</span><span class="p">,</span>
+    <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">cross_linguistic_check</span><span class="p">(</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">languages</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="s1">&#39;es&#39;</span><span class="p">,</span> <span class="s1">&#39;fr&#39;</span><span class="p">,</span> <span class="s1">&#39;de&#39;</span><span class="p">,</span> <span class="s1">&#39;pt&#39;</span><span class="p">,</span> <span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;ja&#39;</span><span class="p">,</span> <span class="s1">&#39;zh&#39;</span><span class="p">,</span> <span class="s1">&#39;ar&#39;</span><span class="p">,</span> <span class="s1">&#39;hi&#39;</span><span class="p">,</span> <span class="s1">&#39;ru&#39;</span><span class="p">),</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check word frequency across multiple languages.</span>
+
+<span class="sd">    Returns a dict mapping language codes to their zipf frequency.</span>
+<span class="sd">    A frequency &gt; 0 means the name is a known word in that language.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;wordfreq not installed&#39;</span><span class="p">}</span>
+
+    <span class="n">flags</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">lang</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">flags</span><span class="p">[</span><span class="n">lang</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flags</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Substring hazards (profanity check)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Common English profanity substrings to check (minimal built-in list).</span>
+<span class="c1"># For thorough checking, use LDNOOBW or cuss data files.</span>
+<span class="n">_BUILTIN_BAD_SUBSTRINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ass&#39;</span><span class="p">,</span> <span class="s1">&#39;damn&#39;</span><span class="p">,</span> <span class="s1">&#39;hell&#39;</span><span class="p">,</span> <span class="s1">&#39;shit&#39;</span><span class="p">,</span> <span class="s1">&#39;fuck&#39;</span><span class="p">,</span> <span class="s1">&#39;dick&#39;</span><span class="p">,</span> <span class="s1">&#39;cock&#39;</span><span class="p">,</span> <span class="s1">&#39;cunt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;piss&#39;</span><span class="p">,</span> <span class="s1">&#39;slut&#39;</span><span class="p">,</span> <span class="s1">&#39;whore&#39;</span><span class="p">,</span> <span class="s1">&#39;nazi&#39;</span><span class="p">,</span> <span class="s1">&#39;rape&#39;</span><span class="p">,</span> <span class="s1">&#39;porn&#39;</span><span class="p">,</span> <span class="s1">&#39;anal&#39;</span><span class="p">,</span> <span class="s1">&#39;anus&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tit&#39;</span><span class="p">,</span> <span class="s1">&#39;nig&#39;</span><span class="p">,</span> <span class="s1">&#39;fag&#39;</span><span class="p">,</span> <span class="s1">&#39;cum&#39;</span><span class="p">,</span> <span class="s1">&#39;poo&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="substring_hazards">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.substring_hazards">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;substring_hazards&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Scan for profanity substrings (window size 3-6)&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">substring_hazards</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">bad_words</span><span class="p">:</span> <span class="nb">set</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Slide a window of length 3-6 over the name and check against profanity lists.</span>
+
+<span class="sd">    Returns a list of found hazardous substrings (empty = clean).</span>
+
+<span class="sd">    &gt;&gt;&gt; substring_hazards(&#39;analytics&#39;)</span>
+<span class="sd">    [&#39;anal&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; substring_hazards(&#39;figiri&#39;)</span>
+<span class="sd">    []</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">bad_words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bad_words</span> <span class="o">=</span> <span class="n">_BUILTIN_BAD_SUBSTRINGS</span>
+
+    <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">window_size</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">-</span> <span class="n">window_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">substr</span> <span class="o">=</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">window_size</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">substr</span> <span class="ow">in</span> <span class="n">bad_words</span><span class="p">:</span>
+                <span class="n">found</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">substr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">found</span><span class="p">))</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Phonetic neighbors</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="phonetic_neighbors">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.phonetic_neighbors">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;phonetic_neighbors&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Find words that sound like the name (Datamuse API)&#39;</span><span class="p">,</span>
+    <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">phonetic_neighbors</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query Datamuse for words that sound like *name*.</span>
+
+<span class="sd">    &gt;&gt;&gt; isinstance(phonetic_neighbors(&#39;brand&#39;), list)</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s1">&#39;https://api.datamuse.com/words&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sl&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="n">max_results</span><span class="p">},</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;word&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
+    <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Spelling transparency</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Graphemes with multiple common pronunciations in English</span>
+<span class="n">_AMBIGUOUS_GRAPHEMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /k/ or /s/</span>
+    <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /g/ or /dʒ/</span>
+    <span class="s1">&#39;th&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /θ/ or /ð/</span>
+    <span class="s1">&#39;ough&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>  <span class="c1"># through, though, thought, rough, cough, bough</span>
+    <span class="s1">&#39;ch&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /tʃ/, /k/, /ʃ/</span>
+    <span class="s1">&#39;gh&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /g/, silent</span>
+    <span class="s1">&#39;ea&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /iː/, /ɛ/, /eɪ/</span>
+    <span class="s1">&#39;oo&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /uː/, /ʊ/</span>
+    <span class="s1">&#39;ou&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /aʊ/, /uː/, /ʌ/</span>
+    <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /ks/, /gz/</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="spelling_transparency">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.spelling_transparency">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;spelling_transparency&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;How unambiguously the name maps to one pronunciation&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">spelling_transparency</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score spelling transparency from 0 (very ambiguous) to 1 (transparent).</span>
+
+<span class="sd">    Counts grapheme-to-phoneme ambiguities and normalizes.</span>
+
+<span class="sd">    &gt;&gt;&gt; spelling_transparency(&#39;cat&#39;)  # very transparent</span>
+<span class="sd">    1.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">ambiguity_score</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">grapheme</span><span class="p">,</span> <span class="n">n_pronunciations</span> <span class="ow">in</span> <span class="n">_AMBIGUOUS_GRAPHEMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">name_lower</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">grapheme</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ambiguity_score</span> <span class="o">+=</span> <span class="n">count</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_pronunciations</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Normalize: each ambiguity point reduces transparency</span>
+    <span class="n">max_ambiguity</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># theoretical max</span>
+    <span class="k">if</span> <span class="n">max_ambiguity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="n">transparency</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ambiguity_score</span> <span class="o">/</span> <span class="n">max_ambiguity</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">transparency</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

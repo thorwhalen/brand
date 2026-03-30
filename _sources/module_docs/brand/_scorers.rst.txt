@@ -1,0 +1,4 @@
+brand._scorers
+==============
+.. automodule:: brand._scorers
+   :members:

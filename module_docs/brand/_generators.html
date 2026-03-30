@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand._generators &mdash; brand 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="brand._scorers" href="_scorers.html" />
+    <link rel="prev" title="brand" href="../brand.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../brand.html">brand</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">brand._generators</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.ai_suggest"><code class="docutils literal notranslate"><span class="pre">ai_suggest()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.cvcvcv"><code class="docutils literal notranslate"><span class="pre">cvcvcv()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.cvcvcv_filtered"><code class="docutils literal notranslate"><span class="pre">cvcvcv_filtered()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.english_words"><code class="docutils literal notranslate"><span class="pre">english_words()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.few_uniques"><code class="docutils literal notranslate"><span class="pre">few_uniques()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.from_file"><code class="docutils literal notranslate"><span class="pre">from_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.from_list"><code class="docutils literal notranslate"><span class="pre">from_list()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.morpheme_combiner"><code class="docutils literal notranslate"><span class="pre">morpheme_combiner()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._generators.pattern_generator"><code class="docutils literal notranslate"><span class="pre">pattern_generator()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">brand._generators</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/module_docs/brand/_generators.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-brand._generators">
+<span id="brand-generators"></span><h1>brand._generators<a class="headerlink" href="#module-brand._generators" title="Link to this heading"></a></h1>
+<p>Name generators: combinatoric, morpheme-based, AI-assisted, and from-list.</p>
+<p>Each generator is a function that returns an iterable of candidate name strings.
+Generators are registered in the global <code class="docutils literal notranslate"><span class="pre">generators</span></code> registry.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.ai_suggest">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">ai_suggest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#ai_suggest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.ai_suggest" title="Link to this definition"></a></dt>
+<dd><p>Use an LLM to brainstorm brand names for a given context.</p>
+<p>Requires the <code class="docutils literal notranslate"><span class="pre">oa</span></code> package and an OpenAI API key.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.cvcvcv">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">cvcvcv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consonants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bdfglmnprstvz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vowels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'aeiouy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#cvcvcv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.cvcvcv" title="Link to this definition"></a></dt>
+<dd><p>Generate CVCVCV combinations.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cvcvcv</span><span class="p">(</span><span class="n">consonants</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">vowels</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">names</span>
+<span class="go">[&#39;bababa&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.cvcvcv_filtered">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">cvcvcv_filtered</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consonants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bdfglmnprstvz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vowels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'aeiouy'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#cvcvcv_filtered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.cvcvcv_filtered" title="Link to this definition"></a></dt>
+<dd><p>CVCVCV with the <code class="docutils literal notranslate"><span class="pre">few_uniques</span></code> filter applied.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cvcvcv_filtered</span><span class="p">(</span><span class="n">consonants</span><span class="o">=</span><span class="s1">&#39;bd&#39;</span><span class="p">,</span> <span class="n">vowels</span><span class="o">=</span><span class="s1">&#39;ae&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;bababa&#39;</span> <span class="ow">in</span> <span class="n">names</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.english_words">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">english_words</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.*'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#english_words"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.english_words" title="Link to this definition"></a></dt>
+<dd><p>Generate English words matching a regex pattern.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;cat&#39;</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">english_words</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^cat$&#39;</span><span class="p">))</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.few_uniques">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">few_uniques</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_uniques</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_unique_vowels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_unique_consonants</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/_generators.html#few_uniques"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.few_uniques" title="Link to this definition"></a></dt>
+<dd><p>Keep names with limited unique letters and constrained vowel/consonant variety.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">few_uniques</span><span class="p">(</span><span class="s1">&#39;bababa&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">few_uniques</span><span class="p">(</span><span class="s1">&#39;abcdef&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.from_file">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.from_file" title="Link to this definition"></a></dt>
+<dd><p>Read names from a file, one name per line, stripping whitespace.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.from_list">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">from_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#from_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.from_list" title="Link to this definition"></a></dt>
+<dd><p>Simply yield the provided names.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">from_list</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">]))</span>
+<span class="go">[&#39;alpha&#39;, &#39;beta&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.morpheme_combiner">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">morpheme_combiner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#morpheme_combiner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.morpheme_combiner" title="Link to this definition"></a></dt>
+<dd><p>Combine prefix and suffix morphemes to generate portmanteau-style names.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">morpheme_combiner</span><span class="p">(</span><span class="n">prefixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;lum&#39;</span><span class="p">],</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ix&#39;</span><span class="p">,</span> <span class="s1">&#39;ify&#39;</span><span class="p">]))</span>
+<span class="go">[&#39;lumify&#39;, &#39;lumix&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._generators.pattern_generator">
+<span class="sig-prename descclassname"><span class="pre">brand._generators.</span></span><span class="sig-name descname"><span class="pre">pattern_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'CVCVCV'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consonants</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'bdfglmnprstvz'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vowels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'aeiouy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/_generators.html#pattern_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._generators.pattern_generator" title="Link to this definition"></a></dt>
+<dd><p>Generate all names matching a consonant/vowel pattern.</p>
+<p><code class="docutils literal notranslate"><span class="pre">C</span></code> = consonant, <code class="docutils literal notranslate"><span class="pre">V</span></code> = vowel.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">pattern_generator</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;CV&#39;</span><span class="p">,</span> <span class="n">consonants</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">vowels</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="p">)))</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../brand.html" class="btn btn-neutral float-left" title="brand" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="_scorers.html" class="btn btn-neutral float-right" title="brand._scorers" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
