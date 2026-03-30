@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.backends._legacy:_Backend"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "brand"
@@ -50,13 +50,65 @@ all = [
     "python-BLICK",
     "oa",
 ]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.1.0"]
 
 [project.urls]
 Homepage = "https://github.com/thorwhalen/brand"
 Repository = "https://github.com/thorwhalen/brand"
 
-[tool.setuptools.packages.find]
-include = ["brand*"]
+[tool.hatch.build.targets.wheel]
+packages = ["brand"]
 
-[tool.setuptools.package-data]
-"brand.templates" = ["*.json"]
+[tool.hatch.build]
+include = ["brand/**"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+exclude = [
+    "**/*.ipynb",
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    "tests",
+    "examples",
+    "scrap",
+]
+
+[tool.ruff.lint]
+select = [
+    "D100",
+]
+ignore = [
+    "D203",
+    "E501",
+    "B905",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*" = ["D"]
+"**/examples/*" = ["D"]
+"**/scrap/*" = ["D"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["tests"]
+doctest_optionflags = ["NORMALIZE_WHITESPACE", "ELLIPSIS"]
+
+[tool.wads.ci]
+project_name = "brand"
+
+[tool.wads.ci.testing]
+python_versions = ["3.10", "3.12"]
+pytest_args = ["-v", "--tb=short"]
+coverage_enabled = true
+exclude_paths = ["examples", "scrap"]
+test_on_windows = true
+
+[tool.wads.ci.build]
+sdist = true
+wheel = true
