@@ -149,7 +149,8 @@ names = list(brand.generators['from_list'](names=['alpha', 'beta']))
 ### Linguistic (local, fast)
 - `novelty` — word frequency inverse (1.0 = novel, 0.0 = very common)
 - `existing_word` — collision with known English words
-- `spelling_transparency` — grapheme-to-phoneme ambiguity score
+- `spelling_transparency` — grapheme-to-phoneme ambiguity score (flat lookup; see `pronunciation_entropy` for a richer alternative)
+- `pronunciation_entropy` — positional, context-aware pronunciation ambiguity measured as Shannon entropy in bits. Models how initial Y before a consonant is far more ambiguous than terminal Y, terminal E (silent? schwa?) vs. medial E, open vs. closed syllables, and intervocalic consonant voicing. Supports cross-linguistic mode: `pronunciation_entropy('levole', languages=('en', 'fr'))` merges English and French phoneme distributions, capturing real-world ambiguity for names that must work across language communities. Lower = more unambiguous. See also `pronunciation_entropy_detail()` for per-grapheme breakdowns.
 - `substring_hazards` — profanity substring scan
 
 ### Linguistic (network)
@@ -202,17 +203,54 @@ from brand import ai_analyze_names
 analysis = ai_analyze_names(['figiri', 'lumex', 'datavox'], context='data viz platform')
 ```
 
-## Claude Skills and Agents
+## Claude Code Skills and Agents
 
-When using this project with Claude Code, several skills and agents are available:
+When using this project with [Claude Code](https://github.com/anthropics/claude-code),
+several skills and agents are available to automate common workflows.
 
-**Skills** (in `.claude/skills/`):
-- `brand-evaluate` — Structured name evaluation combining computed metrics + expert judgment
-- `brand-generate` — Creative name generation using available generators
-- `brand-pipeline-designer` — Interactive pipeline design based on your specific needs
-- `brand-research` — Deep cross-linguistic, cultural, and competitive research on a name
+### How to activate
 
-**Agents** (in `.claude/agents/`):
-- `brand-scout` — Autonomous generate-evaluate-recommend cycle
-- `brand-audit` — Comprehensive risk/opportunity audit of existing names
-- `brand-pipeline-runner` — Pipeline execution, monitoring, resumption, and comparison
+Skills and agents are markdown files that Claude Code reads to guide its behavior.
+There are two levels:
+
+- **Project-level** (in `.claude/skills/` and `.claude/agents/` within this repo):
+  Automatically available when Claude Code is running inside this project directory.
+- **User-level** (in `~/.claude/skills/`): Available globally across all projects.
+  To install, copy or symlink the skill directory into `~/.claude/skills/`.
+
+Project-level skills are invoked by Claude Code when relevant context is detected.
+The user-level `brand-name-report` skill can be invoked explicitly with:
+
+```
+/brand-name-report dynody panapy ilumin --context "AI health tools" --output ~/Downloads/report.md
+```
+
+### Project-level skills (`.claude/skills/`)
+
+| Skill | What it does |
+|---|---|
+| `brand-evaluate` | Structured name evaluation combining computed metrics + expert judgment |
+| `brand-generate` | Creative name generation using available generators |
+| `brand-pipeline-designer` | Interactive pipeline design based on your specific needs |
+| `brand-research` | Deep cross-linguistic, cultural, and competitive research on a name |
+
+### Project-level agents (`.claude/agents/`)
+
+| Agent | What it does |
+|---|---|
+| `brand-scout` | Autonomous generate-evaluate-recommend cycle |
+| `brand-audit` | Comprehensive risk/opportunity audit of existing names |
+| `brand-pipeline-runner` | Pipeline execution, monitoring, resumption, and comparison |
+
+### User-level skill (`~/.claude/skills/`)
+
+| Skill | What it does |
+|---|---|
+| `brand-name-report` | Full comparative report for a list of candidate names. Computes all metrics (including `pronunciation_entropy` with cross-linguistic mode), launches parallel AI agents for per-name deep-dive analyses, and compiles a formatted markdown report with transposed tables, per-name write-ups, phonetic neighbor analysis, and a per-grapheme entropy appendix. Designed for the final evaluation stage when you have a shortlist of 5-15 candidates. |
+
+The `brand-name-report` skill is currently installed at `~/.claude/skills/brand-name-report/`.
+If you are setting up on a new machine, copy it there from this repo:
+
+```bash
+cp -r .claude/skills/brand-name-report ~/.claude/skills/brand-name-report
+```
