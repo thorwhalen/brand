@@ -1,0 +1,44 @@
+{
+  "name": "research_company",
+  "description": "4-stage pipeline for finding brandable, available company names. Stage 1: cheap local scoring and filtering (80K->2K). Stage 2: WHOIS verification (2K->~1K). Stage 3: US company name checks (~1K->~500). Stage 4: LLM ranking (~500->100).",
+  "stages": [
+    {
+      "type": "score",
+      "scorers": ["brandability", "name_length"]
+    },
+    {
+      "type": "filter",
+      "rules": {
+        "brandability": {"op": ">", "value": 0.0},
+        "name_length": {"op": ">=", "value": 4}
+      },
+      "top_n": 2000,
+      "by": "brandability"
+    },
+    {
+      "type": "score",
+      "scorers": ["whois_com"]
+    },
+    {
+      "type": "filter",
+      "rules": {"whois_com": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["company_name_us"]
+    },
+    {
+      "type": "filter",
+      "rules": {"company_name_us": true}
+    },
+    {
+      "type": "score",
+      "scorers": ["llm_brand_rating"]
+    },
+    {
+      "type": "filter",
+      "top_n": 100,
+      "by": "llm_brand_rating"
+    }
+  ]
+}

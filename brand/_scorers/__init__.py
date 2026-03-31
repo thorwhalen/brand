@@ -9,3 +9,6 @@ from brand._scorers import phonetic  # noqa: F401
 from brand._scorers import availability  # noqa: F401
 from brand._scorers import linguistic  # noqa: F401
 from brand._scorers import visual  # noqa: F401
+from brand._scorers import composite  # noqa: F401
+from brand._scorers import company  # noqa: F401
+from brand._scorers import llm  # noqa: F401
