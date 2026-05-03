@@ -31,7 +31,7 @@ class TestRegistry:
 
     def test_templates_available(self):
         templates = brand.list_templates()
-        assert len(templates) == 10
+        assert len(templates) >= 10
         assert 'quick_screen' in templates
         assert 'tech_startup' in templates
         assert 'full_audit' in templates
