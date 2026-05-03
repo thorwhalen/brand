@@ -14,7 +14,7 @@ from brand.registry import scorers
 # ---------------------------------------------------------------------------
 
 
-def _opencorporates_search(name: str, *, jurisdiction='us') -> list[dict]:
+def _opencorporates_search(name: str, *, jurisdiction="us") -> list[dict]:
     """Search OpenCorporates for companies matching *name*.
 
     Returns a list of matching company dicts (empty = no matches found).
@@ -22,18 +22,18 @@ def _opencorporates_search(name: str, *, jurisdiction='us') -> list[dict]:
     """
     try:
         r = requests.get(
-            'https://api.opencorporates.com/v0.4/companies/search',
+            "https://api.opencorporates.com/v0.4/companies/search",
             params={
-                'q': name,
-                'jurisdiction_code': jurisdiction,
-                'per_page': 10,
+                "q": name,
+                "jurisdiction_code": jurisdiction,
+                "per_page": 10,
             },
             timeout=15,
         )
         r.raise_for_status()
         data = r.json()
-        companies = data.get('results', {}).get('companies', [])
-        return [c.get('company', {}) for c in companies]
+        companies = data.get("results", {}).get("companies", [])
+        return [c.get("company", {}) for c in companies]
     except requests.RequestException:
         return []
 
@@ -50,13 +50,13 @@ def _is_exact_or_close_match(name: str, companies: list[dict]) -> bool:
         s = s.lower().strip()
         # Remove common corporate suffixes
         s = re.sub(
-            r'\b(inc|incorporated|llc|ltd|limited|corp|corporation|co|company'
-            r'|lp|llp|pllc|pc|plc)\b\.?',
-            '',
+            r"\b(inc|incorporated|llc|ltd|limited|corp|corporation|co|company"
+            r"|lp|llp|pllc|pc|plc)\b\.?",
+            "",
             s,
         )
         # Remove punctuation and extra whitespace
-        s = re.sub(r'[^a-z0-9]', '', s)
+        s = re.sub(r"[^a-z0-9]", "", s)
         return s
 
     target = _normalize(name)
@@ -64,18 +64,18 @@ def _is_exact_or_close_match(name: str, companies: list[dict]) -> bool:
         return False
 
     for company in companies:
-        company_name = company.get('name', '')
+        company_name = company.get("name", "")
         if _normalize(company_name) == target:
             return True
     return False
 
 
 @scorers.register(
-    'company_name_us',
-    description='US company name availability via OpenCorporates',
-    cost='moderate',
+    "company_name_us",
+    description="US company name availability via OpenCorporates",
+    cost="moderate",
     requires_network=True,
-    latency='medium',
+    latency="medium",
     parallelizable=True,
 )
 def company_name_available_us(name: str) -> bool:
@@ -88,7 +88,7 @@ def company_name_available_us(name: str) -> bool:
     >>> isinstance(company_name_available_us('xyzqwk'), bool)
     True
     """
-    companies = _opencorporates_search(name, jurisdiction='us')
+    companies = _opencorporates_search(name, jurisdiction="us")
     return not _is_exact_or_close_match(name, companies)
 
 
@@ -98,11 +98,11 @@ def company_name_available_us(name: str) -> bool:
 
 
 @scorers.register(
-    'trademark_us',
-    description='US trademark conflict check via USPTO',
-    cost='moderate',
+    "trademark_us",
+    description="US trademark conflict check via USPTO",
+    cost="moderate",
     requires_network=True,
-    latency='medium',
+    latency="medium",
     parallelizable=True,
 )
 def trademark_check_us(name: str) -> bool:
@@ -119,10 +119,10 @@ def trademark_check_us(name: str) -> bool:
     """
     try:
         r = requests.get(
-            'https://tsdr.uspto.gov/documentexternal/statuskeynew',
-            params={'sn': '', 'rn': '', 'td': name},
+            "https://tsdr.uspto.gov/documentexternal/statuskeynew",
+            params={"sn": "", "rn": "", "td": name},
             timeout=15,
-            headers={'Accept': 'application/json'},
+            headers={"Accept": "application/json"},
         )
         # If we get a 404 or empty result, no trademark found
         if r.status_code == 404:
@@ -132,7 +132,7 @@ def trademark_check_us(name: str) -> bool:
 
         data = r.json()
         # If no trademark document found, name is clear
-        if not data or data.get('error'):
+        if not data or data.get("error"):
             return True
         return False
     except (requests.RequestException, ValueError):

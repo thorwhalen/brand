@@ -16,16 +16,16 @@ def _syllable_count(name: str) -> int:
     """Count syllables via vowel-group heuristic."""
     import re
 
-    groups = re.findall(r'[aeiouy]+', name.lower())
+    groups = re.findall(r"[aeiouy]+", name.lower())
     count = len(groups)
-    if name.lower().endswith('e') and count > 1:
+    if name.lower().endswith("e") and count > 1:
         count -= 1
     return max(1, count)
 
 
 def _vowel_consonant_ratio(name: str) -> float:
     """Ratio of vowels to total letters (ideal ~0.4-0.5 for pronounceability)."""
-    vowels = sum(1 for c in name.lower() if c in 'aeiouy')
+    vowels = sum(1 for c in name.lower() if c in "aeiouy")
     return vowels / len(name) if name else 0.0
 
 
@@ -38,40 +38,93 @@ def _has_repeating_pattern(name: str) -> bool:
     """Check for simple repetition like 'bababa', 'ababab'."""
     n = name.lower()
     half = len(n) // 2
-    if half >= 2 and n[:half] == n[half:2 * half]:
+    if half >= 2 and n[:half] == n[half : 2 * half]:
         return True
     # Check 2-char repeating unit
     if len(n) >= 4:
         unit = n[:2]
-        if unit * (len(n) // 2) == n[:len(unit) * (len(n) // 2)]:
+        if unit * (len(n) // 2) == n[: len(unit) * (len(n) // 2)]:
             return True
     return False
 
 
-_FRONT_VOWELS = set('eiy')
-_BACK_VOWELS = set('oua')
-_VOICELESS = set('ptksfc')
-_VOICED = set('bdgvzjmnlr')
+_FRONT_VOWELS = set("eiy")
+_BACK_VOWELS = set("oua")
+_VOICELESS = set("ptksfc")
+_VOICED = set("bdgvzjmnlr")
 
 # Substrings that evoke positive associations for tech/health/science
 _POSITIVE_MORPHEMES = {
-    'lum', 'clar', 'viv', 'sol', 'zen', 'neo', 'nov', 'lux', 'vita',
-    'sana', 'medi', 'cura', 'vis', 'gen', 'syn', 'evo', 'acu',
-    'cog', 'sen', 'ana', 'lex', 'dyn', 'val', 'ven', 'ori',
-    'ver', 'era', 'alo', 'elu', 'avi', 'iri', 'umi', 'elu',
+    "lum",
+    "clar",
+    "viv",
+    "sol",
+    "zen",
+    "neo",
+    "nov",
+    "lux",
+    "vita",
+    "sana",
+    "medi",
+    "cura",
+    "vis",
+    "gen",
+    "syn",
+    "evo",
+    "acu",
+    "cog",
+    "sen",
+    "ana",
+    "lex",
+    "dyn",
+    "val",
+    "ven",
+    "ori",
+    "ver",
+    "era",
+    "alo",
+    "elu",
+    "avi",
+    "iri",
+    "umi",
+    "elu",
 }
 
 # Common profanity substrings (minimal list)
 _BAD_SUBSTRINGS = {
-    'ass', 'damn', 'shit', 'fuck', 'dick', 'cock', 'cunt',
-    'piss', 'slut', 'nazi', 'rape', 'porn', 'anal', 'anus',
-    'tit', 'nig', 'fag', 'cum', 'poo',
+    "ass",
+    "damn",
+    "shit",
+    "fuck",
+    "dick",
+    "cock",
+    "cunt",
+    "piss",
+    "slut",
+    "nazi",
+    "rape",
+    "porn",
+    "anal",
+    "anus",
+    "tit",
+    "nig",
+    "fag",
+    "cum",
+    "poo",
 }
 
 # Ambiguous graphemes (from linguistic.py)
 _AMBIGUOUS_GRAPHEMES = {
-    'c': 2, 'g': 2, 'th': 2, 'ough': 6, 'ch': 3,
-    'gh': 2, 'ea': 3, 'oo': 2, 'ou': 3, 'x': 2,
+    "c": 2,
+    "g": 2,
+    "th": 2,
+    "ough": 6,
+    "ch": 3,
+    "gh": 2,
+    "ea": 3,
+    "oo": 2,
+    "ou": 3,
+    "x": 2,
 }
 
 
@@ -94,7 +147,7 @@ def _novelty(name: str) -> float:
     try:
         from wordfreq import zipf_frequency
 
-        freq = zipf_frequency(name.lower(), 'en')
+        freq = zipf_frequency(name.lower(), "en")
         if freq == 0:
             return 1.0
         return max(0.0, 1.0 - freq / 7.0)
@@ -107,7 +160,7 @@ def _has_hazard(name: str) -> bool:
     name_lower = name.lower()
     for window in range(3, 7):
         for i in range(len(name_lower) - window + 1):
-            if name_lower[i:i + window] in _BAD_SUBSTRINGS:
+            if name_lower[i : i + window] in _BAD_SUBSTRINGS:
                 return True
     return False
 
@@ -125,11 +178,41 @@ def _positive_morpheme_score(name: str) -> float:
 # ---------------------------------------------------------------------------
 
 _HARSH_CLUSTERS = {
-    'bk', 'bz', 'dk', 'dz', 'fk', 'gk', 'gz', 'hk',
-    'kg', 'kz', 'mk', 'pk', 'pz', 'tk', 'tz', 'vk',
-    'vz', 'zb', 'zd', 'zf', 'zg', 'zk', 'zm', 'zn',
-    'zp', 'zt', 'zv', 'bf', 'fb', 'gf', 'fg', 'pf',
-    'kf', 'fz', 'zf',
+    "bk",
+    "bz",
+    "dk",
+    "dz",
+    "fk",
+    "gk",
+    "gz",
+    "hk",
+    "kg",
+    "kz",
+    "mk",
+    "pk",
+    "pz",
+    "tk",
+    "tz",
+    "vk",
+    "vz",
+    "zb",
+    "zd",
+    "zf",
+    "zg",
+    "zk",
+    "zm",
+    "zn",
+    "zp",
+    "zt",
+    "zv",
+    "bf",
+    "fb",
+    "gf",
+    "fg",
+    "pf",
+    "kf",
+    "fz",
+    "zf",
 }
 
 
@@ -138,7 +221,7 @@ def _harsh_cluster_count(name: str) -> int:
     name_lower = name.lower()
     count = 0
     for i in range(len(name_lower) - 1):
-        bigram = name_lower[i:i + 2]
+        bigram = name_lower[i : i + 2]
         if bigram in _HARSH_CLUSTERS:
             count += 1
     return count
@@ -150,14 +233,14 @@ def _harsh_cluster_count(name: str) -> int:
 
 
 @scorers.register(
-    'brandability',
+    "brandability",
     description=(
-        'Composite brandability score (0-1) combining pronounceability, '
-        'novelty, visual balance, and phonetic appeal'
+        "Composite brandability score (0-1) combining pronounceability, "
+        "novelty, visual balance, and phonetic appeal"
     ),
-    cost='cheap',
+    cost="cheap",
     requires_network=False,
-    latency='fast',
+    latency="fast",
 )
 def brandability_score(name: str) -> float:
     """Compute a composite brandability score from 0 (poor) to 1 (excellent).
@@ -202,7 +285,9 @@ def brandability_score(name: str) -> float:
     # Spelling transparency
     spell_score = _spelling_transparency(name)
 
-    pronounce = 0.35 * syl_score + 0.25 * vc_score + 0.2 * cluster_score + 0.2 * spell_score
+    pronounce = (
+        0.35 * syl_score + 0.25 * vc_score + 0.2 * cluster_score + 0.2 * spell_score
+    )
 
     # --- Memorability (25%) ---
     length = len(name)

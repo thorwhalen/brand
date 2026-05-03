@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "brand"
-version = "0.1.1"
+version = "0.1.2"
 description = "A composable pipeline for brand name generation, evaluation, and availability checking"
 readme = "README.md"
 license = "Apache-2.0"
