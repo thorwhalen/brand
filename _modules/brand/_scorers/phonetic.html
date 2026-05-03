@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.phonetic &mdash; brand 0.1.0 documentation</title>
+  <title>brand._scorers.phonetic &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -50,7 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers.html">brand._scorers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/base.html">brand.base</a></li>
@@ -126,16 +129,16 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_arpabet</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get ARPAbet phones for *name* from the CMU dict, or None.&quot;&quot;&quot;</span>
-    <span class="n">pronouncing</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;pronouncing&#39;</span><span class="p">)</span>
+    <span class="n">pronouncing</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;pronouncing&quot;</span><span class="p">)</span>
     <span class="n">phones_list</span> <span class="o">=</span> <span class="n">pronouncing</span><span class="o">.</span><span class="n">phones_for_word</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="k">if</span> <span class="n">phones_list</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">phones_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="k">return</span> <span class="kc">None</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_get_ipa</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;eng-Latn&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_ipa</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;eng-Latn&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Transliterate *name* to IPA using epitran.&quot;&quot;&quot;</span>
-    <span class="n">epitran</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;epitran&#39;</span><span class="p">)</span>
+    <span class="n">epitran</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;epitran&quot;</span><span class="p">)</span>
     <span class="n">epi</span> <span class="o">=</span> <span class="n">epitran</span><span class="o">.</span><span class="n">Epitran</span><span class="p">(</span><span class="n">lang</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">epi</span><span class="o">.</span><span class="n">transliterate</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
@@ -148,8 +151,8 @@
 <div class="viewcode-block" id="syllable_count">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.syllable_count">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;syllables&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Count syllables (via CMU dict or vowel heuristic)&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;syllables&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Count syllables (via CMU dict or vowel heuristic)&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">syllable_count</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Count syllables in *name*.</span>
@@ -163,7 +166,7 @@
 <span class="sd">    1</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">pronouncing</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;pronouncing&#39;</span><span class="p">)</span>
+        <span class="n">pronouncing</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;pronouncing&quot;</span><span class="p">)</span>
         <span class="n">phones_list</span> <span class="o">=</span> <span class="n">pronouncing</span><span class="o">.</span><span class="n">phones_for_word</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">phones_list</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pronouncing</span><span class="o">.</span><span class="n">syllable_count</span><span class="p">(</span><span class="n">phones_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -172,10 +175,10 @@
     <span class="c1"># Fallback: count vowel groups</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-    <span class="n">vowel_groups</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[aeiouy]+&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">vowel_groups</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[aeiouy]+&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vowel_groups</span><span class="p">)</span>
     <span class="c1"># Adjust for silent-e at end</span>
-    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span></div>
 
@@ -184,7 +187,7 @@
 <div class="viewcode-block" id="stress_pattern">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.stress_pattern">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;stress_pattern&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;stress_pattern&quot;</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Extract stress pattern (e.g. &quot;10&quot; = trochaic)&#39;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">stress_pattern</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -196,22 +199,22 @@
 <span class="sd">    &#39;01&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">pronouncing</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;pronouncing&#39;</span><span class="p">)</span>
+        <span class="n">pronouncing</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;pronouncing&quot;</span><span class="p">)</span>
         <span class="n">phones_list</span> <span class="o">=</span> <span class="n">pronouncing</span><span class="o">.</span><span class="n">phones_for_word</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">phones_list</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pronouncing</span><span class="o">.</span><span class="n">stresses</span><span class="p">(</span><span class="n">phones_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">pass</span>
-    <span class="k">return</span> <span class="s1">&#39;unknown&#39;</span></div>
+    <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span></div>
 
 
 
 <div class="viewcode-block" id="phonotactic_score">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.phonotactic_score">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;phonotactic&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;BLICK phonotactic well-formedness (0=perfect, higher=worse)&#39;</span><span class="p">,</span>
-    <span class="n">requires_extras</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;python-BLICK&#39;</span><span class="p">,),</span>
+    <span class="s2">&quot;phonotactic&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;BLICK phonotactic well-formedness (0=perfect, higher=worse)&quot;</span><span class="p">,</span>
+    <span class="n">requires_extras</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;python-BLICK&quot;</span><span class="p">,),</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">phonotactic_score</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute BLICK phonotactic well-formedness score.</span>
@@ -219,7 +222,7 @@
 <span class="sd">    A score of 0 means the name obeys all English phonotactic constraints</span>
 <span class="sd">    perfectly.  Higher scores indicate increasingly ill-formed sequences.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">blick</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;blick&#39;</span><span class="p">)</span>
+    <span class="n">blick</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;blick&quot;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">blick</span><span class="o">.</span><span class="n">blick</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -236,9 +239,9 @@
 <div class="viewcode-block" id="articulatory_complexity">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.articulatory_complexity">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;articulatory_complexity&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Count place-of-articulation transitions between consonants&#39;</span><span class="p">,</span>
-    <span class="n">requires_extras</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;epitran&#39;</span><span class="p">,</span> <span class="s1">&#39;panphon&#39;</span><span class="p">),</span>
+    <span class="s2">&quot;articulatory_complexity&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Count place-of-articulation transitions between consonants&quot;</span><span class="p">,</span>
+    <span class="n">requires_extras</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;epitran&quot;</span><span class="p">,</span> <span class="s2">&quot;panphon&quot;</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">articulatory_complexity</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Measure articulatory complexity as mean feature distance between</span>
@@ -247,12 +250,12 @@
 <span class="sd">    Lower values = easier to pronounce.  Returns -1 if deps are missing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">epitran_mod</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;epitran&#39;</span><span class="p">)</span>
-        <span class="n">panphon</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s1">&#39;panphon&#39;</span><span class="p">)</span>
+        <span class="n">epitran_mod</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;epitran&quot;</span><span class="p">)</span>
+        <span class="n">panphon</span> <span class="o">=</span> <span class="n">_require</span><span class="p">(</span><span class="s2">&quot;panphon&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span>
 
-    <span class="n">epi</span> <span class="o">=</span> <span class="n">epitran_mod</span><span class="o">.</span><span class="n">Epitran</span><span class="p">(</span><span class="s1">&#39;eng-Latn&#39;</span><span class="p">)</span>
+    <span class="n">epi</span> <span class="o">=</span> <span class="n">epitran_mod</span><span class="o">.</span><span class="n">Epitran</span><span class="p">(</span><span class="s2">&quot;eng-Latn&quot;</span><span class="p">)</span>
     <span class="n">ft</span> <span class="o">=</span> <span class="n">panphon</span><span class="o">.</span><span class="n">FeatureTable</span><span class="p">()</span>
 
     <span class="n">ipa</span> <span class="o">=</span> <span class="n">epi</span><span class="o">.</span><span class="n">transliterate</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
@@ -274,9 +277,9 @@
 <div class="viewcode-block" id="sound_symbolism">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.sound_symbolism">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;sound_symbolism&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Sound symbolism profile (front/back vowel ratio, stop/fricative ratio)&#39;</span><span class="p">,</span>
-    <span class="n">requires_extras</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;epitran&#39;</span><span class="p">,</span> <span class="s1">&#39;panphon&#39;</span><span class="p">),</span>
+    <span class="s2">&quot;sound_symbolism&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sound symbolism profile (front/back vowel ratio, stop/fricative ratio)&quot;</span><span class="p">,</span>
+    <span class="n">requires_extras</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;epitran&quot;</span><span class="p">,</span> <span class="s2">&quot;panphon&quot;</span><span class="p">),</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">sound_symbolism</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a sound symbolism profile based on Klink (2000).</span>
@@ -291,10 +294,10 @@
     <span class="c1"># Simple heuristic based on letter classification (no deps required)</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
-    <span class="n">front_vowels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;eiy&#39;</span><span class="p">)</span>
-    <span class="n">back_vowels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;oua&#39;</span><span class="p">)</span>
-    <span class="n">voiceless</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;ptksfc&#39;</span><span class="p">)</span>
-    <span class="n">voiced</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;bdgvzjmnlr&#39;</span><span class="p">)</span>
+    <span class="n">front_vowels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;eiy&quot;</span><span class="p">)</span>
+    <span class="n">back_vowels</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;oua&quot;</span><span class="p">)</span>
+    <span class="n">voiceless</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;ptksfc&quot;</span><span class="p">)</span>
+    <span class="n">voiced</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;bdgvzjmnlr&quot;</span><span class="p">)</span>
 
     <span class="n">vowels_in_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name_lower</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">front_vowels</span> <span class="o">|</span> <span class="n">back_vowels</span><span class="p">]</span>
     <span class="n">consonants_in_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name_lower</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">voiceless</span> <span class="o">|</span> <span class="n">voiced</span><span class="p">]</span>
@@ -307,28 +310,26 @@
     <span class="n">voiceless_ratio</span> <span class="o">=</span> <span class="p">(</span>
         <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">consonants_in_name</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">voiceless</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_consonants</span>
     <span class="p">)</span>
-    <span class="n">voiced_ratio</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">consonants_in_name</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">voiced</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_consonants</span>
-    <span class="p">)</span>
+    <span class="n">voiced_ratio</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">consonants_in_name</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">voiced</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_consonants</span>
 
     <span class="c1"># Determine dominant profile</span>
     <span class="k">if</span> <span class="n">front_ratio</span> <span class="o">&gt;</span> <span class="mf">0.6</span> <span class="ow">and</span> <span class="n">voiceless_ratio</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;modern/sharp&#39;</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="s2">&quot;modern/sharp&quot;</span>
     <span class="k">elif</span> <span class="n">back_ratio</span> <span class="o">&gt;</span> <span class="mf">0.6</span> <span class="ow">and</span> <span class="n">voiced_ratio</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;warm/powerful&#39;</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="s2">&quot;warm/powerful&quot;</span>
     <span class="k">elif</span> <span class="n">front_ratio</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="ow">or</span> <span class="n">voiceless_ratio</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;balanced/modern&#39;</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="s2">&quot;balanced/modern&quot;</span>
     <span class="k">elif</span> <span class="n">back_ratio</span> <span class="o">&gt;</span> <span class="mf">0.5</span> <span class="ow">or</span> <span class="n">voiced_ratio</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;balanced/warm&#39;</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="s2">&quot;balanced/warm&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">profile</span> <span class="o">=</span> <span class="s1">&#39;neutral&#39;</span>
+        <span class="n">profile</span> <span class="o">=</span> <span class="s2">&quot;neutral&quot;</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;front_vowel_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">front_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;back_vowel_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">back_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;voiceless_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">voiceless_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;voiced_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">voiced_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;profile&#39;</span><span class="p">:</span> <span class="n">profile</span><span class="p">,</span>
+        <span class="s2">&quot;front_vowel_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">front_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;back_vowel_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">back_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;voiceless_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">voiceless_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;voiced_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">voiced_ratio</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;profile&quot;</span><span class="p">:</span> <span class="n">profile</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 </pre></div>

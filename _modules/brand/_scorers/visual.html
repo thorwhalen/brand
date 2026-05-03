@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.visual &mdash; brand 0.1.0 documentation</title>
+  <title>brand._scorers.visual &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -50,7 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers.html">brand._scorers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/base.html">brand.base</a></li>
@@ -102,9 +105,9 @@
 <span class="c1"># Letter anatomy constants</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
-<span class="n">_ASCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;bdfhklt&#39;</span><span class="p">)</span>
-<span class="n">_DESCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;gjpqy&#39;</span><span class="p">)</span>
-<span class="n">_NEUTRAL</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;aceimnorsuvwxz&#39;</span><span class="p">)</span>
+<span class="n">_ASCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;bdfhklt&quot;</span><span class="p">)</span>
+<span class="n">_DESCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;gjpqy&quot;</span><span class="p">)</span>
+<span class="n">_NEUTRAL</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;aceimnorsuvwxz&quot;</span><span class="p">)</span>
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -115,8 +118,8 @@
 <div class="viewcode-block" id="letter_balance">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/visual.html#brand._scorers.visual.letter_balance">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;letter_balance&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Visual balance of ascenders, descenders, and neutral letters&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;letter_balance&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Visual balance of ascenders, descenders, and neutral letters&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">letter_balance</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Analyze the visual balance of a name&#39;s letter anatomy.</span>
@@ -136,11 +139,11 @@
     <span class="n">neut</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name_lower</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">_NEUTRAL</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;ascender_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">asc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;descender_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">desc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;neutral_ratio&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">neut</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s1">&#39;has_ascenders&#39;</span><span class="p">:</span> <span class="n">asc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s1">&#39;has_descenders&#39;</span><span class="p">:</span> <span class="n">desc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;ascender_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">asc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;descender_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">desc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;neutral_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">neut</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">&quot;has_ascenders&quot;</span><span class="p">:</span> <span class="n">asc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;has_descenders&quot;</span><span class="p">:</span> <span class="n">desc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -151,12 +154,32 @@
 
 <span class="c1"># QWERTY keyboard layout positions (row, col) for distance computation</span>
 <span class="n">_QWERTY_POS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;q&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;t&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="s1">&#39;o&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
-    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;j&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;k&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="s1">&#39;l&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-    <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;v&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s1">&#39;m&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="s2">&quot;o&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;g&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s2">&quot;j&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
 <span class="p">}</span>
 
 
@@ -172,8 +195,8 @@
 <div class="viewcode-block" id="keyboard_distance">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/visual.html#brand._scorers.visual.keyboard_distance">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;keyboard_distance&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Average keyboard distance between consecutive letters (lower=easier to type)&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;keyboard_distance&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Average keyboard distance between consecutive letters (lower=easier to type)&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">keyboard_distance</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Mean Euclidean distance between consecutive key presses on QWERTY.</span>
@@ -189,9 +212,7 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
 
-    <span class="n">distances</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">_key_distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">name_lower</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">name_lower</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-    <span class="p">]</span>
+    <span class="n">distances</span> <span class="o">=</span> <span class="p">[</span><span class="n">_key_distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">name_lower</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">name_lower</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
     <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">distances</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">distances</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">distances</span> <span class="k">else</span> <span class="mf">0.0</span></div>
 
 
@@ -199,8 +220,8 @@
 <div class="viewcode-block" id="name_length">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/visual.html#brand._scorers.visual.name_length">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;name_length&#39;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Character count of the name&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;name_length&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Character count of the name&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">name_length</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the length of the name.</span>

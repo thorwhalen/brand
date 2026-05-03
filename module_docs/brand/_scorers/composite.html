@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.availability &mdash; brand 0.1.1 documentation</title>
+  <title>brand._scorers.composite &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="brand._scorers.company" href="company.html" />
-    <link rel="prev" title="brand._scorers" href="../_scorers.html" /> 
+    <link rel="next" title="brand._scorers.linguistic" href="linguistic.html" />
+    <link rel="prev" title="brand._scorers.company" href="company.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,12 +52,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../brand.html">brand</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_scorers.html">brand._scorers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">brand._scorers.availability</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.availability.whois_com"><code class="docutils literal notranslate"><span class="pre">whois_com()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="company.html">brand._scorers.company</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">brand._scorers.composite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.composite.brandability_score"><code class="docutils literal notranslate"><span class="pre">brandability_score()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="company.html">brand._scorers.company</a></li>
-<li class="toctree-l1"><a class="reference internal" href="composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linguistic.html">brand._scorers.linguistic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="phonetic.html">brand._scorers.phonetic</a></li>
@@ -87,9 +87,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">brand._scorers.availability</li>
+      <li class="breadcrumb-item active">brand._scorers.composite</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../_sources/module_docs/brand/_scorers/availability.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/module_docs/brand/_scorers/composite.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -97,17 +97,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-brand._scorers.availability">
-<span id="brand-scorers-availability"></span><h1>brand._scorers.availability<a class="headerlink" href="#module-brand._scorers.availability" title="Link to this heading"></a></h1>
-<p>Availability scorers: DNS, WHOIS, domain, platform handles.</p>
-<p>These scorers check whether a candidate name is available on various
-platforms.  They return <code class="docutils literal notranslate"><span class="pre">True</span></code> (available) or <code class="docutils literal notranslate"><span class="pre">False</span></code> (taken).</p>
-<p>All network scorers are tagged with <code class="docutils literal notranslate"><span class="pre">requires_network=True</span></code> and appropriate
-cost/latency metadata so the pipeline engine can schedule them efficiently.</p>
+  <section id="module-brand._scorers.composite">
+<span id="brand-scorers-composite"></span><h1>brand._scorers.composite<a class="headerlink" href="#module-brand._scorers.composite" title="Link to this heading"></a></h1>
+<p>Composite brandability scorer.</p>
+<p>Combines multiple cheap, local scorers into a single 0-1 brandability score
+suitable for ranking large candidate sets before expensive network checks.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="brand._scorers.availability.whois_com">
-<span class="sig-prename descclassname"><span class="pre">brand._scorers.availability.</span></span><span class="sig-name descname"><span class="pre">whois_com</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/availability.html#whois_com"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.availability.whois_com" title="Link to this definition"></a></dt>
-<dd><p>Verify .com availability via WHOIS (slower, more reliable than DNS).</p>
+<dt class="sig sig-object py" id="brand._scorers.composite.brandability_score">
+<span class="sig-prename descclassname"><span class="pre">brand._scorers.composite.</span></span><span class="sig-name descname"><span class="pre">brandability_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/composite.html#brandability_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.composite.brandability_score" title="Link to this definition"></a></dt>
+<dd><p>Compute a composite brandability score from 0 (poor) to 1 (excellent).</p>
+<p>Combines multiple weighted sub-scores:</p>
+<ul class="simple">
+<li><p><strong>Pronounceability</strong> (30%): syllable count sweet spot, vowel/consonant
+balance, no harsh clusters, spelling transparency</p></li>
+<li><p><strong>Memorability</strong> (25%): length sweet spot, letter variety, no boring
+repetition</p></li>
+<li><p><strong>Novelty</strong> (15%): not an existing common word</p></li>
+<li><p><strong>Phonetic appeal</strong> (15%): sound symbolism balance, positive morphemes</p></li>
+<li><p><strong>Safety</strong> (15%): no profanity substrings (hard filter: 0 if found)</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">brandability_score</span><span class="p">(</span><span class="s1">&#39;figiri&#39;</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mf">1.0</span>
+<span class="go">True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -116,8 +128,8 @@ cost/latency metadata so the pipeline engine can schedule them efficiently.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../_scorers.html" class="btn btn-neutral float-left" title="brand._scorers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="company.html" class="btn btn-neutral float-right" title="brand._scorers.company" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="company.html" class="btn btn-neutral float-left" title="brand._scorers.company" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="linguistic.html" class="btn btn-neutral float-right" title="brand._scorers.linguistic" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

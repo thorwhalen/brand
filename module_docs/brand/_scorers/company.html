@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.availability &mdash; brand 0.1.1 documentation</title>
+  <title>brand._scorers.company &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="brand._scorers.company" href="company.html" />
-    <link rel="prev" title="brand._scorers" href="../_scorers.html" /> 
+    <link rel="next" title="brand._scorers.composite" href="composite.html" />
+    <link rel="prev" title="brand._scorers.availability" href="availability.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -52,11 +52,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../brand.html">brand</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_scorers.html">brand._scorers</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">brand._scorers.availability</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.availability.whois_com"><code class="docutils literal notranslate"><span class="pre">whois_com()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">brand._scorers.company</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.company.company_name_available_us"><code class="docutils literal notranslate"><span class="pre">company_name_available_us()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.company.trademark_check_us"><code class="docutils literal notranslate"><span class="pre">trademark_check_us()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="company.html">brand._scorers.company</a></li>
 <li class="toctree-l1"><a class="reference internal" href="composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="linguistic.html">brand._scorers.linguistic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="llm.html">brand._scorers.llm</a></li>
@@ -87,9 +88,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">brand._scorers.availability</li>
+      <li class="breadcrumb-item active">brand._scorers.company</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../../_sources/module_docs/brand/_scorers/availability.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../../_sources/module_docs/brand/_scorers/company.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -97,17 +98,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-brand._scorers.availability">
-<span id="brand-scorers-availability"></span><h1>brand._scorers.availability<a class="headerlink" href="#module-brand._scorers.availability" title="Link to this heading"></a></h1>
-<p>Availability scorers: DNS, WHOIS, domain, platform handles.</p>
-<p>These scorers check whether a candidate name is available on various
-platforms.  They return <code class="docutils literal notranslate"><span class="pre">True</span></code> (available) or <code class="docutils literal notranslate"><span class="pre">False</span></code> (taken).</p>
-<p>All network scorers are tagged with <code class="docutils literal notranslate"><span class="pre">requires_network=True</span></code> and appropriate
-cost/latency metadata so the pipeline engine can schedule them efficiently.</p>
+  <section id="module-brand._scorers.company">
+<span id="brand-scorers-company"></span><h1>brand._scorers.company<a class="headerlink" href="#module-brand._scorers.company" title="Link to this heading"></a></h1>
+<p>Company name availability scorers.</p>
+<p>Checks whether a candidate name is available for US company registration
+by querying OpenCorporates and the USPTO trademark database.</p>
 <dl class="py function">
-<dt class="sig sig-object py" id="brand._scorers.availability.whois_com">
-<span class="sig-prename descclassname"><span class="pre">brand._scorers.availability.</span></span><span class="sig-name descname"><span class="pre">whois_com</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/availability.html#whois_com"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.availability.whois_com" title="Link to this definition"></a></dt>
-<dd><p>Verify .com availability via WHOIS (slower, more reliable than DNS).</p>
+<dt class="sig sig-object py" id="brand._scorers.company.company_name_available_us">
+<span class="sig-prename descclassname"><span class="pre">brand._scorers.company.</span></span><span class="sig-name descname"><span class="pre">company_name_available_us</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/company.html#company_name_available_us"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.company.company_name_available_us" title="Link to this definition"></a></dt>
+<dd><p>Check if <em>name</em> is available as a US company name.</p>
+<p>Searches OpenCorporates for exact/near matches. Returns True if no
+conflicting company was found. Note: this is an approximation —
+official state-level checks are authoritative.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">company_name_available_us</span><span class="p">(</span><span class="s1">&#39;xyzqwk&#39;</span><span class="p">),</span> <span class="nb">bool</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._scorers.company.trademark_check_us">
+<span class="sig-prename descclassname"><span class="pre">brand._scorers.company.</span></span><span class="sig-name descname"><span class="pre">trademark_check_us</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/company.html#trademark_check_us"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.company.trademark_check_us" title="Link to this definition"></a></dt>
+<dd><p>Check if <em>name</em> conflicts with a registered US trademark.</p>
+<p>Uses the USPTO’s public Trademark Status and Document Retrieval (TSDR)
+API. Returns True if no live trademark conflict was found.</p>
+<p>Note: this searches for exact word marks only. A full clearance search
+should include phonetic equivalents (done by trademark attorneys).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">trademark_check_us</span><span class="p">(</span><span class="s1">&#39;xyzqwk&#39;</span><span class="p">),</span> <span class="nb">bool</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </section>
@@ -116,8 +136,8 @@ cost/latency metadata so the pipeline engine can schedule them efficiently.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../_scorers.html" class="btn btn-neutral float-left" title="brand._scorers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="company.html" class="btn btn-neutral float-right" title="brand._scorers.company" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="availability.html" class="btn btn-neutral float-left" title="brand._scorers.availability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="composite.html" class="btn btn-neutral float-right" title="brand._scorers.composite" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

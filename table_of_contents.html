@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>&lt;no title&gt; &mdash; brand 0.1.0 documentation</title>
+  <title>&lt;no title&gt; &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -51,7 +51,10 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers.html">brand._scorers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/base.html">brand.base</a></li>
@@ -113,13 +116,30 @@
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/availability.html#brand._scorers.availability.whois_com"><code class="docutils literal notranslate"><span class="pre">whois_com()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/company.html">brand._scorers.company</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/company.html#brand._scorers.company.company_name_available_us"><code class="docutils literal notranslate"><span class="pre">company_name_available_us()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/company.html#brand._scorers.company.trademark_check_us"><code class="docutils literal notranslate"><span class="pre">trademark_check_us()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/composite.html">brand._scorers.composite</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/composite.html#brand._scorers.composite.brandability_score"><code class="docutils literal notranslate"><span class="pre">brandability_score()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.cross_linguistic_check"><code class="docutils literal notranslate"><span class="pre">cross_linguistic_check()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.existing_word"><code class="docutils literal notranslate"><span class="pre">existing_word()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.novelty_score"><code class="docutils literal notranslate"><span class="pre">novelty_score()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.phonetic_neighbors"><code class="docutils literal notranslate"><span class="pre">phonetic_neighbors()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy"><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy_detail"><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy_detail()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.spelling_transparency"><code class="docutils literal notranslate"><span class="pre">spelling_transparency()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.substring_hazards"><code class="docutils literal notranslate"><span class="pre">substring_hazards()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/llm.html">brand._scorers.llm</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.get_usage_summary"><code class="docutils literal notranslate"><span class="pre">get_usage_summary()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating"><code class="docutils literal notranslate"><span class="pre">llm_brand_rating()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating_batch"><code class="docutils literal notranslate"><span class="pre">llm_brand_rating_batch()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a><ul>

@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand._scorers.composite &mdash; brand 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">brand._scorers.composite</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for brand._scorers.composite</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Composite brandability scorer.</span>
+
+<span class="sd">Combines multiple cheap, local scorers into a single 0-1 brandability score</span>
+<span class="sd">suitable for ranking large candidate sets before expensive network checks.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">scorers</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Sub-score helpers (inlined to avoid circular imports with other scorer modules)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_syllable_count</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Count syllables via vowel-group heuristic.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[aeiouy]+&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_vowel_consonant_ratio</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ratio of vowels to total letters (ideal ~0.4-0.5 for pronounceability).&quot;&quot;&quot;</span>
+    <span class="n">vowels</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s1">&#39;aeiouy&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vowels</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_unique_letter_ratio</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ratio of unique letters to total (higher = more varied).&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="mf">0.0</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_has_repeating_pattern</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for simple repetition like &#39;bababa&#39;, &#39;ababab&#39;.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">half</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">n</span><span class="p">[:</span><span class="n">half</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">[</span><span class="n">half</span><span class="p">:</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="c1"># Check 2-char repeating unit</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">n</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="n">_FRONT_VOWELS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;eiy&#39;</span><span class="p">)</span>
+<span class="n">_BACK_VOWELS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;oua&#39;</span><span class="p">)</span>
+<span class="n">_VOICELESS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;ptksfc&#39;</span><span class="p">)</span>
+<span class="n">_VOICED</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;bdgvzjmnlr&#39;</span><span class="p">)</span>
+
+<span class="c1"># Substrings that evoke positive associations for tech/health/science</span>
+<span class="n">_POSITIVE_MORPHEMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;lum&#39;</span><span class="p">,</span> <span class="s1">&#39;clar&#39;</span><span class="p">,</span> <span class="s1">&#39;viv&#39;</span><span class="p">,</span> <span class="s1">&#39;sol&#39;</span><span class="p">,</span> <span class="s1">&#39;zen&#39;</span><span class="p">,</span> <span class="s1">&#39;neo&#39;</span><span class="p">,</span> <span class="s1">&#39;nov&#39;</span><span class="p">,</span> <span class="s1">&#39;lux&#39;</span><span class="p">,</span> <span class="s1">&#39;vita&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sana&#39;</span><span class="p">,</span> <span class="s1">&#39;medi&#39;</span><span class="p">,</span> <span class="s1">&#39;cura&#39;</span><span class="p">,</span> <span class="s1">&#39;vis&#39;</span><span class="p">,</span> <span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;syn&#39;</span><span class="p">,</span> <span class="s1">&#39;evo&#39;</span><span class="p">,</span> <span class="s1">&#39;acu&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;cog&#39;</span><span class="p">,</span> <span class="s1">&#39;sen&#39;</span><span class="p">,</span> <span class="s1">&#39;ana&#39;</span><span class="p">,</span> <span class="s1">&#39;lex&#39;</span><span class="p">,</span> <span class="s1">&#39;dyn&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;ven&#39;</span><span class="p">,</span> <span class="s1">&#39;ori&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ver&#39;</span><span class="p">,</span> <span class="s1">&#39;era&#39;</span><span class="p">,</span> <span class="s1">&#39;alo&#39;</span><span class="p">,</span> <span class="s1">&#39;elu&#39;</span><span class="p">,</span> <span class="s1">&#39;avi&#39;</span><span class="p">,</span> <span class="s1">&#39;iri&#39;</span><span class="p">,</span> <span class="s1">&#39;umi&#39;</span><span class="p">,</span> <span class="s1">&#39;elu&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Common profanity substrings (minimal list)</span>
+<span class="n">_BAD_SUBSTRINGS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ass&#39;</span><span class="p">,</span> <span class="s1">&#39;damn&#39;</span><span class="p">,</span> <span class="s1">&#39;shit&#39;</span><span class="p">,</span> <span class="s1">&#39;fuck&#39;</span><span class="p">,</span> <span class="s1">&#39;dick&#39;</span><span class="p">,</span> <span class="s1">&#39;cock&#39;</span><span class="p">,</span> <span class="s1">&#39;cunt&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;piss&#39;</span><span class="p">,</span> <span class="s1">&#39;slut&#39;</span><span class="p">,</span> <span class="s1">&#39;nazi&#39;</span><span class="p">,</span> <span class="s1">&#39;rape&#39;</span><span class="p">,</span> <span class="s1">&#39;porn&#39;</span><span class="p">,</span> <span class="s1">&#39;anal&#39;</span><span class="p">,</span> <span class="s1">&#39;anus&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tit&#39;</span><span class="p">,</span> <span class="s1">&#39;nig&#39;</span><span class="p">,</span> <span class="s1">&#39;fag&#39;</span><span class="p">,</span> <span class="s1">&#39;cum&#39;</span><span class="p">,</span> <span class="s1">&#39;poo&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Ambiguous graphemes (from linguistic.py)</span>
+<span class="n">_AMBIGUOUS_GRAPHEMES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ough&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">&#39;gh&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ea&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;oo&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ou&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_spelling_transparency</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score 0-1 for how unambiguously the name maps to one pronunciation.&quot;&quot;&quot;</span>
+    <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">ambiguity</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">grapheme</span><span class="p">,</span> <span class="n">n_pron</span> <span class="ow">in</span> <span class="n">_AMBIGUOUS_GRAPHEMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">name_lower</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">grapheme</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ambiguity</span> <span class="o">+=</span> <span class="n">count</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_pron</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">max_ambiguity</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="k">if</span> <span class="n">max_ambiguity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">1.0</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">ambiguity</span> <span class="o">/</span> <span class="n">max_ambiguity</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_novelty</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;1.0 = completely novel, 0.0 = very common word.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
+
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s1">&#39;en&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">1.0</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">freq</span> <span class="o">/</span> <span class="mf">7.0</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.5</span>  <span class="c1"># unknown, neutral</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_has_hazard</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Quick check for profanity substrings.&quot;&quot;&quot;</span>
+    <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">-</span> <span class="n">window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">window</span><span class="p">]</span> <span class="ow">in</span> <span class="n">_BAD_SUBSTRINGS</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_positive_morpheme_score</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;0-1 score for presence of positive morpheme substrings.&quot;&quot;&quot;</span>
+    <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">_POSITIVE_MORPHEMES</span> <span class="k">if</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">name_lower</span><span class="p">)</span>
+    <span class="c1"># Cap at 3 matches = 1.0</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">matches</span> <span class="o">/</span> <span class="mf">3.0</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Consonant cluster penalty</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">_HARSH_CLUSTERS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;bk&#39;</span><span class="p">,</span> <span class="s1">&#39;bz&#39;</span><span class="p">,</span> <span class="s1">&#39;dk&#39;</span><span class="p">,</span> <span class="s1">&#39;dz&#39;</span><span class="p">,</span> <span class="s1">&#39;fk&#39;</span><span class="p">,</span> <span class="s1">&#39;gk&#39;</span><span class="p">,</span> <span class="s1">&#39;gz&#39;</span><span class="p">,</span> <span class="s1">&#39;hk&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;kg&#39;</span><span class="p">,</span> <span class="s1">&#39;kz&#39;</span><span class="p">,</span> <span class="s1">&#39;mk&#39;</span><span class="p">,</span> <span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="s1">&#39;pz&#39;</span><span class="p">,</span> <span class="s1">&#39;tk&#39;</span><span class="p">,</span> <span class="s1">&#39;tz&#39;</span><span class="p">,</span> <span class="s1">&#39;vk&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;vz&#39;</span><span class="p">,</span> <span class="s1">&#39;zb&#39;</span><span class="p">,</span> <span class="s1">&#39;zd&#39;</span><span class="p">,</span> <span class="s1">&#39;zf&#39;</span><span class="p">,</span> <span class="s1">&#39;zg&#39;</span><span class="p">,</span> <span class="s1">&#39;zk&#39;</span><span class="p">,</span> <span class="s1">&#39;zm&#39;</span><span class="p">,</span> <span class="s1">&#39;zn&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;zp&#39;</span><span class="p">,</span> <span class="s1">&#39;zt&#39;</span><span class="p">,</span> <span class="s1">&#39;zv&#39;</span><span class="p">,</span> <span class="s1">&#39;bf&#39;</span><span class="p">,</span> <span class="s1">&#39;fb&#39;</span><span class="p">,</span> <span class="s1">&#39;gf&#39;</span><span class="p">,</span> <span class="s1">&#39;fg&#39;</span><span class="p">,</span> <span class="s1">&#39;pf&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;kf&#39;</span><span class="p">,</span> <span class="s1">&#39;fz&#39;</span><span class="p">,</span> <span class="s1">&#39;zf&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_harsh_cluster_count</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Count harsh consonant clusters that are hard to pronounce.&quot;&quot;&quot;</span>
+    <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">bigram</span> <span class="o">=</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">bigram</span> <span class="ow">in</span> <span class="n">_HARSH_CLUSTERS</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">count</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Main composite scorer</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="brandability_score">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/composite.html#brand._scorers.composite.brandability_score">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;brandability&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+        <span class="s1">&#39;Composite brandability score (0-1) combining pronounceability, &#39;</span>
+        <span class="s1">&#39;novelty, visual balance, and phonetic appeal&#39;</span>
+    <span class="p">),</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;cheap&#39;</span><span class="p">,</span>
+    <span class="n">requires_network</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">brandability_score</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a composite brandability score from 0 (poor) to 1 (excellent).</span>
+
+<span class="sd">    Combines multiple weighted sub-scores:</span>
+
+<span class="sd">    - **Pronounceability** (30%): syllable count sweet spot, vowel/consonant</span>
+<span class="sd">      balance, no harsh clusters, spelling transparency</span>
+<span class="sd">    - **Memorability** (25%): length sweet spot, letter variety, no boring</span>
+<span class="sd">      repetition</span>
+<span class="sd">    - **Novelty** (15%): not an existing common word</span>
+<span class="sd">    - **Phonetic appeal** (15%): sound symbolism balance, positive morphemes</span>
+<span class="sd">    - **Safety** (15%): no profanity substrings (hard filter: 0 if found)</span>
+
+<span class="sd">    &gt;&gt;&gt; 0.0 &lt;= brandability_score(&#39;figiri&#39;) &lt;= 1.0</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Hard filter: profanity</span>
+    <span class="k">if</span> <span class="n">_has_hazard</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+    <span class="c1"># --- Pronounceability (30%) ---</span>
+    <span class="n">syllables</span> <span class="o">=</span> <span class="n">_syllable_count</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="c1"># Sweet spot: 2-3 syllables</span>
+    <span class="k">if</span> <span class="n">syllables</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">syl_score</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">syllables</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">syl_score</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="k">elif</span> <span class="n">syllables</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">syl_score</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">syl_score</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+    <span class="c1"># Vowel/consonant balance (ideal 0.4-0.5)</span>
+    <span class="n">vc_ratio</span> <span class="o">=</span> <span class="n">_vowel_consonant_ratio</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">vc_score</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">vc_ratio</span> <span class="o">-</span> <span class="mf">0.45</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># Harsh clusters penalty</span>
+    <span class="n">harsh</span> <span class="o">=</span> <span class="n">_harsh_cluster_count</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">cluster_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">harsh</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+
+    <span class="c1"># Spelling transparency</span>
+    <span class="n">spell_score</span> <span class="o">=</span> <span class="n">_spelling_transparency</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">pronounce</span> <span class="o">=</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">syl_score</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">vc_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">cluster_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">spell_score</span>
+
+    <span class="c1"># --- Memorability (25%) ---</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="c1"># Sweet spot: 5-7 chars</span>
+    <span class="k">if</span> <span class="mi">5</span> <span class="o">&lt;=</span> <span class="n">length</span> <span class="o">&lt;=</span> <span class="mi">7</span><span class="p">:</span>
+        <span class="n">len_score</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="n">len_score</span> <span class="o">=</span> <span class="mf">0.7</span>
+    <span class="k">elif</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+        <span class="n">len_score</span> <span class="o">=</span> <span class="mf">0.4</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">len_score</span> <span class="o">=</span> <span class="mf">0.2</span>
+
+    <span class="c1"># Letter variety</span>
+    <span class="n">variety</span> <span class="o">=</span> <span class="n">_unique_letter_ratio</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="c1"># Sweet spot: 0.6-0.85 (some repetition is OK, too much variety is hard)</span>
+    <span class="k">if</span> <span class="mf">0.6</span> <span class="o">&lt;=</span> <span class="n">variety</span> <span class="o">&lt;=</span> <span class="mf">0.85</span><span class="p">:</span>
+        <span class="n">var_score</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">variety</span> <span class="o">&gt;</span> <span class="mf">0.85</span><span class="p">:</span>
+        <span class="n">var_score</span> <span class="o">=</span> <span class="mf">0.7</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">var_score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">variety</span> <span class="o">/</span> <span class="mf">0.6</span><span class="p">)</span>
+
+    <span class="c1"># Boring repetition penalty</span>
+    <span class="n">repeat_penalty</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">_has_repeating_pattern</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.4</span>
+
+    <span class="n">memorability</span> <span class="o">=</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">len_score</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="n">var_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">repeat_penalty</span><span class="p">)</span>
+
+    <span class="c1"># --- Novelty (15%) ---</span>
+    <span class="n">novel</span> <span class="o">=</span> <span class="n">_novelty</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># --- Phonetic appeal (15%) ---</span>
+    <span class="n">morpheme</span> <span class="o">=</span> <span class="n">_positive_morpheme_score</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="c1"># Sound symbolism: prefer balanced profile (not extreme)</span>
+    <span class="n">vowels_in</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">_FRONT_VOWELS</span> <span class="o">|</span> <span class="n">_BACK_VOWELS</span><span class="p">]</span>
+    <span class="n">n_vowels</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">vowels_in</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span>
+    <span class="n">front_r</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">vowels_in</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_FRONT_VOWELS</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_vowels</span>
+    <span class="c1"># Balanced = good (not too extreme in either direction)</span>
+    <span class="n">balance</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="nb">abs</span><span class="p">(</span><span class="n">front_r</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.5</span>
+    <span class="n">balance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">balance</span><span class="p">))</span>
+
+    <span class="n">appeal</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">morpheme</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">balance</span>
+
+    <span class="c1"># --- Composite ---</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">0.30</span> <span class="o">*</span> <span class="n">pronounce</span>
+        <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">memorability</span>
+        <span class="o">+</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">novel</span>
+        <span class="o">+</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">appeal</span>
+        <span class="o">+</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="mf">1.0</span>  <span class="c1"># safety passed (hard filter above)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">score</span><span class="p">)),</span> <span class="mi">4</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

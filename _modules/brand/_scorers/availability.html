@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.availability &mdash; brand 0.1.0 documentation</title>
+  <title>brand._scorers.availability &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -50,7 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers.html">brand._scorers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/base.html">brand.base</a></li>
@@ -157,6 +160,7 @@
 <span class="c1"># Domain scorers</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_make_domain_scorer</span><span class="p">(</span><span class="n">tld</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scorer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for DNS+WHOIS two-pass domain availability scorers.&quot;&quot;&quot;</span>
 
@@ -173,14 +177,14 @@
 
 <span class="c1"># Register domain scorers for common TLDs</span>
 <span class="n">_TLDS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;dns_com&#39;</span><span class="p">:</span> <span class="s1">&#39;.com&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_net&#39;</span><span class="p">:</span> <span class="s1">&#39;.net&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_org&#39;</span><span class="p">:</span> <span class="s1">&#39;.org&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_io&#39;</span><span class="p">:</span> <span class="s1">&#39;.io&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_ai&#39;</span><span class="p">:</span> <span class="s1">&#39;.ai&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_co&#39;</span><span class="p">:</span> <span class="s1">&#39;.co&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_dev&#39;</span><span class="p">:</span> <span class="s1">&#39;.dev&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;dns_app&#39;</span><span class="p">:</span> <span class="s1">&#39;.app&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_com&quot;</span><span class="p">:</span> <span class="s2">&quot;.com&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_net&quot;</span><span class="p">:</span> <span class="s2">&quot;.net&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_org&quot;</span><span class="p">:</span> <span class="s2">&quot;.org&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_io&quot;</span><span class="p">:</span> <span class="s2">&quot;.io&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_ai&quot;</span><span class="p">:</span> <span class="s2">&quot;.ai&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_co&quot;</span><span class="p">:</span> <span class="s2">&quot;.co&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_dev&quot;</span><span class="p">:</span> <span class="s2">&quot;.dev&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dns_app&quot;</span><span class="p">:</span> <span class="s2">&quot;.app&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_tld</span> <span class="ow">in</span> <span class="n">_TLDS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -188,11 +192,11 @@
     <span class="c1"># Quick DNS-only scorers</span>
     <span class="n">scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
         <span class="n">_name</span><span class="p">,</span>
-        <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;cheap&#39;</span><span class="p">,</span>
+        <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;cheap&quot;</span><span class="p">,</span>
         <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span>
+        <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
         <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Domain availability for </span><span class="si">{</span><span class="n">_tld</span><span class="si">}</span><span class="s1"> (DNS + WHOIS)&#39;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Domain availability for </span><span class="si">{</span><span class="n">_tld</span><span class="si">}</span><span class="s2"> (DNS + WHOIS)&quot;</span><span class="p">,</span>
     <span class="p">)(</span><span class="n">_func</span><span class="p">)</span>
 
 
@@ -200,12 +204,12 @@
 <div class="viewcode-block" id="whois_com">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/availability.html#brand._scorers.availability.whois_com">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;whois_com&#39;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;expensive&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;whois_com&quot;</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;expensive&quot;</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;slow&#39;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;slow&quot;</span><span class="p">,</span>
     <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;WHOIS verification for .com domain&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;WHOIS verification for .com domain&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">whois_com</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify .com availability via WHOIS (slower, more reliable than DNS).&quot;&quot;&quot;</span>
@@ -230,21 +234,21 @@
 
 
 <span class="n">_PLATFORM_CHECKS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;github_org&#39;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s1">&#39;https://github.com/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;GitHub organization availability&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;github_org&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;https://github.com/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;GitHub organization availability&quot;</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s1">&#39;pypi&#39;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s1">&#39;https://pypi.org/project/</span><span class="si">{}</span><span class="s1">/&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;PyPI project name availability&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;pypi&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;https://pypi.org/project/</span><span class="si">{}</span><span class="s2">/&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;PyPI project name availability&quot;</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s1">&#39;npm&#39;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s1">&#39;https://www.npmjs.com/package/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;npm package name availability&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;npm&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;https://www.npmjs.com/package/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;npm package name availability&quot;</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s1">&#39;youtube&#39;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s1">&#39;https://www.youtube.com/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;YouTube channel name availability&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;youtube&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">&quot;https://www.youtube.com/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;YouTube channel name availability&quot;</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">}</span>
 
@@ -252,9 +256,9 @@
     <span class="n">_func</span> <span class="o">=</span> <span class="n">_make_url_scorer</span><span class="p">(</span><span class="n">_template</span><span class="p">,</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_desc</span><span class="p">)</span>
     <span class="n">scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
         <span class="n">_name</span><span class="p">,</span>
-        <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;moderate&#39;</span><span class="p">,</span>
+        <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
         <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;medium&#39;</span><span class="p">,</span>
+        <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
         <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="n">_desc</span><span class="p">,</span>
     <span class="p">)(</span><span class="n">_func</span><span class="p">)</span>

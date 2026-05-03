@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; brand 0.1.0 documentation</title>
+  <title>Index &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -50,7 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers.html">brand._scorers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="module_docs/brand/base.html">brand.base</a></li>
@@ -106,6 +109,7 @@
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#W"><strong>W</strong></a>
  
 </div>
@@ -159,10 +163,31 @@
 </li>
       </ul></li>
       <li>
+    brand._scorers.company
+
+      <ul>
+        <li><a href="module_docs/brand/_scorers/company.html#module-brand._scorers.company">module</a>
+</li>
+      </ul></li>
+      <li>
+    brand._scorers.composite
+
+      <ul>
+        <li><a href="module_docs/brand/_scorers/composite.html#module-brand._scorers.composite">module</a>
+</li>
+      </ul></li>
+      <li>
     brand._scorers.linguistic
 
       <ul>
         <li><a href="module_docs/brand/_scorers/linguistic.html#module-brand._scorers.linguistic">module</a>
+</li>
+      </ul></li>
+      <li>
+    brand._scorers.llm
+
+      <ul>
+        <li><a href="module_docs/brand/_scorers/llm.html#module-brand._scorers.llm">module</a>
 </li>
       </ul></li>
       <li>
@@ -179,6 +204,8 @@
         <li><a href="module_docs/brand/_scorers/visual.html#module-brand._scorers.visual">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     brand.base
 
@@ -186,8 +213,6 @@
         <li><a href="module_docs/brand/base.html#module-brand.base">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     brand.config
 
@@ -244,18 +269,22 @@
         <li><a href="module_docs/brand/util.html#module-brand.util">module</a>
 </li>
       </ul></li>
+      <li><a href="module_docs/brand/_scorers/composite.html#brand._scorers.composite.brandability_score">brandability_score() (in module brand._scorers.composite)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/brand/registry.html#brand.registry.ComponentMeta">ComponentMeta (class in brand.registry)</a>
+      <li><a href="module_docs/brand/_scorers/company.html#brand._scorers.company.company_name_available_us">company_name_available_us() (in module brand._scorers.company)</a>
 </li>
-      <li><a href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.cross_linguistic_check">cross_linguistic_check() (in module brand._scorers.linguistic)</a>
+      <li><a href="module_docs/brand/registry.html#brand.registry.ComponentMeta">ComponentMeta (class in brand.registry)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.cross_linguistic_check">cross_linguistic_check() (in module brand._scorers.linguistic)</a>
+</li>
       <li><a href="module_docs/brand/_generators.html#brand._generators.cvcvcv">cvcvcv() (in module brand._generators)</a>
 </li>
       <li><a href="module_docs/brand/_generators.html#brand._generators.cvcvcv_filtered">cvcvcv_filtered() (in module brand._generators)</a>
@@ -317,6 +346,10 @@
       <li><a href="module_docs/brand/stages.html#brand.stages.Generate">Generate (class in brand.stages)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.get_usage_summary">get_usage_summary() (in module brand._scorers.llm)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="I">I</h2>
@@ -340,9 +373,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/brand/_scorers/visual.html#brand._scorers.visual.letter_balance">letter_balance() (in module brand._scorers.visual)</a>
 </li>
+      <li><a href="module_docs/brand/pipeline.html#brand.pipeline.list_templates">list_templates() (in module brand.pipeline)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="module_docs/brand/pipeline.html#brand.pipeline.list_templates">list_templates() (in module brand.pipeline)</a>
+      <li><a href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating">llm_brand_rating() (in module brand._scorers.llm)</a>
+</li>
+      <li><a href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating_batch">llm_brand_rating_batch() (in module brand._scorers.llm)</a>
 </li>
       <li><a href="module_docs/brand/pipeline.html#brand.pipeline.load_template">load_template() (in module brand.pipeline)</a>
 </li>
@@ -364,7 +401,13 @@
 </li>
         <li><a href="module_docs/brand/_scorers/availability.html#module-brand._scorers.availability">brand._scorers.availability</a>
 </li>
+        <li><a href="module_docs/brand/_scorers/company.html#module-brand._scorers.company">brand._scorers.company</a>
+</li>
+        <li><a href="module_docs/brand/_scorers/composite.html#module-brand._scorers.composite">brand._scorers.composite</a>
+</li>
         <li><a href="module_docs/brand/_scorers/linguistic.html#module-brand._scorers.linguistic">brand._scorers.linguistic</a>
+</li>
+        <li><a href="module_docs/brand/_scorers/llm.html#module-brand._scorers.llm">brand._scorers.llm</a>
 </li>
         <li><a href="module_docs/brand/_scorers/phonetic.html#module-brand._scorers.phonetic">brand._scorers.phonetic</a>
 </li>
@@ -417,11 +460,15 @@
 </li>
       <li><a href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.phonetic_neighbors">phonetic_neighbors() (in module brand._scorers.linguistic)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.phonotactic_score">phonotactic_score() (in module brand._scorers.phonetic)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="module_docs/brand/util.html#brand.util.print_progress">print_progress() (in module brand.util)</a>
+</li>
+      <li><a href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy">pronunciation_entropy() (in module brand._scorers.linguistic)</a>
+</li>
+      <li><a href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy_detail">pronunciation_entropy_detail() (in module brand._scorers.linguistic)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -462,6 +509,14 @@
       <li><a href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.substring_hazards">substring_hazards() (in module brand._scorers.linguistic)</a>
 </li>
       <li><a href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.syllable_count">syllable_count() (in module brand._scorers.phonetic)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="module_docs/brand/_scorers/company.html#brand._scorers.company.trademark_check_us">trademark_check_us() (in module brand._scorers.company)</a>
 </li>
   </ul></td>
 </tr></table>

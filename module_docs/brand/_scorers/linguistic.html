@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.linguistic &mdash; brand 0.1.0 documentation</title>
+  <title>brand._scorers.linguistic &mdash; brand 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=9bcbadda"></script>
       <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -24,8 +24,8 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="brand._scorers.phonetic" href="phonetic.html" />
-    <link rel="prev" title="brand._scorers.availability" href="availability.html" /> 
+    <link rel="next" title="brand._scorers.llm" href="llm.html" />
+    <link rel="prev" title="brand._scorers.composite" href="composite.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -53,15 +53,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../_generators.html">brand._generators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../_scorers.html">brand._scorers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="composite.html">brand._scorers.composite</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">brand._scorers.linguistic</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.cross_linguistic_check"><code class="docutils literal notranslate"><span class="pre">cross_linguistic_check()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.existing_word"><code class="docutils literal notranslate"><span class="pre">existing_word()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.novelty_score"><code class="docutils literal notranslate"><span class="pre">novelty_score()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.phonetic_neighbors"><code class="docutils literal notranslate"><span class="pre">phonetic_neighbors()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.pronunciation_entropy"><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.pronunciation_entropy_detail"><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy_detail()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.spelling_transparency"><code class="docutils literal notranslate"><span class="pre">spelling_transparency()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#brand._scorers.linguistic.substring_hazards"><code class="docutils literal notranslate"><span class="pre">substring_hazards()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="llm.html">brand._scorers.llm</a></li>
 <li class="toctree-l1"><a class="reference internal" href="phonetic.html">brand._scorers.phonetic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="visual.html">brand._scorers.visual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../base.html">brand.base</a></li>
@@ -103,7 +108,7 @@
 <span id="brand-scorers-linguistic"></span><h1>brand._scorers.linguistic<a class="headerlink" href="#module-brand._scorers.linguistic" title="Link to this heading"></a></h1>
 <p>Linguistic and semantic scorers.</p>
 <p>These scorers check for existing word collisions, cross-linguistic meanings,
-profanity substrings, phonetic neighbors, and novelty.</p>
+profanity substrings, phonetic neighbors, novelty, and pronunciation entropy.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="brand._scorers.linguistic.cross_linguistic_check">
 <span class="sig-prename descclassname"><span class="pre">brand._scorers.linguistic.</span></span><span class="sig-name descname"><span class="pre">cross_linguistic_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('en',</span> <span class="pre">'es',</span> <span class="pre">'fr',</span> <span class="pre">'de',</span> <span class="pre">'pt',</span> <span class="pre">'it',</span> <span class="pre">'ja',</span> <span class="pre">'zh',</span> <span class="pre">'ar',</span> <span class="pre">'hi',</span> <span class="pre">'ru')</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/linguistic.html#cross_linguistic_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.linguistic.cross_linguistic_check" title="Link to this definition"></a></dt>
@@ -149,6 +154,51 @@ decreasing toward 0.0 for very common words.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="brand._scorers.linguistic.pronunciation_entropy">
+<span class="sig-prename descclassname"><span class="pre">brand._scorers.linguistic.</span></span><span class="sig-name descname"><span class="pre">pronunciation_entropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('en',)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/linguistic.html#pronunciation_entropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.linguistic.pronunciation_entropy" title="Link to this definition"></a></dt>
+<dd><p>Measure grapheme-to-phoneme ambiguity as Shannon entropy in bits.</p>
+<p>Unlike <code class="docutils literal notranslate"><span class="pre">spelling_transparency</span></code> which uses a flat lookup of ambiguous
+graphemes, this scorer models <strong>positional and contextual</strong> ambiguity:
+initial Y before a consonant is highly ambiguous, terminal Y is not;
+terminal E is ambiguous (silent? schwa?), medial E less so; vowels
+in open vs. closed syllables have different probability distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The candidate brand name.</p></li>
+<li><p><strong>languages</strong> (<em>tuple</em><em>[</em><em>str</em><em>, </em><em>...</em><em>]</em>) – Target languages for cross-linguistic entropy.  Default <code class="docutils literal notranslate"><span class="pre">('en',)</span></code>
+uses English-only rules.  Pass <code class="docutils literal notranslate"><span class="pre">('en',</span> <span class="pre">'fr')</span></code> to include French
+reading ambiguity (merged distribution, higher entropy when the
+languages disagree on pronunciation).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Shannon entropy in bits, where 0.0 = completely unambiguous and
+higher values indicate more pronunciation ambiguity.  Typical
+range for 6-letter coined names: 1.0 – 6.0 bits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pronunciation_entropy</span><span class="p">(</span><span class="s1">&#39;panapy&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">pronunciation_entropy</span><span class="p">(</span><span class="s1">&#39;ysolos&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pronunciation_entropy</span><span class="p">(</span><span class="s1">&#39;bab&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">pronunciation_entropy</span><span class="p">(</span><span class="s1">&#39;levole&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand._scorers.linguistic.pronunciation_entropy_detail">
+<span class="sig-prename descclassname"><span class="pre">brand._scorers.linguistic.</span></span><span class="sig-name descname"><span class="pre">pronunciation_entropy_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">languages</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('en',)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/linguistic.html#pronunciation_entropy_detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.linguistic.pronunciation_entropy_detail" title="Link to this definition"></a></dt>
+<dd><p>Return per-grapheme entropy breakdown for debugging and exploration.</p>
+<p>Returns a list of dicts with keys: <code class="docutils literal notranslate"><span class="pre">grapheme</span></code>, <code class="docutils literal notranslate"><span class="pre">position</span></code>,
+<code class="docutils literal notranslate"><span class="pre">context</span></code>, <code class="docutils literal notranslate"><span class="pre">distribution</span></code>, <code class="docutils literal notranslate"><span class="pre">entropy_bits</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="brand._scorers.linguistic.spelling_transparency">
 <span class="sig-prename descclassname"><span class="pre">brand._scorers.linguistic.</span></span><span class="sig-name descname"><span class="pre">spelling_transparency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/linguistic.html#spelling_transparency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.linguistic.spelling_transparency" title="Link to this definition"></a></dt>
 <dd><p>Score spelling transparency from 0 (very ambiguous) to 1 (transparent).</p>
@@ -178,8 +228,8 @@ decreasing toward 0.0 for very common words.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="availability.html" class="btn btn-neutral float-left" title="brand._scorers.availability" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="phonetic.html" class="btn btn-neutral float-right" title="brand._scorers.phonetic" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="composite.html" class="btn btn-neutral float-left" title="brand._scorers.composite" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="llm.html" class="btn btn-neutral float-right" title="brand._scorers.llm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

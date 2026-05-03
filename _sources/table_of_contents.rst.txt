@@ -6,7 +6,10 @@
    module_docs/brand/_generators
    module_docs/brand/_scorers
    module_docs/brand/_scorers/availability
+   module_docs/brand/_scorers/company
+   module_docs/brand/_scorers/composite
    module_docs/brand/_scorers/linguistic
+   module_docs/brand/_scorers/llm
    module_docs/brand/_scorers/phonetic
    module_docs/brand/_scorers/visual
    module_docs/brand/base

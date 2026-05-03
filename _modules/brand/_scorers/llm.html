@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>brand._scorers.llm &mdash; brand 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            brand
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand.html">brand</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_generators.html">brand._generators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers.html">brand._scorers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/base.html">brand.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/config.html">brand.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">brand</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">brand._scorers.llm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for brand._scorers.llm</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;LLM-based brand evaluation scorers.</span>
+
+<span class="sd">Uses Claude (via the Anthropic API) to evaluate brand names on subjective</span>
+<span class="sd">qualities that are difficult to capture with rule-based scorers: overall</span>
+<span class="sd">brand appeal, connotation quality, global safety, and domain fit.</span>
+
+<span class="sd">Requires the ``anthropic`` package and a valid ``ANTHROPIC_API_KEY``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">brand.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">scorers</span>
+
+
+<span class="n">_DEFAULT_CONTEXT</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;AI-enabled tools for sociology and health researchers, analysts, and clinicians&quot;</span>
+<span class="p">)</span>
+
+<span class="n">_RATING_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">You are a brand naming expert. Rate each candidate brand name on a scale of 1-10 </span><span class="se">\</span>
+<span class="s2">for each criterion below. The company builds </span><span class="si">{context}</span><span class="s2">.</span>
+
+<span class="s2">Criteria:</span>
+<span class="s2">1. **memorability**: How easy is the name to remember?</span>
+<span class="s2">2. **appeal**: How appealing and professional does it sound?</span>
+<span class="s2">3. **positive_connotation**: Does it evoke positive associations (innovation, </span><span class="se">\</span>
+<span class="s2">trust, clarity, health, insight)?</span>
+<span class="s2">4. **global_safety**: Is it free of negative/embarrassing meanings in major </span><span class="se">\</span>
+<span class="s2">world languages (English, Spanish, French, German, Portuguese, Mandarin, </span><span class="se">\</span>
+<span class="s2">Japanese, Arabic, Hindi)?</span>
+<span class="s2">5. **domain_fit**: How well does it suit a technology/research company?</span>
+
+<span class="s2">Return ONLY a JSON array. Each element must be an object with keys: </span><span class="se">\</span>
+<span class="s2">&quot;name&quot;, &quot;memorability&quot;, &quot;appeal&quot;, &quot;positive_connotation&quot;, &quot;global_safety&quot;, </span><span class="se">\</span>
+<span class="s2">&quot;domain_fit&quot;, &quot;overall&quot; (weighted average, you choose weights), and </span><span class="se">\</span>
+<span class="s2">&quot;rationale&quot; (one sentence).</span>
+
+<span class="s2">Names to rate:</span>
+<span class="si">{names_list}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">_usage_log</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="sd">&quot;&quot;&quot;Module-level log of token usage across all API calls.&quot;&quot;&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_call_claude</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;claude-sonnet-4-20250514&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Call the Anthropic API and return the text response.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">anthropic</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="s2">&quot;LLM scorers require the &#39;anthropic&#39; package. &quot;</span>
+            <span class="s2">&quot;Install with: pip install anthropic&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="o">=</span><span class="mi">8192</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;role&#39;</span><span class="p">:</span> <span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="n">prompt</span><span class="p">}],</span>
+    <span class="p">)</span>
+    <span class="n">_usage_log</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+        <span class="s1">&#39;input_tokens&#39;</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">input_tokens</span><span class="p">,</span>
+        <span class="s1">&#39;output_tokens&#39;</span><span class="p">:</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">output_tokens</span><span class="p">,</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+
+
+<div class="viewcode-block" id="get_usage_summary">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/llm.html#brand._scorers.llm.get_usage_summary">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_usage_summary</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return cumulative token usage and estimated cost.</span>
+
+<span class="sd">    Pricing (as of 2025): Claude Sonnet — $3/M input, $15/M output.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">total_input</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="s1">&#39;input_tokens&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">_usage_log</span><span class="p">)</span>
+    <span class="n">total_output</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="s1">&#39;output_tokens&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">_usage_log</span><span class="p">)</span>
+    <span class="c1"># Sonnet pricing</span>
+    <span class="n">cost_input</span> <span class="o">=</span> <span class="n">total_input</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="n">cost_output</span> <span class="o">=</span> <span class="n">total_output</span> <span class="o">*</span> <span class="mf">15.0</span> <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;api_calls&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">_usage_log</span><span class="p">),</span>
+        <span class="s1">&#39;total_input_tokens&#39;</span><span class="p">:</span> <span class="n">total_input</span><span class="p">,</span>
+        <span class="s1">&#39;total_output_tokens&#39;</span><span class="p">:</span> <span class="n">total_output</span><span class="p">,</span>
+        <span class="s1">&#39;total_tokens&#39;</span><span class="p">:</span> <span class="n">total_input</span> <span class="o">+</span> <span class="n">total_output</span><span class="p">,</span>
+        <span class="s1">&#39;estimated_cost_usd&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">cost_input</span> <span class="o">+</span> <span class="n">cost_output</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="s1">&#39;cost_breakdown&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;input&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">cost_input</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="s1">&#39;output&#39;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">cost_output</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="p">},</span>
+    <span class="p">}</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_ratings</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract the JSON array from Claude&#39;s response.&quot;&quot;&quot;</span>
+    <span class="c1"># Find JSON array in the response</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="c1"># Try direct parse first</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="c1"># Try to extract JSON from markdown code block</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;```(?:json)?\s*\n?(.*?)\n?```&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="c1"># Try to find array brackets</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;[&#39;</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;]&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">start</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span> <span class="n">end</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="p">[]</span>
+
+
+<div class="viewcode-block" id="llm_brand_rating">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating">[docs]</a>
+<span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+    <span class="s1">&#39;llm_brand_rating&#39;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;LLM-based brand quality rating (1-10 across multiple criteria)&#39;</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;expensive&#39;</span><span class="p">,</span>
+    <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;slow&#39;</span><span class="p">,</span>
+    <span class="n">parallelizable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Batch scorer — handles multiple names at once</span>
+<span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">llm_brand_rating</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_DEFAULT_CONTEXT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rate a single name using Claude.</span>
+
+<span class="sd">    Returns a dict with keys: memorability, appeal, positive_connotation,</span>
+<span class="sd">    global_safety, domain_fit, overall, rationale.</span>
+
+<span class="sd">    &gt;&gt;&gt; isinstance(llm_brand_rating.__doc__, str)  # just check it exists</span>
+<span class="sd">    True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prompt</span> <span class="o">=</span> <span class="n">_RATING_PROMPT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+        <span class="n">names_list</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">_call_claude</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">ratings</span> <span class="o">=</span> <span class="n">_parse_ratings</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ratings</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ratings</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;Could not parse LLM response&#39;</span><span class="p">,</span> <span class="s1">&#39;raw&#39;</span><span class="p">:</span> <span class="n">text</span><span class="p">[:</span><span class="mi">500</span><span class="p">]}</span></div>
+
+
+
+<div class="viewcode-block" id="llm_brand_rating_batch">
+<a class="viewcode-back" href="../../../module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating_batch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">llm_brand_rating_batch</span><span class="p">(</span>
+    <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">context</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_DEFAULT_CONTEXT</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;claude-sonnet-4-20250514&#39;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rate multiple names in batches using Claude.</span>
+
+<span class="sd">    More efficient than calling ``llm_brand_rating`` one by one.</span>
+<span class="sd">    Returns a dict mapping name → rating dict.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    names : list[str]</span>
+<span class="sd">        Candidate names to rate.</span>
+<span class="sd">    context : str</span>
+<span class="sd">        Company description for the LLM prompt.</span>
+<span class="sd">    batch_size : int</span>
+<span class="sd">        Names per API call (default 50).</span>
+<span class="sd">    model : str</span>
+<span class="sd">        Claude model to use.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, dict]</span>
+<span class="sd">        Mapping of name → {memorability, appeal, ..., overall, rationale}.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+    <span class="n">total_batches</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="o">/</span> <span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">),</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+        <span class="n">names_list</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">)</span>
+        <span class="n">prompt</span> <span class="o">=</span> <span class="n">_RATING_PROMPT</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+            <span class="n">names_list</span><span class="o">=</span><span class="n">names_list</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">_call_claude</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">ratings</span> <span class="o">=</span> <span class="n">_parse_ratings</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="c1"># Match ratings back to names</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">rating</span> <span class="ow">in</span> <span class="n">ratings</span><span class="p">:</span>
+            <span class="n">rname</span> <span class="o">=</span> <span class="n">rating</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">rname</span> <span class="ow">in</span> <span class="p">{</span><span class="n">n</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">}:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">rname</span><span class="p">]</span> <span class="o">=</span> <span class="n">rating</span>
+                <span class="n">matched</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># Fill in any missing names with error marker</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">results</span><span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;error&#39;</span><span class="p">:</span> <span class="s1">&#39;not rated in batch&#39;</span><span class="p">,</span> <span class="s1">&#39;overall&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="n">usage</span> <span class="o">=</span> <span class="n">_usage_log</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">_usage_log</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;  Batch </span><span class="si">{</span><span class="n">batch_idx</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">total_batches</span><span class="si">}</span><span class="s1">: &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">matched</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span><span class="si">}</span><span class="s1"> rated, &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;input_tokens&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;?&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">+</span><span class="si">{</span><span class="n">usage</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_tokens&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;?&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> tokens&#39;</span><span class="p">,</span>
+            <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright NO COPYRIGHT.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
