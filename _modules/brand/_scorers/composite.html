@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.composite &mdash; brand 0.1.1 documentation</title>
+  <title>brand._scorers.composite &mdash; brand 0.1.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,9 +14,9 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
-      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/documentation_options.js?v=92734c54"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
@@ -110,16 +110,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Count syllables via vowel-group heuristic.&quot;&quot;&quot;</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
-    <span class="n">groups</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[aeiouy]+&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+    <span class="n">groups</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[aeiouy]+&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
     <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_vowel_consonant_ratio</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Ratio of vowels to total letters (ideal ~0.4-0.5 for pronounceability).&quot;&quot;&quot;</span>
-    <span class="n">vowels</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s1">&#39;aeiouy&#39;</span><span class="p">)</span>
+    <span class="n">vowels</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">&quot;aeiouy&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">vowels</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">if</span> <span class="n">name</span> <span class="k">else</span> <span class="mf">0.0</span>
 
 
@@ -132,40 +132,93 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for simple repetition like &#39;bababa&#39;, &#39;ababab&#39;.&quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">half</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
-    <span class="k">if</span> <span class="n">half</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">n</span><span class="p">[:</span><span class="n">half</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">[</span><span class="n">half</span><span class="p">:</span><span class="mi">2</span> <span class="o">*</span> <span class="n">half</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">half</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">n</span><span class="p">[:</span><span class="n">half</span><span class="p">]</span> <span class="o">==</span> <span class="n">n</span><span class="p">[</span><span class="n">half</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">half</span><span class="p">]:</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="c1"># Check 2-char repeating unit</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">unit</span> <span class="o">=</span> <span class="n">n</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">unit</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]:</span>
+        <span class="k">if</span> <span class="n">unit</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]:</span>
             <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="n">_FRONT_VOWELS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;eiy&#39;</span><span class="p">)</span>
-<span class="n">_BACK_VOWELS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;oua&#39;</span><span class="p">)</span>
-<span class="n">_VOICELESS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;ptksfc&#39;</span><span class="p">)</span>
-<span class="n">_VOICED</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;bdgvzjmnlr&#39;</span><span class="p">)</span>
+<span class="n">_FRONT_VOWELS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;eiy&quot;</span><span class="p">)</span>
+<span class="n">_BACK_VOWELS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;oua&quot;</span><span class="p">)</span>
+<span class="n">_VOICELESS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;ptksfc&quot;</span><span class="p">)</span>
+<span class="n">_VOICED</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;bdgvzjmnlr&quot;</span><span class="p">)</span>
 
 <span class="c1"># Substrings that evoke positive associations for tech/health/science</span>
 <span class="n">_POSITIVE_MORPHEMES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;lum&#39;</span><span class="p">,</span> <span class="s1">&#39;clar&#39;</span><span class="p">,</span> <span class="s1">&#39;viv&#39;</span><span class="p">,</span> <span class="s1">&#39;sol&#39;</span><span class="p">,</span> <span class="s1">&#39;zen&#39;</span><span class="p">,</span> <span class="s1">&#39;neo&#39;</span><span class="p">,</span> <span class="s1">&#39;nov&#39;</span><span class="p">,</span> <span class="s1">&#39;lux&#39;</span><span class="p">,</span> <span class="s1">&#39;vita&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;sana&#39;</span><span class="p">,</span> <span class="s1">&#39;medi&#39;</span><span class="p">,</span> <span class="s1">&#39;cura&#39;</span><span class="p">,</span> <span class="s1">&#39;vis&#39;</span><span class="p">,</span> <span class="s1">&#39;gen&#39;</span><span class="p">,</span> <span class="s1">&#39;syn&#39;</span><span class="p">,</span> <span class="s1">&#39;evo&#39;</span><span class="p">,</span> <span class="s1">&#39;acu&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;cog&#39;</span><span class="p">,</span> <span class="s1">&#39;sen&#39;</span><span class="p">,</span> <span class="s1">&#39;ana&#39;</span><span class="p">,</span> <span class="s1">&#39;lex&#39;</span><span class="p">,</span> <span class="s1">&#39;dyn&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">,</span> <span class="s1">&#39;ven&#39;</span><span class="p">,</span> <span class="s1">&#39;ori&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ver&#39;</span><span class="p">,</span> <span class="s1">&#39;era&#39;</span><span class="p">,</span> <span class="s1">&#39;alo&#39;</span><span class="p">,</span> <span class="s1">&#39;elu&#39;</span><span class="p">,</span> <span class="s1">&#39;avi&#39;</span><span class="p">,</span> <span class="s1">&#39;iri&#39;</span><span class="p">,</span> <span class="s1">&#39;umi&#39;</span><span class="p">,</span> <span class="s1">&#39;elu&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;lum&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;clar&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;viv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sol&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zen&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;neo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nov&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lux&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vita&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sana&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;medi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cura&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vis&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gen&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;syn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;evo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;acu&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cog&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sen&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ana&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lex&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dyn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;val&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ven&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ori&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ver&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;era&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;alo&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;elu&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;avi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;iri&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;umi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;elu&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Common profanity substrings (minimal list)</span>
 <span class="n">_BAD_SUBSTRINGS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;ass&#39;</span><span class="p">,</span> <span class="s1">&#39;damn&#39;</span><span class="p">,</span> <span class="s1">&#39;shit&#39;</span><span class="p">,</span> <span class="s1">&#39;fuck&#39;</span><span class="p">,</span> <span class="s1">&#39;dick&#39;</span><span class="p">,</span> <span class="s1">&#39;cock&#39;</span><span class="p">,</span> <span class="s1">&#39;cunt&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;piss&#39;</span><span class="p">,</span> <span class="s1">&#39;slut&#39;</span><span class="p">,</span> <span class="s1">&#39;nazi&#39;</span><span class="p">,</span> <span class="s1">&#39;rape&#39;</span><span class="p">,</span> <span class="s1">&#39;porn&#39;</span><span class="p">,</span> <span class="s1">&#39;anal&#39;</span><span class="p">,</span> <span class="s1">&#39;anus&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;tit&#39;</span><span class="p">,</span> <span class="s1">&#39;nig&#39;</span><span class="p">,</span> <span class="s1">&#39;fag&#39;</span><span class="p">,</span> <span class="s1">&#39;cum&#39;</span><span class="p">,</span> <span class="s1">&#39;poo&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;ass&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;damn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;shit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fuck&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dick&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cunt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;piss&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;slut&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nazi&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;rape&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;porn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;anal&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;anus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tit&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nig&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fag&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cum&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;poo&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1"># Ambiguous graphemes (from linguistic.py)</span>
 <span class="n">_AMBIGUOUS_GRAPHEMES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;th&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ough&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;ch&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="s1">&#39;gh&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ea&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;oo&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;ou&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;g&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;th&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;ough&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="s2">&quot;ch&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;gh&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;oo&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;ou&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -188,7 +241,7 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
 
-        <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s1">&#39;en&#39;</span><span class="p">)</span>
+        <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="mf">1.0</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">freq</span> <span class="o">/</span> <span class="mf">7.0</span><span class="p">)</span>
@@ -201,7 +254,7 @@
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">-</span> <span class="n">window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">window</span><span class="p">]</span> <span class="ow">in</span> <span class="n">_BAD_SUBSTRINGS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">window</span><span class="p">]</span> <span class="ow">in</span> <span class="n">_BAD_SUBSTRINGS</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span>
 
@@ -219,11 +272,41 @@
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
 <span class="n">_HARSH_CLUSTERS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;bk&#39;</span><span class="p">,</span> <span class="s1">&#39;bz&#39;</span><span class="p">,</span> <span class="s1">&#39;dk&#39;</span><span class="p">,</span> <span class="s1">&#39;dz&#39;</span><span class="p">,</span> <span class="s1">&#39;fk&#39;</span><span class="p">,</span> <span class="s1">&#39;gk&#39;</span><span class="p">,</span> <span class="s1">&#39;gz&#39;</span><span class="p">,</span> <span class="s1">&#39;hk&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;kg&#39;</span><span class="p">,</span> <span class="s1">&#39;kz&#39;</span><span class="p">,</span> <span class="s1">&#39;mk&#39;</span><span class="p">,</span> <span class="s1">&#39;pk&#39;</span><span class="p">,</span> <span class="s1">&#39;pz&#39;</span><span class="p">,</span> <span class="s1">&#39;tk&#39;</span><span class="p">,</span> <span class="s1">&#39;tz&#39;</span><span class="p">,</span> <span class="s1">&#39;vk&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;vz&#39;</span><span class="p">,</span> <span class="s1">&#39;zb&#39;</span><span class="p">,</span> <span class="s1">&#39;zd&#39;</span><span class="p">,</span> <span class="s1">&#39;zf&#39;</span><span class="p">,</span> <span class="s1">&#39;zg&#39;</span><span class="p">,</span> <span class="s1">&#39;zk&#39;</span><span class="p">,</span> <span class="s1">&#39;zm&#39;</span><span class="p">,</span> <span class="s1">&#39;zn&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;zp&#39;</span><span class="p">,</span> <span class="s1">&#39;zt&#39;</span><span class="p">,</span> <span class="s1">&#39;zv&#39;</span><span class="p">,</span> <span class="s1">&#39;bf&#39;</span><span class="p">,</span> <span class="s1">&#39;fb&#39;</span><span class="p">,</span> <span class="s1">&#39;gf&#39;</span><span class="p">,</span> <span class="s1">&#39;fg&#39;</span><span class="p">,</span> <span class="s1">&#39;pf&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;kf&#39;</span><span class="p">,</span> <span class="s1">&#39;fz&#39;</span><span class="p">,</span> <span class="s1">&#39;zf&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;bk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;dz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;vz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zd&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zk&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zn&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zp&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zt&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zv&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;gf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fg&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;kf&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;zf&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -232,7 +315,7 @@
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">bigram</span> <span class="o">=</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">bigram</span> <span class="o">=</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">bigram</span> <span class="ow">in</span> <span class="n">_HARSH_CLUSTERS</span><span class="p">:</span>
             <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">count</span>
@@ -246,14 +329,14 @@
 <div class="viewcode-block" id="brandability_score">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/composite.html#brand._scorers.composite.brandability_score">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s1">&#39;brandability&#39;</span><span class="p">,</span>
+    <span class="s2">&quot;brandability&quot;</span><span class="p">,</span>
     <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-        <span class="s1">&#39;Composite brandability score (0-1) combining pronounceability, &#39;</span>
-        <span class="s1">&#39;novelty, visual balance, and phonetic appeal&#39;</span>
+        <span class="s2">&quot;Composite brandability score (0-1) combining pronounceability, &quot;</span>
+        <span class="s2">&quot;novelty, visual balance, and phonetic appeal&quot;</span>
     <span class="p">),</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s1">&#39;cheap&#39;</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;cheap&quot;</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s1">&#39;fast&#39;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">brandability_score</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a composite brandability score from 0 (poor) to 1 (excellent).</span>
@@ -298,7 +381,9 @@
     <span class="c1"># Spelling transparency</span>
     <span class="n">spell_score</span> <span class="o">=</span> <span class="n">_spelling_transparency</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="n">pronounce</span> <span class="o">=</span> <span class="mf">0.35</span> <span class="o">*</span> <span class="n">syl_score</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">vc_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">cluster_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">spell_score</span>
+    <span class="n">pronounce</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mf">0.35</span> <span class="o">*</span> <span class="n">syl_score</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">vc_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">cluster_score</span> <span class="o">+</span> <span class="mf">0.2</span> <span class="o">*</span> <span class="n">spell_score</span>
+    <span class="p">)</span>
 
     <span class="c1"># --- Memorability (25%) ---</span>
     <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
