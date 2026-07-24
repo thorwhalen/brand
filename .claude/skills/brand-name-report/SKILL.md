@@ -47,22 +47,29 @@ Run Python from that directory with `sys.path.insert(0, '.')`.
 
 ```python
 import json, sys
-sys.path.insert(0, '/Users/thorwhalen/Dropbox/py/proj/t/brand')
+
+sys.path.insert(0, "/Users/thorwhalen/Dropbox/py/proj/t/brand")
 
 names = [...]  # from arguments
 
 from brand._scorers.phonetic import syllable_count, stress_pattern, sound_symbolism
 from brand._scorers.linguistic import (
-    novelty_score, existing_word, substring_hazards,
-    spelling_transparency, pronunciation_entropy,
+    novelty_score,
+    existing_word,
+    substring_hazards,
+    spelling_transparency,
+    pronunciation_entropy,
 )
 from brand._scorers.visual import letter_balance, keyboard_distance, name_length
 from brand._scorers.composite import brandability_score
 
 # Also useful sub-metrics from composite:
 from brand._scorers.composite import (
-    _vowel_consonant_ratio, _unique_letter_ratio,
-    _has_repeating_pattern, _harsh_cluster_count, _positive_morpheme_score,
+    _vowel_consonant_ratio,
+    _unique_letter_ratio,
+    _has_repeating_pattern,
+    _harsh_cluster_count,
+    _positive_morpheme_score,
     _POSITIVE_MORPHEMES,
 )
 
@@ -70,29 +77,31 @@ results = {}
 for name in names:
     r = {}
     # Phonetic
-    r['syllables'] = syllable_count(name)
-    r['stress_pattern'] = stress_pattern(name)
-    r['sound_symbolism'] = sound_symbolism(name)
+    r["syllables"] = syllable_count(name)
+    r["stress_pattern"] = stress_pattern(name)
+    r["sound_symbolism"] = sound_symbolism(name)
     # Linguistic
-    r['novelty'] = novelty_score(name)
-    r['existing_word'] = existing_word(name)
-    r['substring_hazards'] = substring_hazards(name)
-    r['spelling_transparency'] = spelling_transparency(name)
-    r['pronunciation_entropy_en'] = pronunciation_entropy(name, languages=('en',))
-    r['pronunciation_entropy_multi'] = pronunciation_entropy(name, languages=tuple(LANGUAGES))
+    r["novelty"] = novelty_score(name)
+    r["existing_word"] = existing_word(name)
+    r["substring_hazards"] = substring_hazards(name)
+    r["spelling_transparency"] = spelling_transparency(name)
+    r["pronunciation_entropy_en"] = pronunciation_entropy(name, languages=("en",))
+    r["pronunciation_entropy_multi"] = pronunciation_entropy(
+        name, languages=tuple(LANGUAGES)
+    )
     # Visual
-    r['letter_balance'] = letter_balance(name)
-    r['keyboard_distance'] = keyboard_distance(name)
-    r['name_length'] = name_length(name)
+    r["letter_balance"] = letter_balance(name)
+    r["keyboard_distance"] = keyboard_distance(name)
+    r["name_length"] = name_length(name)
     # Composite
-    r['brandability'] = brandability_score(name)
+    r["brandability"] = brandability_score(name)
     # Sub-metrics
-    r['vowel_consonant_ratio'] = round(_vowel_consonant_ratio(name), 3)
-    r['unique_letter_ratio'] = round(_unique_letter_ratio(name), 3)
-    r['has_repeating_pattern'] = _has_repeating_pattern(name)
-    r['harsh_cluster_count'] = _harsh_cluster_count(name)
-    r['positive_morpheme_score'] = round(_positive_morpheme_score(name), 3)
-    r['found_morphemes'] = [m for m in _POSITIVE_MORPHEMES if m in name.lower()]
+    r["vowel_consonant_ratio"] = round(_vowel_consonant_ratio(name), 3)
+    r["unique_letter_ratio"] = round(_unique_letter_ratio(name), 3)
+    r["has_repeating_pattern"] = _has_repeating_pattern(name)
+    r["harsh_cluster_count"] = _harsh_cluster_count(name)
+    r["positive_morpheme_score"] = round(_positive_morpheme_score(name), 3)
+    r["found_morphemes"] = [m for m in _POSITIVE_MORPHEMES if m in name.lower()]
     results[name] = r
 
 print(json.dumps(results, indent=2))
@@ -108,6 +117,7 @@ print(json.dumps(results, indent=2))
 
 ```python
 from brand._scorers.linguistic import pronunciation_entropy_detail
+
 for name in names:
     detail = pronunciation_entropy_detail(name, languages=tuple(LANGUAGES))
 ```

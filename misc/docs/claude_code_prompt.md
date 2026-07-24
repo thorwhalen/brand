@@ -69,7 +69,15 @@ A pipeline is a list of stages, specified declaratively. Something like:
 ```python
 pipeline = [
     Generate("cvcvcv", consonants="bdfglmnprstvz", vowels="aeiouy", filt=few_uniques),
-    Score(["phonotactic", "syllables", "stress", "articulatory_complexity", "sound_symbolism"]),
+    Score(
+        [
+            "phonotactic",
+            "syllables",
+            "stress",
+            "articulatory_complexity",
+            "sound_symbolism",
+        ]
+    ),
     Filter(top_n=1000, by="aggregate"),
     Score(["dns_com", "dns_net"]),  # quick DNS check, parallelizable
     Filter(lambda r: r["dns_com"] or r["dns_net"]),
@@ -133,31 +141,35 @@ All scorers, generators, and filters should be **registered in a discoverable re
 import brand
 
 # See what's available
-list(brand.scorers)        # ['phonotactic', 'syllables', 'dns_com', 'whois_com', ...]
-list(brand.generators)     # ['cvcvcv', 'ai_suggest', ...]
-list(brand.filters)        # ['top_n', 'threshold', 'predicate', ...]
-list(brand.pipelines)      # ['tech_startup', 'python_package', 'consumer_global', ...]
+list(brand.scorers)  # ['phonotactic', 'syllables', 'dns_com', 'whois_com', ...]
+list(brand.generators)  # ['cvcvcv', 'ai_suggest', ...]
+list(brand.filters)  # ['top_n', 'threshold', 'predicate', ...]
+list(brand.pipelines)  # ['tech_startup', 'python_package', 'consumer_global', ...]
 
 # Get metadata about a scorer
-brand.scorers['phonotactic'].cost          # 'cheap'
-brand.scorers['phonotactic'].requires_network  # False
-brand.scorers['whois_com'].cost            # 'expensive'
-brand.scorers['whois_com'].requires_network    # True
+brand.scorers["phonotactic"].cost  # 'cheap'
+brand.scorers["phonotactic"].requires_network  # False
+brand.scorers["whois_com"].cost  # 'expensive'
+brand.scorers["whois_com"].requires_network  # True
+
 
 # Register a custom scorer
-@brand.scorers.register('my_custom_scorer')
+@brand.scorers.register("my_custom_scorer")
 def my_custom_scorer(name: str) -> float:
     return len(name) / 10  # silly example
 
+
 # Run a pre-configured pipeline
-results = brand.run_pipeline('tech_startup', context="AI-powered data visualization")
+results = brand.run_pipeline("tech_startup", context="AI-powered data visualization")
 
 # Run a custom pipeline
-results = brand.run_pipeline([
-    brand.Generate("cvcvcv"),
-    brand.Score(["phonotactic", "syllables", "my_custom_scorer"]),
-    brand.Filter(top_n=100),
-])
+results = brand.run_pipeline(
+    [
+        brand.Generate("cvcvcv"),
+        brand.Score(["phonotactic", "syllables", "my_custom_scorer"]),
+        brand.Filter(top_n=100),
+    ]
+)
 ```
 
 Again — don't cargo-cult this exact API. Design what's cleanest. The point is: discoverable, extensible, composable.

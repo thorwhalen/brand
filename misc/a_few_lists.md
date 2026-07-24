@@ -15555,13 +15555,17 @@ To reproduce or update these lists:
 from brand.base import batch_check_available, fewer_consonants, vowels, few_uniques
 import itertools
 
+
 # Example: CVCVCV with fixed vowel
 def gen_cvcvcv_fixed_vowel(consonants=fewer_consonants, vowels=vowels):
     for v in vowels:
-        yield from map("".join, itertools.product(
-            consonants, [v], consonants, [v], consonants, [v]))
+        yield from map(
+            "".join,
+            itertools.product(consonants, [v], consonants, [v], consonants, [v]),
+        )
+
 
 candidates = sorted(filter(few_uniques, gen_cvcvcv_fixed_vowel()))
 result = batch_check_available(candidates)
-print(f'{len(result["available"])} available domains found')
+print(f"{len(result['available'])} available domains found")
 ```

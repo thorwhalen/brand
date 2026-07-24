@@ -13,8 +13,10 @@ Execute pipelines with full monitoring:
 ```python
 import brand
 
+
 def on_stage_complete(stage_idx, stage_type, n_candidates):
     print(f"  Stage {stage_idx} ({stage_type}): {n_candidates} candidates remaining")
+
 
 results = brand.run_pipeline(
     stages_or_template,
@@ -42,12 +44,15 @@ results = brand.run_pipeline(
 Read the project directory to understand what was already computed:
 ```python
 import os, json
+
 proj_dir = f"{brand.config.PIPELINES_DIR}/{project_name}"
 for d in sorted(os.listdir(proj_dir)):
-    if d.startswith('stage_'):
+    if d.startswith("stage_"):
         with open(f"{proj_dir}/{d}/results.json") as f:
             data = json.load(f)
-        print(f"{d}: {len(data) if isinstance(data, list) else data.get('count', '?')} items")
+        print(
+            f"{d}: {len(data) if isinstance(data, list) else data.get('count', '?')} items"
+        )
 ```
 
 ### Branching
@@ -58,15 +63,15 @@ Take results from an intermediate stage and run a different pipeline path:
 # Load stage 2 results
 with open(f"{proj_dir}/stage_02_filter/results.json") as f:
     data = json.load(f)
-candidates = data.get('candidates', data)
+candidates = data.get("candidates", data)
 
 # Run a different scoring/filtering path
 branch_results = brand.run_pipeline(
     [
-        brand.Score(['dns_ai', 'dns_io']),  # different TLDs
-        brand.Filter(rules={'dns_ai': True}),
+        brand.Score(["dns_ai", "dns_io"]),  # different TLDs
+        brand.Filter(rules={"dns_ai": True}),
     ],
-    names=[c['name'] for c in candidates],
+    names=[c["name"] for c in candidates],
     project_name=f"{project_name}_branch_ai",
 )
 ```

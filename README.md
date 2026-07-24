@@ -21,8 +21,8 @@ Evaluate a single name:
 ```python
 import brand
 
-result = brand.evaluate_name('figiri')
-print(result['scores'])
+result = brand.evaluate_name("figiri")
+print(result["scores"])
 # {'syllables': 3, 'stress_pattern': 'unknown', 'spelling_transparency': 0.88,
 #  'sound_symbolism': {'profile': 'modern/sharp', ...}, 'novelty': 1.0, ...}
 ```
@@ -35,9 +35,9 @@ stages that progressively enriches, scores, and narrows a set of candidate names
 ### Run a pre-configured template
 
 ```python
-results = brand.run_pipeline('tech_startup', names=['figiri', 'lumex', 'voxen'])
+results = brand.run_pipeline("tech_startup", names=["figiri", "lumex", "voxen"])
 
-for candidate in results['candidates']:
+for candidate in results["candidates"]:
     print(f"{candidate['name']}: {candidate['scores']}")
 ```
 
@@ -61,16 +61,18 @@ Available templates:
 ```python
 from brand import Generate, Score, Filter, run_pipeline
 
-results = run_pipeline([
-    Generate('cvcvcv_filtered'),
-    Score(['syllables', 'spelling_transparency', 'sound_symbolism', 'novelty']),
-    Filter(top_n=500, by='spelling_transparency'),
-    Score(['dns_com', 'dns_io']),
-    Filter(rules={'dns_com': True}),
-    Score(['whois_com']),
-    Filter(rules={'whois_com': True}),
-    Score(['github_org']),
-])
+results = run_pipeline(
+    [
+        Generate("cvcvcv_filtered"),
+        Score(["syllables", "spelling_transparency", "sound_symbolism", "novelty"]),
+        Filter(top_n=500, by="spelling_transparency"),
+        Score(["dns_com", "dns_io"]),
+        Filter(rules={"dns_com": True}),
+        Score(["whois_com"]),
+        Filter(rules={"whois_com": True}),
+        Score(["github_org"]),
+    ]
+)
 
 print(f"{len(results['candidates'])} names survived the pipeline")
 print(f"Artifacts saved to: {results['project_dir']}")
@@ -87,54 +89,59 @@ All components are discoverable:
 import brand
 
 # See what's available
-list(brand.scorers)        # ['syllables', 'phonotactic', 'dns_com', ...]
-list(brand.generators)     # ['cvcvcv', 'ai_suggest', 'morpheme_combiner', ...]
-brand.list_templates()     # ['tech_startup', 'python_package', ...]
+list(brand.scorers)  # ['syllables', 'phonotactic', 'dns_com', ...]
+list(brand.generators)  # ['cvcvcv', 'ai_suggest', 'morpheme_combiner', ...]
+brand.list_templates()  # ['tech_startup', 'python_package', ...]
 
 # Inspect a scorer
-brand.scorers['dns_com'].cost            # 'cheap'
-brand.scorers['dns_com'].requires_network  # True
-brand.scorers['whois_com'].latency       # 'slow'
+brand.scorers["dns_com"].cost  # 'cheap'
+brand.scorers["dns_com"].requires_network  # True
+brand.scorers["whois_com"].latency  # 'slow'
 ```
 
 ### Register a custom scorer
 
 ```python
-@brand.scorers.register('my_vowel_ratio')
+@brand.scorers.register("my_vowel_ratio")
 def my_vowel_ratio(name: str) -> float:
-    vowels = sum(1 for c in name.lower() if c in 'aeiouy')
+    vowels = sum(1 for c in name.lower() if c in "aeiouy")
     return vowels / len(name)
 
+
 # Now use it in a pipeline
-results = brand.run_pipeline([
-    Generate('from_list', params={'names': ['alpha', 'beta', 'omega']}),
-    Score(['my_vowel_ratio', 'syllables']),
-])
+results = brand.run_pipeline(
+    [
+        Generate("from_list", params={"names": ["alpha", "beta", "omega"]}),
+        Score(["my_vowel_ratio", "syllables"]),
+    ]
+)
 ```
 
 ## Generators
 
 ```python
 # CVCVCV combinatoric (371k+ candidates)
-names = list(brand.generators['cvcvcv']())
+names = list(brand.generators["cvcvcv"]())
 
 # CVCVCV with few-uniques filter
-names = list(brand.generators['cvcvcv_filtered']())
+names = list(brand.generators["cvcvcv_filtered"]())
 
 # Custom CV pattern
-names = list(brand.generators['pattern'](pattern='CVCCV'))
+names = list(brand.generators["pattern"](pattern="CVCCV"))
 
 # Morpheme combiner (portmanteau-style)
-names = list(brand.generators['morpheme_combiner'](
-    prefixes=['lum', 'vox', 'syn'],
-    suffixes=['ify', 'io', 'ar'],
-))
+names = list(
+    brand.generators["morpheme_combiner"](
+        prefixes=["lum", "vox", "syn"],
+        suffixes=["ify", "io", "ar"],
+    )
+)
 
 # AI-assisted (requires 'oa' package)
-names = list(brand.generators['ai_suggest'](context='AI data tools'))
+names = list(brand.generators["ai_suggest"](context="AI data tools"))
 
 # From a file or list
-names = list(brand.generators['from_list'](names=['alpha', 'beta']))
+names = list(brand.generators["from_list"](names=["alpha", "beta"]))
 ```
 
 ## Scorers
@@ -180,11 +187,12 @@ from brand import is_available_as
 list(is_available_as)
 # ['domain_name', 'github_org', 'npm_package', 'pypi_project', 'youtube_channel']
 
-is_available_as.github_org('thorwhalen')  # False
-is_available_as.pypi_project('brand')     # False
+is_available_as.github_org("thorwhalen")  # False
+is_available_as.pypi_project("brand")  # False
 
 from brand import domain_name_is_available
-domain_name_is_available('google')        # False
+
+domain_name_is_available("google")  # False
 ```
 
 ## AI-Assisted Workflows
@@ -193,14 +201,16 @@ domain_name_is_available('google')        # False
 
 ```python
 from brand import ask_ai_to_generate_names
-names = ask_ai_to_generate_names('AI-powered data visualization platform')
+
+names = ask_ai_to_generate_names("AI-powered data visualization platform")
 ```
 
 ### Analyze names with AI
 
 ```python
 from brand import ai_analyze_names
-analysis = ai_analyze_names(['figiri', 'lumex', 'datavox'], context='data viz platform')
+
+analysis = ai_analyze_names(["figiri", "lumex", "datavox"], context="data viz platform")
 ```
 
 ## Claude Code Skills and Agents

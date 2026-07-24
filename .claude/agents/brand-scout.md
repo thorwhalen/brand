@@ -22,6 +22,7 @@ You operate autonomously through the full naming workflow:
 4. **Run the pipeline**: Execute with persistence so results can be inspected:
    ```python
    import brand
+
    results = brand.run_pipeline(
        pipeline_stages,
        names=generated_names,

@@ -31,7 +31,9 @@ import brand
 # Show all available scorers
 for name in sorted(brand.scorers):
     meta = brand.scorers[name]
-    print(f"  {name}: {meta.description} [cost={meta.cost}, network={meta.requires_network}]")
+    print(
+        f"  {name}: {meta.description} [cost={meta.cost}, network={meta.requires_network}]"
+    )
 
 # Show generators
 for name in sorted(brand.generators):
@@ -59,25 +61,28 @@ from brand import Generate, Score, Filter
 
 pipeline = [
     # Stage 0: Generate candidates
-    Generate('cvcvcv_filtered'),
-
+    Generate("cvcvcv_filtered"),
     # Stage 1: Quick local scoring (free, instant)
-    Score(['syllables', 'spelling_transparency', 'sound_symbolism',
-           'novelty', 'substring_hazards', 'keyboard_distance']),
-
+    Score(
+        [
+            "syllables",
+            "spelling_transparency",
+            "sound_symbolism",
+            "novelty",
+            "substring_hazards",
+            "keyboard_distance",
+        ]
+    ),
     # Stage 2: Filter to top candidates
-    Filter(top_n=500, by='spelling_transparency'),
-
+    Filter(top_n=500, by="spelling_transparency"),
     # Stage 3: DNS check (fast, parallel)
-    Score(['dns_com', 'dns_io']),
-    Filter(rules={'dns_com': True}),
-
+    Score(["dns_com", "dns_io"]),
+    Filter(rules={"dns_com": True}),
     # Stage 4: WHOIS verification (slower)
-    Score(['whois_com']),
-    Filter(rules={'whois_com': True}),
-
+    Score(["whois_com"]),
+    Filter(rules={"whois_com": True}),
     # Stage 5: Platform checks
-    Score(['github_org', 'pypi']),
+    Score(["github_org", "pypi"]),
 ]
 ```
 
@@ -116,7 +121,7 @@ Offer to:
 
 ```python
 # Run the custom pipeline
-results = brand.run_pipeline(pipeline, names=['candidate1', 'candidate2'])
+results = brand.run_pipeline(pipeline, names=["candidate1", "candidate2"])
 
 # Or with a generator
 results = brand.run_pipeline(pipeline)

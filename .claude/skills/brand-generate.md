@@ -25,19 +25,21 @@ Use the appropriate generators:
 import brand
 
 # Combinatoric generation (CVCVCV patterns)
-names = list(brand.generators['cvcvcv'](consonants='bdfglmnprstvz', vowels='aeiouy'))
+names = list(brand.generators["cvcvcv"](consonants="bdfglmnprstvz", vowels="aeiouy"))
 
 # Morpheme combiner for portmanteau-style names
-names = list(brand.generators['morpheme_combiner'](
-    prefixes=['lum', 'vox', 'syn', 'nex'],
-    suffixes=['ify', 'io', 'us', 'ar'],
-))
+names = list(
+    brand.generators["morpheme_combiner"](
+        prefixes=["lum", "vox", "syn", "nex"],
+        suffixes=["ify", "io", "us", "ar"],
+    )
+)
 
 # AI-assisted generation
-names = list(brand.generators['ai_suggest'](context="AI-powered data tools"))
+names = list(brand.generators["ai_suggest"](context="AI-powered data tools"))
 
 # Pattern-based (e.g., CVCCV for shorter names)
-names = list(brand.generators['pattern'](pattern='CVCCV', consonants='bdfglmnprstvz'))
+names = list(brand.generators["pattern"](pattern="CVCCV", consonants="bdfglmnprstvz"))
 ```
 
 ### Step 3: Quick Screen
@@ -45,12 +47,12 @@ names = list(brand.generators['pattern'](pattern='CVCCV', consonants='bdfglmnprs
 Run the quick_screen pipeline to rapidly filter:
 
 ```python
-results = brand.run_pipeline('quick_screen', names=names)
-candidates = results['candidates']
+results = brand.run_pipeline("quick_screen", names=names)
+candidates = results["candidates"]
 
 # Sort by a relevant metric
-candidates.sort(key=lambda c: c['scores'].get('spelling_transparency', 0), reverse=True)
-top_names = [c['name'] for c in candidates[:20]]
+candidates.sort(key=lambda c: c["scores"].get("spelling_transparency", 0), reverse=True)
+top_names = [c["name"] for c in candidates[:20]]
 ```
 
 ### Step 4: Present Shortlist

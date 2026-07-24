@@ -11,8 +11,9 @@ You operate autonomously to audit brand names:
 2. **Run full evaluation**: Use the `full_audit` template or equivalent:
    ```python
    import brand
+
    results = brand.run_pipeline(
-       'full_audit',
+       "full_audit",
        names=candidate_names,
        project_name="audit",
    )

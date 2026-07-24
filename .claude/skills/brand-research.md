@@ -16,11 +16,20 @@ Using the `brand` package and your expertise:
 import brand
 
 # Run full audit first
-result = brand.evaluate_name("candidate", scorers=[
-    'syllables', 'stress_pattern', 'spelling_transparency',
-    'sound_symbolism', 'novelty', 'existing_word',
-    'substring_hazards', 'letter_balance', 'keyboard_distance',
-])
+result = brand.evaluate_name(
+    "candidate",
+    scorers=[
+        "syllables",
+        "stress_pattern",
+        "spelling_transparency",
+        "sound_symbolism",
+        "novelty",
+        "existing_word",
+        "substring_hazards",
+        "letter_balance",
+        "keyboard_distance",
+    ],
+)
 ```
 
 Then analyze:
@@ -33,10 +42,10 @@ Then analyze:
 
 ```python
 # Check cross-linguistic meanings
-cross_ling = brand.scorers['cross_linguistic']("candidate")
+cross_ling = brand.scorers["cross_linguistic"]("candidate")
 
 # Find phonetic neighbors in multiple languages
-neighbors = brand.scorers['phonetic_neighbors']("candidate")
+neighbors = brand.scorers["phonetic_neighbors"]("candidate")
 ```
 
 Go deeper:

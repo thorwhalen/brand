@@ -22,15 +22,23 @@ print(result)
 # For multiple names, run a pipeline
 results = brand.run_pipeline(
     [
-        brand.Generate('from_list', params={'names': ['name1', 'name2', 'name3']}),
-        brand.Score([
-            'syllables', 'stress_pattern', 'spelling_transparency',
-            'sound_symbolism', 'novelty', 'existing_word',
-            'substring_hazards', 'letter_balance', 'keyboard_distance',
-            'name_length',
-        ]),
+        brand.Generate("from_list", params={"names": ["name1", "name2", "name3"]}),
+        brand.Score(
+            [
+                "syllables",
+                "stress_pattern",
+                "spelling_transparency",
+                "sound_symbolism",
+                "novelty",
+                "existing_word",
+                "substring_hazards",
+                "letter_balance",
+                "keyboard_distance",
+                "name_length",
+            ]
+        ),
     ],
-    names=['name1', 'name2', 'name3'],
+    names=["name1", "name2", "name3"],
 )
 ```
 
@@ -38,8 +46,8 @@ If the user needs availability checks, add network scorers:
 
 ```python
 results = brand.run_pipeline(
-    'full_audit',
-    names=['name1', 'name2'],
+    "full_audit",
+    names=["name1", "name2"],
 )
 ```
 
