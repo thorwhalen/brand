@@ -241,7 +241,7 @@ Rewrite `README.md` to reflect the new architecture:
 
 - Type hints, docstrings with examples, doctests where natural
 - `dol`/Mapping patterns for stores (pipeline artifacts, registries)
-- `argh` for CLI entry points
+- `cw` for CLI entry points
 - `config2py` for configuration (API keys, default pipeline, pipeline storage dir)
 - Informative errors over silent failures
 - Functions as primary interface, classes only when earned
