@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.availability &mdash; brand 0.1.4 documentation</title>
+  <title>brand._scorers.availability &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,14 +91,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand._scorers.availability</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Availability scorers: DNS, WHOIS, domain, platform handles.</span>
+<span></span><span class="sd">"""Availability scorers: DNS, WHOIS, domain, platform handles.</span>
 
 <span class="sd">These scorers check whether a candidate name is available on various</span>
 <span class="sd">platforms.  They return ``True`` (available) or ``False`` (taken).</span>
 
 <span class="sd">All network scorers are tagged with ``requires_network=True`` and appropriate</span>
 <span class="sd">cost/latency metadata so the pipeline engine can schedule them efficiently.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
 
@@ -114,7 +113,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_dns_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fast DNS-only check.  Returns True if domain does NOT resolve.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Fast DNS-only check.  Returns True if domain does NOT resolve."""</span>
     <span class="n">old_timeout</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">getdefaulttimeout</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">socket</span><span class="o">.</span><span class="n">setdefaulttimeout</span><span class="p">(</span><span class="n">timeout</span><span class="p">)</span>
@@ -127,7 +126,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_whois_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;WHOIS-based check.  Returns True if domain appears unregistered.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""WHOIS-based check.  Returns True if domain appears unregistered."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">whois</span>
 
@@ -142,17 +141,17 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_url_is_available</span><span class="p">(</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">available_codes</span><span class="o">=</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="mi">410</span><span class="p">),</span> <span class="n">taken_codes</span><span class="o">=</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">301</span><span class="p">)</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check URL status code.  Returns True if the resource doesn&#39;t exist.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check URL status code.  Returns True if the resource doesn't exist."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">available_codes</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">in</span> <span class="n">taken_codes</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="c1"># Ambiguous — default to &quot;taken&quot; to be conservative</span>
+        <span class="c1"># Ambiguous — default to "taken" to be conservative</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
-        <span class="c1"># Network error — can&#39;t determine, assume taken</span>
+        <span class="c1"># Network error — can't determine, assume taken</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
@@ -162,29 +161,29 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_make_domain_scorer</span><span class="p">(</span><span class="n">tld</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scorer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for DNS+WHOIS two-pass domain availability scorers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Factory for DNS+WHOIS two-pass domain availability scorers."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">domain_scorer</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="n">domain</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}{</span><span class="n">tld</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">domain</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}{</span><span class="n">tld</span><span class="si">}</span><span class="s2">"</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_dns_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="n">_whois_is_available</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span>
 
     <span class="n">domain_scorer</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">scorer_name</span>
-    <span class="n">domain_scorer</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Check if </span><span class="se">{{</span><span class="s2">name</span><span class="se">}}</span><span class="si">{</span><span class="n">tld</span><span class="si">}</span><span class="s2"> is available (DNS + WHOIS).&quot;</span>
+    <span class="n">domain_scorer</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Check if </span><span class="se">{{</span><span class="s2">name</span><span class="se">}}</span><span class="si">{</span><span class="n">tld</span><span class="si">}</span><span class="s2"> is available (DNS + WHOIS)."</span>
     <span class="k">return</span> <span class="n">domain_scorer</span>
 
 
 <span class="c1"># Register domain scorers for common TLDs</span>
 <span class="n">_TLDS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;dns_com&quot;</span><span class="p">:</span> <span class="s2">&quot;.com&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_net&quot;</span><span class="p">:</span> <span class="s2">&quot;.net&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_org&quot;</span><span class="p">:</span> <span class="s2">&quot;.org&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_io&quot;</span><span class="p">:</span> <span class="s2">&quot;.io&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_ai&quot;</span><span class="p">:</span> <span class="s2">&quot;.ai&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_co&quot;</span><span class="p">:</span> <span class="s2">&quot;.co&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_dev&quot;</span><span class="p">:</span> <span class="s2">&quot;.dev&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dns_app&quot;</span><span class="p">:</span> <span class="s2">&quot;.app&quot;</span><span class="p">,</span>
+    <span class="s2">"dns_com"</span><span class="p">:</span> <span class="s2">".com"</span><span class="p">,</span>
+    <span class="s2">"dns_net"</span><span class="p">:</span> <span class="s2">".net"</span><span class="p">,</span>
+    <span class="s2">"dns_org"</span><span class="p">:</span> <span class="s2">".org"</span><span class="p">,</span>
+    <span class="s2">"dns_io"</span><span class="p">:</span> <span class="s2">".io"</span><span class="p">,</span>
+    <span class="s2">"dns_ai"</span><span class="p">:</span> <span class="s2">".ai"</span><span class="p">,</span>
+    <span class="s2">"dns_co"</span><span class="p">:</span> <span class="s2">".co"</span><span class="p">,</span>
+    <span class="s2">"dns_dev"</span><span class="p">:</span> <span class="s2">".dev"</span><span class="p">,</span>
+    <span class="s2">"dns_app"</span><span class="p">:</span> <span class="s2">".app"</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="k">for</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_tld</span> <span class="ow">in</span> <span class="n">_TLDS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -192,11 +191,11 @@
     <span class="c1"># Quick DNS-only scorers</span>
     <span class="n">scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
         <span class="n">_name</span><span class="p">,</span>
-        <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;cheap&quot;</span><span class="p">,</span>
+        <span class="n">cost</span><span class="o">=</span><span class="s2">"cheap"</span><span class="p">,</span>
         <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
+        <span class="n">latency</span><span class="o">=</span><span class="s2">"fast"</span><span class="p">,</span>
         <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Domain availability for </span><span class="si">{</span><span class="n">_tld</span><span class="si">}</span><span class="s2"> (DNS + WHOIS)&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Domain availability for </span><span class="si">{</span><span class="n">_tld</span><span class="si">}</span><span class="s2"> (DNS + WHOIS)"</span><span class="p">,</span>
     <span class="p">)(</span><span class="n">_func</span><span class="p">)</span>
 
 
@@ -204,16 +203,16 @@
 <div class="viewcode-block" id="whois_com">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/availability.html#brand._scorers.availability.whois_com">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;whois_com&quot;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;expensive&quot;</span><span class="p">,</span>
+    <span class="s2">"whois_com"</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">"expensive"</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;slow&quot;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">"slow"</span><span class="p">,</span>
     <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;WHOIS verification for .com domain&quot;</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"WHOIS verification for .com domain"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">whois_com</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify .com availability via WHOIS (slower, more reliable than DNS).&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_whois_is_available</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.com&quot;</span><span class="p">)</span></div>
+<span class="w">    </span><span class="sd">"""Verify .com availability via WHOIS (slower, more reliable than DNS)."""</span>
+    <span class="k">return</span> <span class="n">_whois_is_available</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.com"</span><span class="p">)</span></div>
 
 
 
@@ -223,7 +222,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_make_url_scorer</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scorer_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for URL-based availability scorers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Factory for URL-based availability scorers."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">url_scorer</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_url_is_available</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
@@ -234,21 +233,21 @@
 
 
 <span class="n">_PLATFORM_CHECKS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;github_org&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;https://github.com/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;GitHub organization availability&quot;</span><span class="p">,</span>
+    <span class="s2">"github_org"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"https://github.com/</span><span class="si">{}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"GitHub organization availability"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">&quot;pypi&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;https://pypi.org/project/</span><span class="si">{}</span><span class="s2">/&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;PyPI project name availability&quot;</span><span class="p">,</span>
+    <span class="s2">"pypi"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"https://pypi.org/project/</span><span class="si">{}</span><span class="s2">/"</span><span class="p">,</span>
+        <span class="s2">"PyPI project name availability"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">&quot;npm&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;https://www.npmjs.com/package/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;npm package name availability&quot;</span><span class="p">,</span>
+    <span class="s2">"npm"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"https://www.npmjs.com/package/</span><span class="si">{}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"npm package name availability"</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="s2">&quot;youtube&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;https://www.youtube.com/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;YouTube channel name availability&quot;</span><span class="p">,</span>
+    <span class="s2">"youtube"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"https://www.youtube.com/</span><span class="si">{}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="s2">"YouTube channel name availability"</span><span class="p">,</span>
     <span class="p">),</span>
 <span class="p">}</span>
 
@@ -256,9 +255,9 @@
     <span class="n">_func</span> <span class="o">=</span> <span class="n">_make_url_scorer</span><span class="p">(</span><span class="n">_template</span><span class="p">,</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_desc</span><span class="p">)</span>
     <span class="n">scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
         <span class="n">_name</span><span class="p">,</span>
-        <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
+        <span class="n">cost</span><span class="o">=</span><span class="s2">"moderate"</span><span class="p">,</span>
         <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
+        <span class="n">latency</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
         <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="n">_desc</span><span class="p">,</span>
     <span class="p">)(</span><span class="n">_func</span><span class="p">)</span>

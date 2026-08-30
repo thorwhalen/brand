@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand &mdash; brand 0.1.4 documentation</title>
+  <title>brand &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -67,7 +67,6 @@
 <li class="toctree-l1"><a class="reference internal" href="brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="brand/util.html">brand.util</a></li>
@@ -103,24 +102,24 @@
 <section id="quick-start">
 <h2>Quick start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">brand</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">brand</span><span class="o">.</span><span class="n">evaluate_name</span><span class="p">(</span><span class="s1">&#39;figiri&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">][</span><span class="s1">&#39;syllables&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">brand</span><span class="o">.</span><span class="n">evaluate_name</span><span class="p">(</span><span class="s1">'figiri'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="s1">'scores'</span><span class="p">][</span><span class="s1">'syllables'</span><span class="p">]</span>
 <span class="go">3</span>
 </pre></div>
 </div>
 <p>Browse available components:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">scorers</span><span class="p">)</span>
-<span class="go">[&#39;syllables&#39;, &#39;phonotactic&#39;, &#39;dns_com&#39;, ...]</span>
+<span class="go">['syllables', 'phonotactic', 'dns_com', ...]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">)</span>
-<span class="go">[&#39;cvcvcv&#39;, &#39;ai_suggest&#39;, ...]</span>
+<span class="go">['cvcvcv', 'ai_suggest', ...]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">templates</span><span class="p">)</span>
-<span class="go">[&#39;tech_startup&#39;, &#39;python_package&#39;, &#39;quick_screen&#39;, ...]</span>
+<span class="go">['tech_startup', 'python_package', 'quick_screen', ...]</span>
 </pre></div>
 </div>
 <p>Run a pre-configured pipeline:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">brand</span><span class="o">.</span><span class="n">run_pipeline</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="s1">&#39;tech_startup&#39;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;figiri&#39;</span><span class="p">,</span> <span class="s1">&#39;lumex&#39;</span><span class="p">,</span> <span class="s1">&#39;voxen&#39;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s1">'tech_startup'</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'figiri'</span><span class="p">,</span> <span class="s1">'lumex'</span><span class="p">,</span> <span class="s1">'voxen'</span><span class="p">],</span>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>

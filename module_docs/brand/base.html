@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand.base &mdash; brand 0.1.4 documentation</title>
+  <title>brand.base &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -76,7 +76,6 @@
 <li class="toctree-l1"><a class="reference internal" href="misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">brand.util</a></li>
@@ -171,9 +170,9 @@ Returns False if the domain is likely available (unregistered).</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">domain_exists</span><span class="p">(</span><span class="s1">&#39;google.com&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">domain_exists</span><span class="p">(</span><span class="s1">'google.com'</span><span class="p">)</span>
 <span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">domain_exists</span><span class="p">(</span><span class="s1">&#39;asdfaksdjhfsd2384udifyiwue.org&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">domain_exists</span><span class="p">(</span><span class="s1">'asdfaksdjhfsd2384udifyiwue.org'</span><span class="p">)</span>
 <span class="go">False</span>
 </pre></div>
 </div>
@@ -216,9 +215,9 @@ Returns False if the domain is likely available (unregistered).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="brand.base.domain_name_is_available">
 <span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">domain_name_is_available</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tld</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.com'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/brand/base.html#domain_name_is_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.base.domain_name_is_available" title="Link to this definition"></a></dt>
-<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;google.com&#39;</span><span class="p">)</span>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">'google.com'</span><span class="p">)</span>
 <span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;asdfaksdjhfsd2384udifyiwue.org&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">'asdfaksdjhfsd2384udifyiwue.org'</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -244,9 +243,9 @@ You can do so simply by using the <cite>filter</cite> function.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="brand.base.name_is_available">
 <span class="sig-prename descclassname"><span class="pre">brand.base.</span></span><span class="sig-name descname"><span class="pre">name_is_available</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tld</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'.com'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#brand.base.name_is_available" title="Link to this definition"></a></dt>
-<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;google.com&#39;</span><span class="p">)</span>
+<dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">'google.com'</span><span class="p">)</span>
 <span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">&#39;asdfaksdjhfsd2384udifyiwue.org&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_is_available</span><span class="p">(</span><span class="s1">'asdfaksdjhfsd2384udifyiwue.org'</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
 </div>

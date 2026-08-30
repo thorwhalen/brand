@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.linguistic &mdash; brand 0.1.4 documentation</title>
+  <title>brand._scorers.linguistic &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,11 +91,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand._scorers.linguistic</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Linguistic and semantic scorers.</span>
+<span></span><span class="sd">"""Linguistic and semantic scorers.</span>
 
 <span class="sd">These scorers check for existing word collisions, cross-linguistic meanings,</span>
 <span class="sd">profanity substrings, phonetic neighbors, novelty, and pronunciation entropy.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
@@ -113,28 +112,28 @@
 <div class="viewcode-block" id="novelty_score">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.novelty_score">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;novelty&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Novelty score via wordfreq (0=common word, 1=completely novel)&quot;</span><span class="p">,</span>
+    <span class="s2">"novelty"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Novelty score via wordfreq (0=common word, 1=completely novel)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">novelty_score</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Measure how novel a name is using word frequency data.</span>
+<span class="w">    </span><span class="sd">"""Measure how novel a name is using word frequency data.</span>
 
 <span class="sd">    Returns 1.0 for completely novel strings (not in any corpus),</span>
 <span class="sd">    decreasing toward 0.0 for very common words.</span>
 
-<span class="sd">    &gt;&gt;&gt; novelty_score(&#39;the&#39;)  # very common</span>
+<span class="sd">    &gt;&gt;&gt; novelty_score('the')  # very common</span>
 <span class="sd">    0.0</span>
-<span class="sd">    &gt;&gt;&gt; novelty_score(&#39;xyzqwk&#39;)  # novel</span>
+<span class="sd">    &gt;&gt;&gt; novelty_score('xyzqwk')  # novel</span>
 <span class="sd">    1.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;Could not import &#39;wordfreq&#39;. Install with: pip install wordfreq&quot;</span>
+            <span class="s2">"Could not import 'wordfreq'. Install with: pip install wordfreq"</span>
         <span class="p">)</span>
 
-    <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">"en"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">1.0</span>
     <span class="c1"># Zipf scale: ~1 = very rare, ~7 = ultra common</span>
@@ -146,21 +145,21 @@
 <div class="viewcode-block" id="existing_word">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.existing_word">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;existing_word&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Check if name is an existing English word (True=collision)&quot;</span><span class="p">,</span>
+    <span class="s2">"existing_word"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Check if name is an existing English word (True=collision)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">existing_word</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns True if the name is a known English word (i.e., collision risk).</span>
+<span class="w">    </span><span class="sd">"""Returns True if the name is a known English word (i.e., collision risk).</span>
 
-<span class="sd">    &gt;&gt;&gt; existing_word(&#39;apple&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; existing_word('apple')</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; existing_word(&#39;xyzqwk&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; existing_word('xyzqwk')</span>
 <span class="sd">    False</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
 
-        <span class="k">return</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">&quot;en&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">zipf_frequency</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="s2">"en"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="c1"># Fallback to lexis</span>
         <span class="k">try</span><span class="p">:</span>
@@ -180,26 +179,26 @@
 <div class="viewcode-block" id="cross_linguistic_check">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.cross_linguistic_check">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;cross_linguistic&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Check if name means something in major world languages&quot;</span><span class="p">,</span>
+    <span class="s2">"cross_linguistic"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Check if name means something in major world languages"</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">"moderate"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">cross_linguistic_check</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">languages</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="s2">&quot;es&quot;</span><span class="p">,</span> <span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="s2">&quot;de&quot;</span><span class="p">,</span> <span class="s2">&quot;pt&quot;</span><span class="p">,</span> <span class="s2">&quot;it&quot;</span><span class="p">,</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span> <span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="s2">&quot;ar&quot;</span><span class="p">,</span> <span class="s2">&quot;hi&quot;</span><span class="p">,</span> <span class="s2">&quot;ru&quot;</span><span class="p">),</span>
+    <span class="n">languages</span><span class="o">=</span><span class="p">(</span><span class="s2">"en"</span><span class="p">,</span> <span class="s2">"es"</span><span class="p">,</span> <span class="s2">"fr"</span><span class="p">,</span> <span class="s2">"de"</span><span class="p">,</span> <span class="s2">"pt"</span><span class="p">,</span> <span class="s2">"it"</span><span class="p">,</span> <span class="s2">"ja"</span><span class="p">,</span> <span class="s2">"zh"</span><span class="p">,</span> <span class="s2">"ar"</span><span class="p">,</span> <span class="s2">"hi"</span><span class="p">,</span> <span class="s2">"ru"</span><span class="p">),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check word frequency across multiple languages.</span>
+<span class="w">    </span><span class="sd">"""Check word frequency across multiple languages.</span>
 
 <span class="sd">    Returns a dict mapping language codes to their zipf frequency.</span>
 <span class="sd">    A frequency &gt; 0 means the name is a known word in that language.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">wordfreq</span><span class="w"> </span><span class="kn">import</span> <span class="n">zipf_frequency</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;wordfreq not installed&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"error"</span><span class="p">:</span> <span class="s2">"wordfreq not installed"</span><span class="p">}</span>
 
     <span class="n">flags</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
@@ -217,46 +216,46 @@
 <span class="c1"># Common English profanity substrings to check (minimal built-in list).</span>
 <span class="c1"># For thorough checking, use LDNOOBW or cuss data files.</span>
 <span class="n">_BUILTIN_BAD_SUBSTRINGS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;ass&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;damn&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hell&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;shit&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;fuck&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;dick&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cock&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cunt&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;piss&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;slut&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;whore&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;nazi&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;rape&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;porn&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;anal&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;anus&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tit&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;nig&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;fag&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;cum&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;poo&quot;</span><span class="p">,</span>
+    <span class="s2">"ass"</span><span class="p">,</span>
+    <span class="s2">"damn"</span><span class="p">,</span>
+    <span class="s2">"hell"</span><span class="p">,</span>
+    <span class="s2">"shit"</span><span class="p">,</span>
+    <span class="s2">"fuck"</span><span class="p">,</span>
+    <span class="s2">"dick"</span><span class="p">,</span>
+    <span class="s2">"cock"</span><span class="p">,</span>
+    <span class="s2">"cunt"</span><span class="p">,</span>
+    <span class="s2">"piss"</span><span class="p">,</span>
+    <span class="s2">"slut"</span><span class="p">,</span>
+    <span class="s2">"whore"</span><span class="p">,</span>
+    <span class="s2">"nazi"</span><span class="p">,</span>
+    <span class="s2">"rape"</span><span class="p">,</span>
+    <span class="s2">"porn"</span><span class="p">,</span>
+    <span class="s2">"anal"</span><span class="p">,</span>
+    <span class="s2">"anus"</span><span class="p">,</span>
+    <span class="s2">"tit"</span><span class="p">,</span>
+    <span class="s2">"nig"</span><span class="p">,</span>
+    <span class="s2">"fag"</span><span class="p">,</span>
+    <span class="s2">"cum"</span><span class="p">,</span>
+    <span class="s2">"poo"</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="substring_hazards">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.substring_hazards">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;substring_hazards&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Scan for profanity substrings (window size 3-6)&quot;</span><span class="p">,</span>
+    <span class="s2">"substring_hazards"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Scan for profanity substrings (window size 3-6)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">substring_hazards</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">bad_words</span><span class="p">:</span> <span class="nb">set</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Slide a window of length 3-6 over the name and check against profanity lists.</span>
+<span class="w">    </span><span class="sd">"""Slide a window of length 3-6 over the name and check against profanity lists.</span>
 
 <span class="sd">    Returns a list of found hazardous substrings (empty = clean).</span>
 
-<span class="sd">    &gt;&gt;&gt; substring_hazards(&#39;analytics&#39;)</span>
-<span class="sd">    [&#39;anal&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; substring_hazards(&#39;figiri&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; substring_hazards('analytics')</span>
+<span class="sd">    ['anal']</span>
+<span class="sd">    &gt;&gt;&gt; substring_hazards('figiri')</span>
 <span class="sd">    []</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">bad_words</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">bad_words</span> <span class="o">=</span> <span class="n">_BUILTIN_BAD_SUBSTRINGS</span>
 
@@ -279,28 +278,28 @@
 <div class="viewcode-block" id="phonetic_neighbors">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.phonetic_neighbors">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;phonetic_neighbors&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Find words that sound like the name (Datamuse API)&quot;</span><span class="p">,</span>
+    <span class="s2">"phonetic_neighbors"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Find words that sound like the name (Datamuse API)"</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">"moderate"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">phonetic_neighbors</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_results</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Query Datamuse for words that sound like *name*.</span>
+<span class="w">    </span><span class="sd">"""Query Datamuse for words that sound like *name*.</span>
 
-<span class="sd">    &gt;&gt;&gt; isinstance(phonetic_neighbors(&#39;brand&#39;), list)</span>
+<span class="sd">    &gt;&gt;&gt; isinstance(phonetic_neighbors('brand'), list)</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;https://api.datamuse.com/words&quot;</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sl&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="n">max_results</span><span class="p">},</span>
+            <span class="s2">"https://api.datamuse.com/words"</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"sl"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="n">max_results</span><span class="p">},</span>
             <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;word&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s2">"word"</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()]</span>
     <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
@@ -312,33 +311,33 @@
 
 <span class="c1"># Graphemes with multiple common pronunciations in English</span>
 <span class="n">_AMBIGUOUS_GRAPHEMES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /k/ or /s/</span>
-    <span class="s2">&quot;g&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /g/ or /dʒ/</span>
-    <span class="s2">&quot;th&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /θ/ or /ð/</span>
-    <span class="s2">&quot;ough&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>  <span class="c1"># through, though, thought, rough, cough, bough</span>
-    <span class="s2">&quot;ch&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /tʃ/, /k/, /ʃ/</span>
-    <span class="s2">&quot;gh&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /g/, silent</span>
-    <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /iː/, /ɛ/, /eɪ/</span>
-    <span class="s2">&quot;oo&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /uː/, /ʊ/</span>
-    <span class="s2">&quot;ou&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /aʊ/, /uː/, /ʌ/</span>
-    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /ks/, /gz/</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /k/ or /s/</span>
+    <span class="s2">"g"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /g/ or /dʒ/</span>
+    <span class="s2">"th"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /θ/ or /ð/</span>
+    <span class="s2">"ough"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>  <span class="c1"># through, though, thought, rough, cough, bough</span>
+    <span class="s2">"ch"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /tʃ/, /k/, /ʃ/</span>
+    <span class="s2">"gh"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /g/, silent</span>
+    <span class="s2">"ea"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /iː/, /ɛ/, /eɪ/</span>
+    <span class="s2">"oo"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /uː/, /ʊ/</span>
+    <span class="s2">"ou"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>  <span class="c1"># /aʊ/, /uː/, /ʌ/</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>  <span class="c1"># /ks/, /gz/</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="spelling_transparency">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.spelling_transparency">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;spelling_transparency&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;How unambiguously the name maps to one pronunciation&quot;</span><span class="p">,</span>
+    <span class="s2">"spelling_transparency"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"How unambiguously the name maps to one pronunciation"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">spelling_transparency</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Score spelling transparency from 0 (very ambiguous) to 1 (transparent).</span>
+<span class="w">    </span><span class="sd">"""Score spelling transparency from 0 (very ambiguous) to 1 (transparent).</span>
 
 <span class="sd">    Counts grapheme-to-phoneme ambiguities and normalizes.</span>
 
-<span class="sd">    &gt;&gt;&gt; spelling_transparency(&#39;cat&#39;)  # very transparent</span>
+<span class="sd">    &gt;&gt;&gt; spelling_transparency('cat')  # very transparent</span>
 <span class="sd">    1.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">ambiguity_score</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -360,167 +359,167 @@
 <span class="c1"># Pronunciation entropy</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
-<span class="n">_VOWEL_CHARS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;aeiouy&quot;</span><span class="p">)</span>
-<span class="n">_FRONT_VOWEL_CHARS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;eiy&quot;</span><span class="p">)</span>
+<span class="n">_VOWEL_CHARS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"aeiouy"</span><span class="p">)</span>
+<span class="n">_FRONT_VOWEL_CHARS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"eiy"</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_GraphemeSpan</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">grapheme</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">start</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">end</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">position</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &#39;initial&#39; | &#39;medial&#39; | &#39;final&#39; | &#39;sole&#39;</span>
+    <span class="n">position</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># 'initial' | 'medial' | 'final' | 'sole'</span>
 
 
 <span class="c1"># Positional ambiguity table: grapheme -&gt; list of (condition, phone_distribution)</span>
-<span class="c1"># conditions are dicts with keys: &#39;position&#39;, &#39;before&#39;, &#39;after&#39;, &#39;syllable&#39;</span>
+<span class="c1"># conditions are dicts with keys: 'position', 'before', 'after', 'syllable'</span>
 <span class="c1"># First matching rule wins. Last entry should be unconditional ({}).</span>
 <span class="n">_POSITIONAL_AMBIGUITY</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]]</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c1"># --- Vowels ---</span>
-    <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"y"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Initial Y before consonant: highly ambiguous</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">,</span> <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;consonant&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/j/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">,</span> <span class="s2">"after"</span><span class="p">:</span> <span class="s2">"consonant"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/j/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Initial Y before vowel: consonantal /j/</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">,</span> <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;vowel&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/j/&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">,</span> <span class="s2">"after"</span><span class="p">:</span> <span class="s2">"vowel"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/j/"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
         <span class="c1"># Terminal Y: almost always /iː/ in coined names</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
         <span class="c1"># Medial Y between consonants</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;before&quot;</span><span class="p">:</span> <span class="s2">&quot;consonant&quot;</span><span class="p">,</span> <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;consonant&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"before"</span><span class="p">:</span> <span class="s2">"consonant"</span><span class="p">,</span> <span class="s2">"after"</span><span class="p">:</span> <span class="s2">"consonant"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Unconditional fallback</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/j/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/j/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Terminal E after consonant: very ambiguous (silent? schwa?)</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">,</span> <span class="s2">&quot;before&quot;</span><span class="p">:</span> <span class="s2">&quot;consonant&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">,</span> <span class="s2">"before"</span><span class="p">:</span> <span class="s2">"consonant"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Terminal E after vowel</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Initial E</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Medial E in open syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;open&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"open"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Medial E in closed syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;closed&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span> <span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"closed"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span> <span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Unconditional</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Initial I</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Medial I in open syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;open&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"open"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Medial I in closed syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;closed&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"closed"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Unconditional</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;o&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"o"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Initial O</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɒ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/oʊ/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/ʌ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɒ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/oʊ/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/ʌ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Terminal O</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/oʊ/&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/oʊ/"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
         <span class="c1"># Medial O in open syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;open&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/oʊ/&quot;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">&quot;/ɒ/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"open"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/oʊ/"</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">"/ɒ/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Medial O in closed syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;closed&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/ɒ/&quot;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">&quot;/oʊ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/ʌ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"closed"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/ɒ/"</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">"/oʊ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/ʌ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Unconditional</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ɒ/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/oʊ/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/ʌ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ɒ/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/oʊ/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/ʌ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"a"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Terminal A</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/ɑː/&quot;</span><span class="p">:</span> <span class="mf">0.60</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/æ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/ɑː/"</span><span class="p">:</span> <span class="mf">0.60</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/æ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
         <span class="c1"># Medial A in open syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;open&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/æ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/ɑː/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"open"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/æ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/ɑː/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Medial A in closed syllable</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;medial&quot;</span><span class="p">,</span> <span class="s2">&quot;syllable&quot;</span><span class="p">:</span> <span class="s2">&quot;closed&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/æ/&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ɑː/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"medial"</span><span class="p">,</span> <span class="s2">"syllable"</span><span class="p">:</span> <span class="s2">"closed"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/æ/"</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ɑː/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
         <span class="p">),</span>
         <span class="c1"># Unconditional</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/æ/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/ɑː/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/æ/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/ɑː/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"u"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Terminal U</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span> <span class="s2">&quot;/juː/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span> <span class="s2">"/juː/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
         <span class="c1"># Unconditional</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ʌ/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/juː/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ʊ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ʌ/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/juː/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ʊ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
     <span class="p">],</span>
     <span class="c1"># --- Consonants with positional ambiguity ---</span>
-    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">({</span><span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;front_vowel&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/s/&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">&quot;/k/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/k/&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">&quot;/s/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">&quot;/tʃ/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">({</span><span class="s2">"after"</span><span class="p">:</span> <span class="s2">"front_vowel"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/s/"</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">"/k/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/k/"</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">"/s/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">,</span> <span class="s2">"/tʃ/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;g&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">({</span><span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;front_vowel&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/dʒ/&quot;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">&quot;/g/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/ʒ/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/g/&quot;</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">&quot;/dʒ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+    <span class="s2">"g"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">({</span><span class="s2">"after"</span><span class="p">:</span> <span class="s2">"front_vowel"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/dʒ/"</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">"/g/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/ʒ/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/g/"</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">"/dʒ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="p">[</span>
         <span class="c1"># Intervocalic S</span>
         <span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;before&quot;</span><span class="p">:</span> <span class="s2">&quot;vowel&quot;</span><span class="p">,</span> <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;vowel&quot;</span><span class="p">},</span>
-            <span class="p">{</span><span class="s2">&quot;/s/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/z/&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">&quot;/ʒ/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"before"</span><span class="p">:</span> <span class="s2">"vowel"</span><span class="p">,</span> <span class="s2">"after"</span><span class="p">:</span> <span class="s2">"vowel"</span><span class="p">},</span>
+            <span class="p">{</span><span class="s2">"/s/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/z/"</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">"/ʒ/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">},</span>
         <span class="p">),</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/s/&quot;</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">&quot;/z/&quot;</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span> <span class="s2">&quot;/ʃ/&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/s/"</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">"/z/"</span><span class="p">:</span> <span class="mf">0.08</span><span class="p">,</span> <span class="s2">"/ʃ/"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/z/&quot;</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span> <span class="s2">&quot;/ks/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ʃ/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ks/&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;/gz/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/z/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/z/"</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span> <span class="s2">"/ks/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ʃ/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ks/"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">"/gz/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/z/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
     <span class="p">],</span>
     <span class="c1"># --- Digraphs ---</span>
-    <span class="s2">&quot;th&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/θ/&quot;</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">&quot;/ð/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/t/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})],</span>
-    <span class="s2">&quot;ch&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/tʃ/&quot;</span><span class="p">:</span> <span class="mf">0.60</span><span class="p">,</span> <span class="s2">&quot;/k/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/ʃ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">})],</span>
-    <span class="s2">&quot;gh&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/g/&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
-        <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/f/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/g/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
+    <span class="s2">"th"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/θ/"</span><span class="p">:</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">"/ð/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/t/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})],</span>
+    <span class="s2">"ch"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/tʃ/"</span><span class="p">:</span> <span class="mf">0.60</span><span class="p">,</span> <span class="s2">"/k/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/ʃ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">})],</span>
+    <span class="s2">"gh"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/g/"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+        <span class="p">({},</span> <span class="p">{</span><span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/f/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/g/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
     <span class="p">],</span>
-    <span class="s2">&quot;ph&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/f/&quot;</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">&quot;/p/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})],</span>
-    <span class="s2">&quot;sh&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/ʃ/&quot;</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span> <span class="s2">&quot;/s.h/&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">})],</span>
+    <span class="s2">"ph"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/f/"</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">,</span> <span class="s2">"/p/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})],</span>
+    <span class="s2">"sh"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/ʃ/"</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span> <span class="s2">"/s.h/"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">})],</span>
     <span class="c1"># --- Vowel digraphs ---</span>
-    <span class="s2">&quot;ea&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">})],</span>
-    <span class="s2">&quot;oo&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span> <span class="s2">&quot;/ʊ/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/ʌ/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})],</span>
-    <span class="s2">&quot;ou&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/aʊ/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">&quot;/ʌ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;/oʊ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">})],</span>
-    <span class="s2">&quot;ei&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">&quot;/aɪ/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})],</span>
-    <span class="s2">&quot;ee&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/iː/&quot;</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span> <span class="s2">&quot;/eɪ/&quot;</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">})],</span>
+    <span class="s2">"ea"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">})],</span>
+    <span class="s2">"oo"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span> <span class="s2">"/ʊ/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/ʌ/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">})],</span>
+    <span class="s2">"ou"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/aʊ/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">,</span> <span class="s2">"/ʌ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"/oʊ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">})],</span>
+    <span class="s2">"ei"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.30</span><span class="p">,</span> <span class="s2">"/aɪ/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">})],</span>
+    <span class="s2">"ee"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/iː/"</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span> <span class="s2">"/eɪ/"</span><span class="p">:</span> <span class="mf">0.02</span><span class="p">})],</span>
 <span class="p">}</span>
 
 <span class="c1"># Digraphs to check before single letters (longest-match tokenization)</span>
@@ -534,39 +533,39 @@
 <span class="n">_CROSS_LINGUISTIC_OVERRIDES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span>
     <span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]]]</span>
 <span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;fr&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"fr"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"e"</span><span class="p">:</span> <span class="p">[</span>
             <span class="c1"># French terminal E is /ə/ (not silent)</span>
-            <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
-            <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">&quot;/ɛ/&quot;</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">&quot;/e/&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">}),</span>
+            <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.75</span><span class="p">,</span> <span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+            <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.40</span><span class="p">,</span> <span class="s2">"/ɛ/"</span><span class="p">:</span> <span class="mf">0.35</span><span class="p">,</span> <span class="s2">"/e/"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">}),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"u"</span><span class="p">:</span> <span class="p">[</span>
             <span class="c1"># French U = /y/ (front rounded)</span>
-            <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/y/&quot;</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span> <span class="s2">&quot;/u/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+            <span class="p">({},</span> <span class="p">{</span><span class="s2">"/y/"</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span> <span class="s2">"/u/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"i"</span><span class="p">:</span> <span class="p">[</span>
             <span class="c1"># French I = /i/, no long-i /aɪ/</span>
-            <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/i/&quot;</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">&quot;/ɪ/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
+            <span class="p">({},</span> <span class="p">{</span><span class="s2">"/i/"</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">"/ɪ/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">}),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"y"</span><span class="p">:</span> <span class="p">[</span>
             <span class="c1"># French Y = /i/ in most positions</span>
             <span class="p">(</span>
-                <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;initial&quot;</span><span class="p">,</span> <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="s2">&quot;consonant&quot;</span><span class="p">},</span>
-                <span class="p">{</span><span class="s2">&quot;/i/&quot;</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span> <span class="s2">&quot;/j/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;silent&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"initial"</span><span class="p">,</span> <span class="s2">"after"</span><span class="p">:</span> <span class="s2">"consonant"</span><span class="p">},</span>
+                <span class="p">{</span><span class="s2">"/i/"</span><span class="p">:</span> <span class="mf">0.70</span><span class="p">,</span> <span class="s2">"/j/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">"silent"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">},</span>
             <span class="p">),</span>
-            <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/i/&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">&quot;/j/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
+            <span class="p">({},</span> <span class="p">{</span><span class="s2">"/i/"</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">"/j/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"a"</span><span class="p">:</span> <span class="p">[</span>
             <span class="c1"># French A = /a/, very stable</span>
-            <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/a/&quot;</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">&quot;/ɑ/&quot;</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
+            <span class="p">({},</span> <span class="p">{</span><span class="s2">"/a/"</span><span class="p">:</span> <span class="mf">0.85</span><span class="p">,</span> <span class="s2">"/ɑ/"</span><span class="p">:</span> <span class="mf">0.15</span><span class="p">}),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;o&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"o"</span><span class="p">:</span> <span class="p">[</span>
             <span class="c1"># French O = /o/ or /ɔ/, no diphthong</span>
-            <span class="p">({</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="s2">&quot;final&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;/o/&quot;</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span> <span class="s2">&quot;/ɔ/&quot;</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">}),</span>
-            <span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;/ɔ/&quot;</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">&quot;/o/&quot;</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">&quot;/ə/&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
+            <span class="p">({</span><span class="s2">"position"</span><span class="p">:</span> <span class="s2">"final"</span><span class="p">},</span> <span class="p">{</span><span class="s2">"/o/"</span><span class="p">:</span> <span class="mf">0.80</span><span class="p">,</span> <span class="s2">"/ɔ/"</span><span class="p">:</span> <span class="mf">0.20</span><span class="p">}),</span>
+            <span class="p">({},</span> <span class="p">{</span><span class="s2">"/ɔ/"</span><span class="p">:</span> <span class="mf">0.50</span><span class="p">,</span> <span class="s2">"/o/"</span><span class="p">:</span> <span class="mf">0.45</span><span class="p">,</span> <span class="s2">"/ə/"</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">}),</span>
         <span class="p">],</span>
-        <span class="s2">&quot;ou&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/u/&quot;</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">&quot;/uː/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">})],</span>
-        <span class="s2">&quot;ch&quot;</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">&quot;/ʃ/&quot;</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">&quot;/k/&quot;</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">})],</span>
+        <span class="s2">"ou"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/u/"</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">"/uː/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">})],</span>
+        <span class="s2">"ch"</span><span class="p">:</span> <span class="p">[({},</span> <span class="p">{</span><span class="s2">"/ʃ/"</span><span class="p">:</span> <span class="mf">0.90</span><span class="p">,</span> <span class="s2">"/k/"</span><span class="p">:</span> <span class="mf">0.10</span><span class="p">})],</span>
     <span class="p">},</span>
 <span class="p">}</span>
 
@@ -576,7 +575,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_tokenize_graphemes</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">_GraphemeSpan</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenize *name* into grapheme spans using longest-match on digraphs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tokenize *name* into grapheme spans using longest-match on digraphs."""</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">spans</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_GraphemeSpan</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
@@ -588,25 +587,25 @@
         <span class="n">matched</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">digraph</span> <span class="ow">in</span> <span class="n">_DIGRAPHS</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">digraph</span><span class="p">)]</span> <span class="o">==</span> <span class="n">digraph</span><span class="p">:</span>
-                <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_GraphemeSpan</span><span class="p">(</span><span class="n">digraph</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">digraph</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+                <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_GraphemeSpan</span><span class="p">(</span><span class="n">digraph</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">digraph</span><span class="p">),</span> <span class="s2">""</span><span class="p">))</span>
                 <span class="n">i</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">digraph</span><span class="p">)</span>
                 <span class="n">matched</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">break</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">matched</span><span class="p">:</span>
-            <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_GraphemeSpan</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_GraphemeSpan</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
     <span class="c1"># Assign positions</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">span</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spans</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="s2">&quot;sole&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="s2">"sole"</span>
         <span class="k">elif</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="s2">&quot;initial&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="s2">"initial"</span>
         <span class="k">elif</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="s2">&quot;final&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="s2">"final"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">pos</span> <span class="o">=</span> <span class="s2">&quot;medial&quot;</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="s2">"medial"</span>
         <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">span</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">position</span><span class="o">=</span><span class="n">pos</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">result</span>
 
@@ -616,32 +615,32 @@
     <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a context dict for the grapheme span at *idx*.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Build a context dict for the grapheme span at *idx*."""</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">span</span> <span class="o">=</span> <span class="n">spans</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
-    <span class="n">ctx</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">span</span><span class="o">.</span><span class="n">position</span><span class="p">}</span>
+    <span class="n">ctx</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"position"</span><span class="p">:</span> <span class="n">span</span><span class="o">.</span><span class="n">position</span><span class="p">}</span>
 
     <span class="c1"># What comes before?</span>
     <span class="k">if</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">prev_char</span> <span class="o">=</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">spans</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">_is_vowel_char</span><span class="p">(</span><span class="n">prev_char</span><span class="p">):</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;before&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;vowel&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"before"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"vowel"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;before&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;consonant&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"before"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"consonant"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;before&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;boundary&quot;</span>
+        <span class="n">ctx</span><span class="p">[</span><span class="s2">"before"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"boundary"</span>
 
     <span class="c1"># What comes after?</span>
     <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">next_char</span> <span class="o">=</span> <span class="n">name_lower</span><span class="p">[</span><span class="n">spans</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">next_char</span> <span class="ow">in</span> <span class="n">_FRONT_VOWEL_CHARS</span><span class="p">:</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;after&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;front_vowel&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"after"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"front_vowel"</span>
         <span class="k">elif</span> <span class="n">_is_vowel_char</span><span class="p">(</span><span class="n">next_char</span><span class="p">):</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;after&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;vowel&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"after"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"vowel"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;after&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;consonant&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"after"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"consonant"</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;after&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;boundary&quot;</span>
+        <span class="n">ctx</span><span class="p">[</span><span class="s2">"after"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"boundary"</span>
 
     <span class="c1"># Syllable structure (for vowel graphemes only)</span>
     <span class="n">grapheme_lower</span> <span class="o">=</span> <span class="n">span</span><span class="o">.</span><span class="n">grapheme</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
@@ -658,29 +657,29 @@
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">found_next_vowel</span><span class="p">:</span>
             <span class="c1"># At or near end of word</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;syllable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span> <span class="k">if</span> <span class="n">consonants_after</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;open&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"syllable"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"closed"</span> <span class="k">if</span> <span class="n">consonants_after</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">"open"</span>
         <span class="k">elif</span> <span class="n">consonants_after</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Maximal onset principle: single consonant before next vowel</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;syllable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"syllable"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"open"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ctx</span><span class="p">[</span><span class="s2">&quot;syllable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;closed&quot;</span>
+            <span class="n">ctx</span><span class="p">[</span><span class="s2">"syllable"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"closed"</span>
 
     <span class="k">return</span> <span class="n">ctx</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_match_rule</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">condition</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if all condition keys match the context.</span>
+<span class="w">    </span><span class="sd">"""Return True if all condition keys match the context.</span>
 
-<span class="sd">    Special handling: ``&#39;after&#39;: &#39;front_vowel&#39;`` in a condition also</span>
-<span class="sd">    matches ``context[&#39;after&#39;] == &#39;front_vowel&#39;``; and ``&#39;after&#39;: &#39;vowel&#39;``</span>
-<span class="sd">    in a condition matches ``&#39;vowel&#39;`` or ``&#39;front_vowel&#39;`` in context.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Special handling: ``'after': 'front_vowel'`` in a condition also</span>
+<span class="sd">    matches ``context['after'] == 'front_vowel'``; and ``'after': 'vowel'``</span>
+<span class="sd">    in a condition matches ``'vowel'`` or ``'front_vowel'`` in context.</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">condition</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">ctx_val</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">ctx_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">&quot;vowel&quot;</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;after&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">ctx_val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;vowel&quot;</span><span class="p">,</span> <span class="s2">&quot;front_vowel&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">val</span> <span class="o">==</span> <span class="s2">"vowel"</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">"after"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ctx_val</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"vowel"</span><span class="p">,</span> <span class="s2">"front_vowel"</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">False</span>
         <span class="k">elif</span> <span class="n">ctx_val</span> <span class="o">!=</span> <span class="n">val</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -688,7 +687,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_shannon_entropy</span><span class="p">(</span><span class="n">dist</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Shannon entropy in bits.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Shannon entropy in bits."""</span>
     <span class="k">return</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dist</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
 
 
@@ -697,7 +696,7 @@
     <span class="n">context</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">table</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Look up the phone distribution for *grapheme* in *table*.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Look up the phone distribution for *grapheme* in *table*."""</span>
     <span class="n">rules</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">grapheme</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rules</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -708,7 +707,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_merge_distributions</span><span class="p">(</span><span class="n">dists</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merge multiple phone distributions by averaging and re-normalizing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Merge multiple phone distributions by averaging and re-normalizing."""</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">dists</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">all_phones</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -727,15 +726,15 @@
 <div class="viewcode-block" id="pronunciation_entropy">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;pronunciation_entropy&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pronunciation ambiguity in bits (0=unambiguous, higher=more ambiguous)&quot;</span><span class="p">,</span>
+    <span class="s2">"pronunciation_entropy"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Pronunciation ambiguity in bits (0=unambiguous, higher=more ambiguous)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">pronunciation_entropy</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">languages</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,),</span>
+    <span class="n">languages</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"en"</span><span class="p">,),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Measure grapheme-to-phoneme ambiguity as Shannon entropy in bits.</span>
+<span class="w">    </span><span class="sd">"""Measure grapheme-to-phoneme ambiguity as Shannon entropy in bits.</span>
 
 <span class="sd">    Unlike ``spelling_transparency`` which uses a flat lookup of ambiguous</span>
 <span class="sd">    graphemes, this scorer models **positional and contextual** ambiguity:</span>
@@ -748,8 +747,8 @@
 <span class="sd">    name : str</span>
 <span class="sd">        The candidate brand name.</span>
 <span class="sd">    languages : tuple[str, ...]</span>
-<span class="sd">        Target languages for cross-linguistic entropy.  Default ``(&#39;en&#39;,)``</span>
-<span class="sd">        uses English-only rules.  Pass ``(&#39;en&#39;, &#39;fr&#39;)`` to include French</span>
+<span class="sd">        Target languages for cross-linguistic entropy.  Default ``('en',)``</span>
+<span class="sd">        uses English-only rules.  Pass ``('en', 'fr')`` to include French</span>
 <span class="sd">        reading ambiguity (merged distribution, higher entropy when the</span>
 <span class="sd">        languages disagree on pronunciation).</span>
 
@@ -762,11 +761,11 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; pronunciation_entropy(&#39;panapy&#39;) &lt; pronunciation_entropy(&#39;ysolos&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; pronunciation_entropy('panapy') &lt; pronunciation_entropy('ysolos')</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; pronunciation_entropy(&#39;bab&#39;) &lt; pronunciation_entropy(&#39;levole&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; pronunciation_entropy('bab') &lt; pronunciation_entropy('levole')</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
 
@@ -789,7 +788,7 @@
 
         <span class="c1"># Additional languages</span>
         <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s2">&quot;en&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s2">"en"</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">overrides</span> <span class="o">=</span> <span class="n">_CROSS_LINGUISTIC_OVERRIDES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="p">{})</span>
             <span class="n">lang_dist</span> <span class="o">=</span> <span class="n">_get_distribution</span><span class="p">(</span><span class="n">grapheme</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">overrides</span><span class="p">)</span>
@@ -815,13 +814,13 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">pronunciation_entropy_detail</span><span class="p">(</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">languages</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;en&quot;</span><span class="p">,),</span>
+    <span class="n">languages</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"en"</span><span class="p">,),</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return per-grapheme entropy breakdown for debugging and exploration.</span>
+<span class="w">    </span><span class="sd">"""Return per-grapheme entropy breakdown for debugging and exploration.</span>
 
 <span class="sd">    Returns a list of dicts with keys: ``grapheme``, ``position``,</span>
 <span class="sd">    ``context``, ``distribution``, ``entropy_bits``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
@@ -836,7 +835,7 @@
         <span class="k">if</span> <span class="n">en_dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">lang_dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">en_dist</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">lang</span> <span class="ow">in</span> <span class="n">languages</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s2">&quot;en&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="s2">"en"</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">overrides</span> <span class="o">=</span> <span class="n">_CROSS_LINGUISTIC_OVERRIDES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="p">{})</span>
             <span class="n">lang_dist</span> <span class="o">=</span> <span class="n">_get_distribution</span><span class="p">(</span><span class="n">grapheme</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">overrides</span><span class="p">)</span>
@@ -854,11 +853,11 @@
 
         <span class="n">details</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;grapheme&quot;</span><span class="p">:</span> <span class="n">grapheme</span><span class="p">,</span>
-                <span class="s2">&quot;position&quot;</span><span class="p">:</span> <span class="n">span</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
-                <span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">context</span><span class="p">,</span>
-                <span class="s2">&quot;distribution&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merged</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
-                <span class="s2">&quot;entropy_bits&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">entropy</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+                <span class="s2">"grapheme"</span><span class="p">:</span> <span class="n">grapheme</span><span class="p">,</span>
+                <span class="s2">"position"</span><span class="p">:</span> <span class="n">span</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+                <span class="s2">"context"</span><span class="p">:</span> <span class="n">context</span><span class="p">,</span>
+                <span class="s2">"distribution"</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">merged</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+                <span class="s2">"entropy_bits"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">entropy</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
             <span class="p">}</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">details</span></div>

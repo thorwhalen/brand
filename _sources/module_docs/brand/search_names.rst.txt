@@ -1,4 +1,0 @@
-brand.search_names
-==================
-.. automodule:: brand.search_names
-   :members:

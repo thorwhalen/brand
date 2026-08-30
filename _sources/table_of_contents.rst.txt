@@ -17,7 +17,6 @@
    module_docs/brand/misc
    module_docs/brand/pipeline
    module_docs/brand/registry
-   module_docs/brand/search_names
    module_docs/brand/stages
    module_docs/brand/templates
    module_docs/brand/util

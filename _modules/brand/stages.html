@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand.stages &mdash; brand 0.1.4 documentation</title>
+  <title>brand.stages &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,12 +91,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand.stages</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Pipeline stage definitions: Generate, Score, Filter.</span>
+<span></span><span class="sd">"""Pipeline stage definitions: Generate, Score, Filter.</span>
 
 <span class="sd">Stages are simple dataclasses that describe *what* to do at each step of a</span>
 <span class="sd">pipeline.  They are serializable to/from dicts (and therefore JSON) so that</span>
 <span class="sd">pipeline definitions can be persisted and replayed.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">asdict</span>
 
@@ -111,34 +110,34 @@
 <a class="viewcode-back" href="../../module_docs/brand/stages.html#brand.stages.Generate">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Generate</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Produce candidate names.</span>
+<span class="w">    </span><span class="sd">"""Produce candidate names.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    generator : str</span>
-<span class="sd">        Name of a registered generator (e.g. ``&#39;cvcvcv&#39;``, ``&#39;ai_suggest&#39;``).</span>
+<span class="sd">        Name of a registered generator (e.g. ``'cvcvcv'``, ``'ai_suggest'``).</span>
 <span class="sd">    params : dict</span>
 <span class="sd">        Keyword arguments forwarded to the generator function.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; g = Generate(&#39;cvcvcv&#39;, params={&#39;consonants&#39;: &#39;bdfglmnprstvz&#39;})</span>
+<span class="sd">    &gt;&gt;&gt; g = Generate('cvcvcv', params={'consonants': 'bdfglmnprstvz'})</span>
 <span class="sd">    &gt;&gt;&gt; g.to_dict()</span>
-<span class="sd">    {&#39;type&#39;: &#39;generate&#39;, &#39;generator&#39;: &#39;cvcvcv&#39;, &#39;params&#39;: {&#39;consonants&#39;: &#39;bdfglmnprstvz&#39;}}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    {'type': 'generate', 'generator': 'cvcvcv', 'params': {'consonants': 'bdfglmnprstvz'}}</span>
+<span class="sd">    """</span>
 
     <span class="n">generator</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;generate&quot;</span><span class="p">,</span> <span class="s2">&quot;generator&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="p">}</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"generate"</span><span class="p">,</span> <span class="s2">"generator"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">"params"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span>
         <span class="k">return</span> <span class="n">d</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">generator</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;generator&quot;</span><span class="p">],</span> <span class="n">params</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span> <span class="p">{}))</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">generator</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s2">"generator"</span><span class="p">],</span> <span class="n">params</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"params"</span><span class="p">,</span> <span class="p">{}))</span></div>
 
 
 
@@ -146,7 +145,7 @@
 <a class="viewcode-back" href="../../module_docs/brand/stages.html#brand.stages.Score">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Score</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute one or more metrics on each candidate name.</span>
+<span class="w">    </span><span class="sd">"""Compute one or more metrics on each candidate name.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -156,10 +155,10 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; s = Score([&#39;phonotactic&#39;, &#39;syllables&#39;, (&#39;dns&#39;, {&#39;tlds&#39;: [&#39;.com&#39;, &#39;.io&#39;]})])</span>
-<span class="sd">    &gt;&gt;&gt; s.to_dict()[&#39;type&#39;]</span>
-<span class="sd">    &#39;score&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; s = Score(['phonotactic', 'syllables', ('dns', {'tlds': ['.com', '.io']})])</span>
+<span class="sd">    &gt;&gt;&gt; s.to_dict()['type']</span>
+<span class="sd">    'score'</span>
+<span class="sd">    """</span>
 
     <span class="n">scorers</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
@@ -170,17 +169,17 @@
                 <span class="n">serialized</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">name</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">s</span>
-                <span class="n">serialized</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="n">params</span><span class="p">})</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span> <span class="s2">&quot;scorers&quot;</span><span class="p">:</span> <span class="n">serialized</span><span class="p">}</span>
+                <span class="n">serialized</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">:</span> <span class="n">params</span><span class="p">})</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"score"</span><span class="p">,</span> <span class="s2">"scorers"</span><span class="p">:</span> <span class="n">serialized</span><span class="p">}</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="n">scorers</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scorers&quot;</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"scorers"</span><span class="p">,</span> <span class="p">[]):</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">scorers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">scorers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;params&quot;</span><span class="p">,</span> <span class="p">{})))</span>
+                <span class="n">scorers</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"params"</span><span class="p">,</span> <span class="p">{})))</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">scorers</span><span class="o">=</span><span class="n">scorers</span><span class="p">)</span></div>
 
 
@@ -189,14 +188,14 @@
 <a class="viewcode-back" href="../../module_docs/brand/stages.html#brand.stages.Filter">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Filter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reduce the candidate set based on accumulated scores.</span>
+<span class="w">    </span><span class="sd">"""Reduce the candidate set based on accumulated scores.</span>
 
 <span class="sd">    Exactly one of ``top_n``, ``top_pct``, or ``rules`` should be set (or a</span>
 <span class="sd">    combination).  Rules are dicts mapping scorer names to required values:</span>
 
 <span class="sd">    * ``True``/``False`` — exact match (good for boolean scorers like availability)</span>
 <span class="sd">    * A number — minimum threshold</span>
-<span class="sd">    * A dict ``{&quot;op&quot;: &quot;&gt;=&quot;, &quot;value&quot;: 5}`` — comparison</span>
+<span class="sd">    * A dict ``{"op": "&gt;=", "value": 5}`` — comparison</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -205,16 +204,16 @@
 <span class="sd">    top_pct : float | None</span>
 <span class="sd">        Keep the top *P%* of candidates.</span>
 <span class="sd">    by : str | None</span>
-<span class="sd">        Scorer name to rank by. Defaults to ``&#39;aggregate&#39;``.</span>
+<span class="sd">        Scorer name to rank by. Defaults to ``'aggregate'``.</span>
 <span class="sd">    rules : dict | None</span>
 <span class="sd">        ``{scorer_name: required_value}`` mapping.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; f = Filter(rules={&#39;dns_com&#39;: True})</span>
+<span class="sd">    &gt;&gt;&gt; f = Filter(rules={'dns_com': True})</span>
 <span class="sd">    &gt;&gt;&gt; f.to_dict()</span>
-<span class="sd">    {&#39;type&#39;: &#39;filter&#39;, &#39;rules&#39;: {&#39;dns_com&#39;: True}}</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    {'type': 'filter', 'rules': {'dns_com': True}}</span>
+<span class="sd">    """</span>
 
     <span class="n">top_n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">top_pct</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -222,24 +221,24 @@
     <span class="n">rules</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;filter&quot;</span><span class="p">}</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"filter"</span><span class="p">}</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_n</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;top_n&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_n</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">"top_n"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_n</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_pct</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;top_pct&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_pct</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">"top_pct"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_pct</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">by</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;by&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">by</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">"by"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">by</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">d</span><span class="p">[</span><span class="s2">&quot;rules&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span>
+            <span class="n">d</span><span class="p">[</span><span class="s2">"rules"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rules</span>
         <span class="k">return</span> <span class="n">d</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
-            <span class="n">top_n</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;top_n&quot;</span><span class="p">),</span>
-            <span class="n">top_pct</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;top_pct&quot;</span><span class="p">),</span>
-            <span class="n">by</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;by&quot;</span><span class="p">),</span>
-            <span class="n">rules</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rules&quot;</span><span class="p">),</span>
+            <span class="n">top_n</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"top_n"</span><span class="p">),</span>
+            <span class="n">top_pct</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"top_pct"</span><span class="p">),</span>
+            <span class="n">by</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"by"</span><span class="p">),</span>
+            <span class="n">rules</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"rules"</span><span class="p">),</span>
         <span class="p">)</span></div>
 
 
@@ -249,24 +248,24 @@
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
 <span class="n">_STAGE_TYPES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;generate&quot;</span><span class="p">:</span> <span class="n">Generate</span><span class="p">,</span>
-    <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
-    <span class="s2">&quot;filter&quot;</span><span class="p">:</span> <span class="n">Filter</span><span class="p">,</span>
+    <span class="s2">"generate"</span><span class="p">:</span> <span class="n">Generate</span><span class="p">,</span>
+    <span class="s2">"score"</span><span class="p">:</span> <span class="n">Score</span><span class="p">,</span>
+    <span class="s2">"filter"</span><span class="p">:</span> <span class="n">Filter</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="stage_from_dict">
 <a class="viewcode-back" href="../../module_docs/brand/stages.html#brand.stages.stage_from_dict">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">stage_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deserialize a stage dict into its dataclass.</span>
+<span class="w">    </span><span class="sd">"""Deserialize a stage dict into its dataclass.</span>
 
-<span class="sd">    &gt;&gt;&gt; stage_from_dict({&#39;type&#39;: &#39;generate&#39;, &#39;generator&#39;: &#39;cvcvcv&#39;})</span>
-<span class="sd">    Generate(generator=&#39;cvcvcv&#39;, params={})</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">stage_type</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
+<span class="sd">    &gt;&gt;&gt; stage_from_dict({'type': 'generate', 'generator': 'cvcvcv'})</span>
+<span class="sd">    Generate(generator='cvcvcv', params={})</span>
+<span class="sd">    """</span>
+    <span class="n">stage_type</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"type"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">stage_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_STAGE_TYPES</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Unknown stage type </span><span class="si">{</span><span class="n">stage_type</span><span class="si">!r}</span><span class="s2">. Expected one of </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">_STAGE_TYPES</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Unknown stage type </span><span class="si">{</span><span class="n">stage_type</span><span class="si">!r}</span><span class="s2">. Expected one of </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">_STAGE_TYPES</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">_STAGE_TYPES</span><span class="p">[</span><span class="n">stage_type</span><span class="p">]</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></div>
 
@@ -275,7 +274,7 @@
 <div class="viewcode-block" id="stages_to_dicts">
 <a class="viewcode-back" href="../../module_docs/brand/stages.html#brand.stages.stages_to_dicts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">stages_to_dicts</span><span class="p">(</span><span class="n">stages</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Serialize a list of stages to a list of dicts.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Serialize a list of stages to a list of dicts."""</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">]</span></div>
 
 
@@ -283,7 +282,7 @@
 <div class="viewcode-block" id="stages_from_dicts">
 <a class="viewcode-back" href="../../module_docs/brand/stages.html#brand.stages.stages_from_dicts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">stages_from_dicts</span><span class="p">(</span><span class="n">dicts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deserialize a list of dicts into stage objects.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Deserialize a list of dicts into stage objects."""</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">stage_from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dicts</span><span class="p">]</span></div>
 
 </pre></div>

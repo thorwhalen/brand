@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.visual &mdash; brand 0.1.4 documentation</title>
+  <title>brand._scorers.visual &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,11 +91,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand._scorers.visual</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Visual and typographic scorers.</span>
+<span></span><span class="sd">"""Visual and typographic scorers.</span>
 
 <span class="sd">These scorers measure properties of a name as it appears on screen or paper:</span>
 <span class="sd">letter balance, keyboard distance, visual weight distribution.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">brand.registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">scorers</span>
 
@@ -105,9 +104,9 @@
 <span class="c1"># Letter anatomy constants</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
-<span class="n">_ASCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;bdfhklt&quot;</span><span class="p">)</span>
-<span class="n">_DESCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;gjpqy&quot;</span><span class="p">)</span>
-<span class="n">_NEUTRAL</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;aceimnorsuvwxz&quot;</span><span class="p">)</span>
+<span class="n">_ASCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"bdfhklt"</span><span class="p">)</span>
+<span class="n">_DESCENDERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"gjpqy"</span><span class="p">)</span>
+<span class="n">_NEUTRAL</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"aceimnorsuvwxz"</span><span class="p">)</span>
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -118,20 +117,20 @@
 <div class="viewcode-block" id="letter_balance">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/visual.html#brand._scorers.visual.letter_balance">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;letter_balance&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Visual balance of ascenders, descenders, and neutral letters&quot;</span><span class="p">,</span>
+    <span class="s2">"letter_balance"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Visual balance of ascenders, descenders, and neutral letters"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">letter_balance</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Analyze the visual balance of a name&#39;s letter anatomy.</span>
+<span class="w">    </span><span class="sd">"""Analyze the visual balance of a name's letter anatomy.</span>
 
 <span class="sd">    Returns proportions of ascenders (b,d,f,h,k,l,t), descenders (g,j,p,q,y),</span>
 <span class="sd">    and neutral height letters.  A balanced name has a mix; heavy-descender</span>
-<span class="sd">    names look &quot;bottom-heavy&quot; as wordmarks.</span>
+<span class="sd">    names look "bottom-heavy" as wordmarks.</span>
 
-<span class="sd">    &gt;&gt;&gt; result = letter_balance(&#39;brand&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; result[&#39;ascender_ratio&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; result = letter_balance('brand')</span>
+<span class="sd">    &gt;&gt;&gt; result['ascender_ratio']</span>
 <span class="sd">    0.2</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span>
     <span class="n">asc</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name_lower</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">_ASCENDERS</span><span class="p">)</span>
@@ -139,11 +138,11 @@
     <span class="n">neut</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name_lower</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">_NEUTRAL</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;ascender_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">asc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">&quot;descender_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">desc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">&quot;neutral_ratio&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">neut</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-        <span class="s2">&quot;has_ascenders&quot;</span><span class="p">:</span> <span class="n">asc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="s2">&quot;has_descenders&quot;</span><span class="p">:</span> <span class="n">desc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">"ascender_ratio"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">asc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"descender_ratio"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">desc</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"neutral_ratio"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">neut</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+        <span class="s2">"has_ascenders"</span><span class="p">:</span> <span class="n">asc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">"has_descenders"</span><span class="p">:</span> <span class="n">desc</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -154,37 +153,37 @@
 
 <span class="c1"># QWERTY keyboard layout positions (row, col) for distance computation</span>
 <span class="n">_QWERTY_POS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="s2">&quot;w&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="s2">&quot;r&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="s2">&quot;u&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-    <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
-    <span class="s2">&quot;o&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-    <span class="s2">&quot;p&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
-    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="s2">&quot;f&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="s2">&quot;g&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="s2">&quot;h&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="s2">&quot;j&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
-    <span class="s2">&quot;k&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
-    <span class="s2">&quot;l&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-    <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
-    <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-    <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
-    <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">"q"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">"w"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">"e"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">"r"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">"t"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">"y"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s2">"u"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">"i"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="s2">"o"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="s2">"p"</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="s2">"a"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">"s"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">"d"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">"f"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">"g"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">"h"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s2">"j"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="s2">"k"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="s2">"l"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="s2">"z"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">"x"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="s2">"c"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="s2">"v"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="s2">"b"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s2">"n"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="s2">"m"</span><span class="p">:</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
 <span class="p">}</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_key_distance</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Euclidean distance between two keys on QWERTY layout.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Euclidean distance between two keys on QWERTY layout."""</span>
     <span class="k">if</span> <span class="n">a</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_QWERTY_POS</span> <span class="ow">or</span> <span class="n">b</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_QWERTY_POS</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
     <span class="n">r1</span><span class="p">,</span> <span class="n">c1</span> <span class="o">=</span> <span class="n">_QWERTY_POS</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
@@ -195,19 +194,19 @@
 <div class="viewcode-block" id="keyboard_distance">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/visual.html#brand._scorers.visual.keyboard_distance">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;keyboard_distance&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Average keyboard distance between consecutive letters (lower=easier to type)&quot;</span><span class="p">,</span>
+    <span class="s2">"keyboard_distance"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Average keyboard distance between consecutive letters (lower=easier to type)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">keyboard_distance</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mean Euclidean distance between consecutive key presses on QWERTY.</span>
+<span class="w">    </span><span class="sd">"""Mean Euclidean distance between consecutive key presses on QWERTY.</span>
 
 <span class="sd">    Lower scores indicate easier-to-type names.</span>
 
-<span class="sd">    &gt;&gt;&gt; keyboard_distance(&#39;asdf&#39;)  # adjacent keys</span>
+<span class="sd">    &gt;&gt;&gt; keyboard_distance('asdf')  # adjacent keys</span>
 <span class="sd">    1.0</span>
-<span class="sd">    &gt;&gt;&gt; keyboard_distance(&#39;qz&#39;)  # far apart</span>
+<span class="sd">    &gt;&gt;&gt; keyboard_distance('qz')  # far apart</span>
 <span class="sd">    2.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">name_lower</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_lower</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
@@ -220,15 +219,15 @@
 <div class="viewcode-block" id="name_length">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/visual.html#brand._scorers.visual.name_length">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;name_length&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Character count of the name&quot;</span><span class="p">,</span>
+    <span class="s2">"name_length"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Character count of the name"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">name_length</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the length of the name.</span>
+<span class="w">    </span><span class="sd">"""Return the length of the name.</span>
 
-<span class="sd">    &gt;&gt;&gt; name_length(&#39;brand&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; name_length('brand')</span>
 <span class="sd">    5</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
 
 </pre></div>

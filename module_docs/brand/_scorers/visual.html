@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.visual &mdash; brand 0.1.4 documentation</title>
+  <title>brand._scorers.visual &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -69,7 +69,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../util.html">brand.util</a></li>
@@ -109,9 +108,9 @@ letter balance, keyboard distance, visual weight distribution.</p>
 <span class="sig-prename descclassname"><span class="pre">brand._scorers.visual.</span></span><span class="sig-name descname"><span class="pre">keyboard_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/visual.html#keyboard_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.visual.keyboard_distance" title="Link to this definition"></a></dt>
 <dd><p>Mean Euclidean distance between consecutive key presses on QWERTY.</p>
 <p>Lower scores indicate easier-to-type names.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keyboard_distance</span><span class="p">(</span><span class="s1">&#39;asdf&#39;</span><span class="p">)</span>  <span class="c1"># adjacent keys</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">keyboard_distance</span><span class="p">(</span><span class="s1">'asdf'</span><span class="p">)</span>  <span class="c1"># adjacent keys</span>
 <span class="go">1.0</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">keyboard_distance</span><span class="p">(</span><span class="s1">&#39;qz&#39;</span><span class="p">)</span>  <span class="c1"># far apart</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">keyboard_distance</span><span class="p">(</span><span class="s1">'qz'</span><span class="p">)</span>  <span class="c1"># far apart</span>
 <span class="go">2.0</span>
 </pre></div>
 </div>
@@ -124,8 +123,8 @@ letter balance, keyboard distance, visual weight distribution.</p>
 <p>Returns proportions of ascenders (b,d,f,h,k,l,t), descenders (g,j,p,q,y),
 and neutral height letters.  A balanced name has a mix; heavy-descender
 names look “bottom-heavy” as wordmarks.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">letter_balance</span><span class="p">(</span><span class="s1">&#39;brand&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;ascender_ratio&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">letter_balance</span><span class="p">(</span><span class="s1">'brand'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="p">[</span><span class="s1">'ascender_ratio'</span><span class="p">]</span>
 <span class="go">0.2</span>
 </pre></div>
 </div>
@@ -135,7 +134,7 @@ names look “bottom-heavy” as wordmarks.</p>
 <dt class="sig sig-object py" id="brand._scorers.visual.name_length">
 <span class="sig-prename descclassname"><span class="pre">brand._scorers.visual.</span></span><span class="sig-name descname"><span class="pre">name_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="../../../_modules/brand/_scorers/visual.html#name_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand._scorers.visual.name_length" title="Link to this definition"></a></dt>
 <dd><p>Return the length of the name.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_length</span><span class="p">(</span><span class="s1">&#39;brand&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_length</span><span class="p">(</span><span class="s1">'brand'</span><span class="p">)</span>
 <span class="go">5</span>
 </pre></div>
 </div>

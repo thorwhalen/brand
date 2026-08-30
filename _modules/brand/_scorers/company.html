@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._scorers.company &mdash; brand 0.1.4 documentation</title>
+  <title>brand._scorers.company &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,11 +91,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand._scorers.company</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Company name availability scorers.</span>
+<span></span><span class="sd">"""Company name availability scorers.</span>
 
 <span class="sd">Checks whether a candidate name is available for US company registration</span>
 <span class="sd">by querying OpenCorporates and the USPTO trademark database.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
 
@@ -108,49 +107,49 @@
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_opencorporates_search</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">jurisdiction</span><span class="o">=</span><span class="s2">&quot;us&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Search OpenCorporates for companies matching *name*.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_opencorporates_search</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">jurisdiction</span><span class="o">=</span><span class="s2">"us"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Search OpenCorporates for companies matching *name*.</span>
 
 <span class="sd">    Returns a list of matching company dicts (empty = no matches found).</span>
 <span class="sd">    Uses the free API tier (no key required, rate-limited).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;https://api.opencorporates.com/v0.4/companies/search&quot;</span><span class="p">,</span>
+            <span class="s2">"https://api.opencorporates.com/v0.4/companies/search"</span><span class="p">,</span>
             <span class="n">params</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-                <span class="s2">&quot;jurisdiction_code&quot;</span><span class="p">:</span> <span class="n">jurisdiction</span><span class="p">,</span>
-                <span class="s2">&quot;per_page&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                <span class="s2">"q"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                <span class="s2">"jurisdiction_code"</span><span class="p">:</span> <span class="n">jurisdiction</span><span class="p">,</span>
+                <span class="s2">"per_page"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">r</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-        <span class="n">companies</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;results&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;companies&quot;</span><span class="p">,</span> <span class="p">[])</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;company&quot;</span><span class="p">,</span> <span class="p">{})</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">companies</span><span class="p">]</span>
+        <span class="n">companies</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"results"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"companies"</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"company"</span><span class="p">,</span> <span class="p">{})</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">companies</span><span class="p">]</span>
     <span class="k">except</span> <span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_is_exact_or_close_match</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">companies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if any returned company is an exact or near-exact match.</span>
+<span class="w">    </span><span class="sd">"""Check if any returned company is an exact or near-exact match.</span>
 
 <span class="sd">    Compares normalized names (lowercase, stripped of common suffixes like</span>
 <span class="sd">    LLC, Inc, Corp, etc.).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="c1"># Remove common corporate suffixes</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
-            <span class="sa">r</span><span class="s2">&quot;\b(inc|incorporated|llc|ltd|limited|corp|corporation|co|company&quot;</span>
-            <span class="sa">r</span><span class="s2">&quot;|lp|llp|pllc|pc|plc)\b\.?&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="sa">r</span><span class="s2">"\b(inc|incorporated|llc|ltd|limited|corp|corporation|co|company"</span>
+            <span class="sa">r</span><span class="s2">"|lp|llp|pllc|pc|plc)\b\.?"</span><span class="p">,</span>
+            <span class="s2">""</span><span class="p">,</span>
             <span class="n">s</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Remove punctuation and extra whitespace</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-z0-9]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[^a-z0-9]"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="n">target</span> <span class="o">=</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -158,7 +157,7 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">for</span> <span class="n">company</span> <span class="ow">in</span> <span class="n">companies</span><span class="p">:</span>
-        <span class="n">company_name</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">company_name</span> <span class="o">=</span> <span class="n">company</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">_normalize</span><span class="p">(</span><span class="n">company_name</span><span class="p">)</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span>
@@ -167,24 +166,24 @@
 <div class="viewcode-block" id="company_name_available_us">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/company.html#brand._scorers.company.company_name_available_us">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;company_name_us&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;US company name availability via OpenCorporates&quot;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
+    <span class="s2">"company_name_us"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"US company name availability via OpenCorporates"</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">"moderate"</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
     <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">company_name_available_us</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if *name* is available as a US company name.</span>
+<span class="w">    </span><span class="sd">"""Check if *name* is available as a US company name.</span>
 
 <span class="sd">    Searches OpenCorporates for exact/near matches. Returns True if no</span>
 <span class="sd">    conflicting company was found. Note: this is an approximation —</span>
 <span class="sd">    official state-level checks are authoritative.</span>
 
-<span class="sd">    &gt;&gt;&gt; isinstance(company_name_available_us(&#39;xyzqwk&#39;), bool)</span>
+<span class="sd">    &gt;&gt;&gt; isinstance(company_name_available_us('xyzqwk'), bool)</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">companies</span> <span class="o">=</span> <span class="n">_opencorporates_search</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">jurisdiction</span><span class="o">=</span><span class="s2">&quot;us&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">companies</span> <span class="o">=</span> <span class="n">_opencorporates_search</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">jurisdiction</span><span class="o">=</span><span class="s2">"us"</span><span class="p">)</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="n">_is_exact_or_close_match</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">companies</span><span class="p">)</span></div>
 
 
@@ -197,45 +196,45 @@
 <div class="viewcode-block" id="trademark_check_us">
 <a class="viewcode-back" href="../../../module_docs/brand/_scorers/company.html#brand._scorers.company.trademark_check_us">[docs]</a>
 <span class="nd">@scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;trademark_us&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;US trademark conflict check via USPTO&quot;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;moderate&quot;</span><span class="p">,</span>
+    <span class="s2">"trademark_us"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"US trademark conflict check via USPTO"</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">"moderate"</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;medium&quot;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">"medium"</span><span class="p">,</span>
     <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">trademark_check_us</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if *name* conflicts with a registered US trademark.</span>
+<span class="w">    </span><span class="sd">"""Check if *name* conflicts with a registered US trademark.</span>
 
-<span class="sd">    Uses the USPTO&#39;s public Trademark Status and Document Retrieval (TSDR)</span>
+<span class="sd">    Uses the USPTO's public Trademark Status and Document Retrieval (TSDR)</span>
 <span class="sd">    API. Returns True if no live trademark conflict was found.</span>
 
 <span class="sd">    Note: this searches for exact word marks only. A full clearance search</span>
 <span class="sd">    should include phonetic equivalents (done by trademark attorneys).</span>
 
-<span class="sd">    &gt;&gt;&gt; isinstance(trademark_check_us(&#39;xyzqwk&#39;), bool)</span>
+<span class="sd">    &gt;&gt;&gt; isinstance(trademark_check_us('xyzqwk'), bool)</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="s2">&quot;https://tsdr.uspto.gov/documentexternal/statuskeynew&quot;</span><span class="p">,</span>
-            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sn&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;rn&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;td&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span>
+            <span class="s2">"https://tsdr.uspto.gov/documentexternal/statuskeynew"</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"sn"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"rn"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"td"</span><span class="p">:</span> <span class="n">name</span><span class="p">},</span>
             <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Accept&quot;</span><span class="p">:</span> <span class="s2">&quot;application/json&quot;</span><span class="p">},</span>
+            <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">"Accept"</span><span class="p">:</span> <span class="s2">"application/json"</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="c1"># If we get a 404 or empty result, no trademark found</span>
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Can&#39;t determine, optimistically assume available</span>
+            <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Can't determine, optimistically assume available</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
         <span class="c1"># If no trademark document found, name is clear</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="ow">or</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"error"</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">RequestException</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
-        <span class="c1"># Network error or JSON parse error — can&#39;t determine</span>
+        <span class="c1"># Network error or JSON parse error — can't determine</span>
         <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># Optimistic default; pipeline should re-check later</span></div>
 
 </pre></div>

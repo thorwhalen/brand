@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand.pipeline &mdash; brand 0.1.4 documentation</title>
+  <title>brand.pipeline &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -70,7 +70,6 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="util.html">brand.util</a></li>
@@ -128,8 +127,8 @@ allowing inspection, resumption, and branching.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_name</span><span class="p">(</span><span class="s1">&#39;figiri&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;syllables&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;scores&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">evaluate_name</span><span class="p">(</span><span class="s1">'figiri'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">'syllables'</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">'scores'</span><span class="p">]</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -139,7 +138,7 @@ allowing inspection, resumption, and branching.</p>
 <dt class="sig sig-object py" id="brand.pipeline.list_templates">
 <span class="sig-prename descclassname"><span class="pre">brand.pipeline.</span></span><span class="sig-name descname"><span class="pre">list_templates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/brand/pipeline.html#list_templates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.pipeline.list_templates" title="Link to this definition"></a></dt>
 <dd><p>List available pipeline template names.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;quick_screen&#39;</span> <span class="ow">in</span> <span class="n">list_templates</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s1">'quick_screen'</span> <span class="ow">in</span> <span class="n">list_templates</span><span class="p">()</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -151,7 +150,7 @@ allowing inspection, resumption, and branching.</p>
 <dd><p>Load a pipeline template by name.</p>
 <p>Searches the built-in templates directory and returns a list of stage
 objects.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stages</span> <span class="o">=</span> <span class="n">load_template</span><span class="p">(</span><span class="s1">&#39;quick_screen&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stages</span> <span class="o">=</span> <span class="n">load_template</span><span class="p">(</span><span class="s1">'quick_screen'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
 <span class="go">True</span>
 </pre></div>
@@ -185,10 +184,10 @@ string to load from the templates registry.</p></li>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">brand.stages</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generate</span><span class="p">,</span> <span class="n">Score</span><span class="p">,</span> <span class="n">Filter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">results</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">([</span>
-<span class="gp">... </span>    <span class="n">Generate</span><span class="p">(</span><span class="s1">&#39;from_list&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">]}),</span>
-<span class="gp">... </span>    <span class="n">Score</span><span class="p">([</span><span class="s1">&#39;syllables&#39;</span><span class="p">,</span> <span class="s1">&#39;name_length&#39;</span><span class="p">]),</span>
+<span class="gp">... </span>    <span class="n">Generate</span><span class="p">(</span><span class="s1">'from_list'</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">'names'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'alpha'</span><span class="p">,</span> <span class="s1">'beta'</span><span class="p">,</span> <span class="s1">'gamma'</span><span class="p">]}),</span>
+<span class="gp">... </span>    <span class="n">Score</span><span class="p">([</span><span class="s1">'syllables'</span><span class="p">,</span> <span class="s1">'name_length'</span><span class="p">]),</span>
 <span class="gp">... </span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;candidates&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">'candidates'</span><span class="p">])</span>
 <span class="go">3</span>
 </pre></div>
 </div>

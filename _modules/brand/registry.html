@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand.registry &mdash; brand 0.1.4 documentation</title>
+  <title>brand.registry &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,7 +91,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand.registry</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Discoverable, extensible component registries for brand.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Discoverable, extensible component registries for brand."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
@@ -102,15 +101,15 @@
 <a class="viewcode-back" href="../../module_docs/brand/registry.html#brand.registry.ComponentMeta">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ComponentMeta</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata for a registered component.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata for a registered component."""</span>
 
     <span class="n">func</span><span class="p">:</span> <span class="nb">object</span>  <span class="c1"># Callable</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">cost</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;cheap&quot;</span>  <span class="c1"># &#39;cheap&#39; | &#39;moderate&#39; | &#39;expensive&#39;</span>
+    <span class="n">cost</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"cheap"</span>  <span class="c1"># 'cheap' | 'moderate' | 'expensive'</span>
     <span class="n">requires_network</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">latency</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;fast&quot;</span>  <span class="c1"># &#39;fast&#39; | &#39;medium&#39; | &#39;slow&#39;</span>
+    <span class="n">latency</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"fast"</span>  <span class="c1"># 'fast' | 'medium' | 'slow'</span>
     <span class="n">parallelizable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span>
     <span class="n">requires_extras</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -119,35 +118,35 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">requires_network</span><span class="p">:</span>
-            <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
+            <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"network"</span><span class="p">)</span>
         <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
         <span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">latency</span><span class="p">)</span>
-        <span class="n">tag_str</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">tag_str</span><span class="si">}</span><span class="s2">)&gt;&quot;</span></div>
+        <span class="n">tag_str</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">tag_str</span><span class="si">}</span><span class="s2">)&gt;"</span></div>
 
 
 
 <div class="viewcode-block" id="Registry">
 <a class="viewcode-back" href="../../module_docs/brand/registry.html#brand.registry.Registry">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Registry</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A discoverable, extensible registry of named components.</span>
+<span class="w">    </span><span class="sd">"""A discoverable, extensible registry of named components.</span>
 
 <span class="sd">    Implements ``collections.abc.Mapping`` so you can iterate, index, and</span>
 <span class="sd">    check membership just like a dict.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; r = Registry(&#39;scorers&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; @r.register(&#39;length&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; r = Registry('scorers')</span>
+<span class="sd">    &gt;&gt;&gt; @r.register('length')</span>
 <span class="sd">    ... def length_scorer(name):</span>
 <span class="sd">    ...     return len(name)</span>
 <span class="sd">    &gt;&gt;&gt; list(r)</span>
-<span class="sd">    [&#39;length&#39;]</span>
-<span class="sd">    &gt;&gt;&gt; r[&#39;length&#39;](&#39;hello&#39;)</span>
+<span class="sd">    ['length']</span>
+<span class="sd">    &gt;&gt;&gt; r['length']('hello')</span>
 <span class="sd">    5</span>
-<span class="sd">    &gt;&gt;&gt; r[&#39;length&#39;].cost</span>
-<span class="sd">    &#39;cheap&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; r['length'].cost</span>
+<span class="sd">    'cheap'</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
@@ -161,27 +160,27 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;cheap&quot;</span><span class="p">,</span>
+        <span class="n">cost</span><span class="o">=</span><span class="s2">"cheap"</span><span class="p">,</span>
         <span class="n">requires_network</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;fast&quot;</span><span class="p">,</span>
+        <span class="n">latency</span><span class="o">=</span><span class="s2">"fast"</span><span class="p">,</span>
         <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
         <span class="n">requires_extras</span><span class="o">=</span><span class="p">(),</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a function. Usable as decorator with or without arguments.</span>
+<span class="w">        </span><span class="sd">"""Register a function. Usable as decorator with or without arguments.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        &gt;&gt;&gt; r = Registry(&#39;test&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; r = Registry('test')</span>
 <span class="sd">        &gt;&gt;&gt; @r.register</span>
 <span class="sd">        ... def foo(x): return x</span>
-<span class="sd">        &gt;&gt;&gt; &#39;foo&#39; in r</span>
+<span class="sd">        &gt;&gt;&gt; 'foo' in r</span>
 <span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; @r.register(&#39;bar&#39;, cost=&#39;expensive&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; @r.register('bar', cost='expensive')</span>
 <span class="sd">        ... def bar_func(x): return x * 2</span>
-<span class="sd">        &gt;&gt;&gt; r[&#39;bar&#39;].cost</span>
-<span class="sd">        &#39;expensive&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; r['bar'].cost</span>
+<span class="sd">        'expensive'</span>
+<span class="sd">        """</span>
         <span class="n">meta_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">cost</span><span class="o">=</span><span class="n">cost</span><span class="p">,</span>
             <span class="n">requires_network</span><span class="o">=</span><span class="n">requires_network</span><span class="p">,</span>
@@ -210,10 +209,10 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ComponentMeta</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
-            <span class="n">available</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">))</span>
+            <span class="n">available</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">))</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;named </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">. Available: [</span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">]&quot;</span>
+                <span class="sa">f</span><span class="s2">"No </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"named </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">. Available: [</span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">]"</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
@@ -227,16 +226,16 @@
         <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Registry(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">!r}</span><span class="s2">, keys=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Registry(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">!r}</span><span class="s2">, keys=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">)"</span></div>
 
 
 
 <span class="c1"># -- Global registries -------------------------------------------------------</span>
 
-<span class="n">scorers</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">&quot;scorers&quot;</span><span class="p">)</span>
-<span class="n">generators</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">&quot;generators&quot;</span><span class="p">)</span>
-<span class="n">filters</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">&quot;filters&quot;</span><span class="p">)</span>
-<span class="n">pipelines</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">&quot;pipelines&quot;</span><span class="p">)</span>
+<span class="n">scorers</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"scorers"</span><span class="p">)</span>
+<span class="n">generators</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"generators"</span><span class="p">)</span>
+<span class="n">filters</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"filters"</span><span class="p">)</span>
+<span class="n">pipelines</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"pipelines"</span><span class="p">)</span>
 </pre></div>
 
            </div>

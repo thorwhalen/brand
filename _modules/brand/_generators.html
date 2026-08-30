@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>brand._generators &mdash; brand 0.1.4 documentation</title>
+  <title>brand._generators &mdash; brand 0.1.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=fd825880"></script>
+      <script src="../../_static/documentation_options.js?v=59fadc99"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -61,7 +61,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/misc.html">brand.misc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/pipeline.html">brand.pipeline</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/search_names.html">brand.search_names</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/stages.html">brand.stages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/templates.html">brand.templates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../module_docs/brand/util.html">brand.util</a></li>
@@ -92,11 +91,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for brand._generators</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Name generators: combinatoric, morpheme-based, AI-assisted, and from-list.</span>
+<span></span><span class="sd">"""Name generators: combinatoric, morpheme-based, AI-assisted, and from-list.</span>
 
 <span class="sd">Each generator is a function that returns an iterable of candidate name strings.</span>
 <span class="sd">Generators are registered in the global ``generators`` registry.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
@@ -109,9 +108,9 @@
 <span class="c1"># Constants</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
-<span class="n">VOWELS</span> <span class="o">=</span> <span class="s2">&quot;aeiouy&quot;</span>
-<span class="n">CONSONANTS</span> <span class="o">=</span> <span class="s2">&quot;bcdfghjklmnpqrstvwxz&quot;</span>
-<span class="n">FEWER_CONSONANTS</span> <span class="o">=</span> <span class="s2">&quot;bdfglmnprstvz&quot;</span>
+<span class="n">VOWELS</span> <span class="o">=</span> <span class="s2">"aeiouy"</span>
+<span class="n">CONSONANTS</span> <span class="o">=</span> <span class="s2">"bcdfghjklmnpqrstvwxz"</span>
+<span class="n">FEWER_CONSONANTS</span> <span class="o">=</span> <span class="s2">"bdfglmnprstvz"</span>
 
 <span class="n">_VOWELS_SET</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">VOWELS</span><span class="p">)</span>
 <span class="n">_CONSONANTS_SET</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">CONSONANTS</span><span class="p">)</span>
@@ -125,13 +124,13 @@
 <div class="viewcode-block" id="few_uniques">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.few_uniques">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">few_uniques</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">max_uniques</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_unique_vowels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_unique_consonants</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Keep names with limited unique letters and constrained vowel/consonant variety.</span>
+<span class="w">    </span><span class="sd">"""Keep names with limited unique letters and constrained vowel/consonant variety.</span>
 
-<span class="sd">    &gt;&gt;&gt; few_uniques(&#39;bababa&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; few_uniques('bababa')</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; few_uniques(&#39;abcdef&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; few_uniques('abcdef')</span>
 <span class="sd">    False</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">letters</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_uniques</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -150,8 +149,8 @@
 <div class="viewcode-block" id="cvcvcv">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.cvcvcv">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;cvcvcv&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Generate all 6-letter consonant-vowel-consonant-vowel-consonant-vowel names&quot;</span><span class="p">,</span>
+    <span class="s2">"cvcvcv"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Generate all 6-letter consonant-vowel-consonant-vowel-consonant-vowel names"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">cvcvcv</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
@@ -159,14 +158,14 @@
     <span class="n">vowels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">VOWELS</span><span class="p">,</span>
     <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate CVCVCV combinations.</span>
+<span class="w">    </span><span class="sd">"""Generate CVCVCV combinations.</span>
 
-<span class="sd">    &gt;&gt;&gt; names = list(cvcvcv(consonants=&#39;b&#39;, vowels=&#39;a&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; names = list(cvcvcv(consonants='b', vowels='a'))</span>
 <span class="sd">    &gt;&gt;&gt; names</span>
-<span class="sd">    [&#39;bababa&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    ['bababa']</span>
+<span class="sd">    """</span>
     <span class="n">gen</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span>
-        <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span>
+        <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">,</span>
         <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">,</span> <span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">filt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -178,20 +177,20 @@
 <div class="viewcode-block" id="cvcvcv_filtered">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.cvcvcv_filtered">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;cvcvcv_filtered&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;CVCVCV names pre-filtered for few unique letters&quot;</span><span class="p">,</span>
+    <span class="s2">"cvcvcv_filtered"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"CVCVCV names pre-filtered for few unique letters"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">cvcvcv_filtered</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">consonants</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FEWER_CONSONANTS</span><span class="p">,</span>
     <span class="n">vowels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">VOWELS</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;CVCVCV with the ``few_uniques`` filter applied.</span>
+<span class="w">    </span><span class="sd">"""CVCVCV with the ``few_uniques`` filter applied.</span>
 
-<span class="sd">    &gt;&gt;&gt; names = list(cvcvcv_filtered(consonants=&#39;bd&#39;, vowels=&#39;ae&#39;))</span>
-<span class="sd">    &gt;&gt;&gt; &#39;bababa&#39; in names</span>
+<span class="sd">    &gt;&gt;&gt; names = list(cvcvcv_filtered(consonants='bd', vowels='ae'))</span>
+<span class="sd">    &gt;&gt;&gt; 'bababa' in names</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">cvcvcv</span><span class="p">(</span><span class="n">consonants</span><span class="o">=</span><span class="n">consonants</span><span class="p">,</span> <span class="n">vowels</span><span class="o">=</span><span class="n">vowels</span><span class="p">,</span> <span class="n">filt</span><span class="o">=</span><span class="n">few_uniques</span><span class="p">)</span></div>
 
 
@@ -199,33 +198,33 @@
 <div class="viewcode-block" id="pattern_generator">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.pattern_generator">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;pattern&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s1">&#39;Generate names matching a CV pattern (e.g. &quot;CVCCV&quot;)&#39;</span><span class="p">,</span>
+    <span class="s2">"pattern"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">'Generate names matching a CV pattern (e.g. "CVCCV")'</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">pattern_generator</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CVCVCV&quot;</span><span class="p">,</span>
+    <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"CVCVCV"</span><span class="p">,</span>
     <span class="n">consonants</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">FEWER_CONSONANTS</span><span class="p">,</span>
     <span class="n">vowels</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">VOWELS</span><span class="p">,</span>
     <span class="n">filt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all names matching a consonant/vowel pattern.</span>
+<span class="w">    </span><span class="sd">"""Generate all names matching a consonant/vowel pattern.</span>
 
 <span class="sd">    ``C`` = consonant, ``V`` = vowel.</span>
 
-<span class="sd">    &gt;&gt;&gt; len(list(pattern_generator(pattern=&#39;CV&#39;, consonants=&#39;b&#39;, vowels=&#39;a&#39;)))</span>
+<span class="sd">    &gt;&gt;&gt; len(list(pattern_generator(pattern='CV', consonants='b', vowels='a')))</span>
 <span class="sd">    1</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">pools</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">pattern</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;C&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">"C"</span><span class="p">:</span>
             <span class="n">pools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">consonants</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">&quot;V&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s2">"V"</span><span class="p">:</span>
             <span class="n">pools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vowels</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pattern must contain only &#39;C&#39; and &#39;V&#39;, got </span><span class="si">{</span><span class="n">char</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Pattern must contain only 'C' and 'V', got </span><span class="si">{</span><span class="n">char</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">gen</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">pools</span><span class="p">))</span>
+    <span class="n">gen</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">pools</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">filt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">gen</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">gen</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">gen</span></div>
@@ -235,15 +234,15 @@
 <div class="viewcode-block" id="english_words">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.english_words">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;english_words&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;English dictionary words filtered by regex&quot;</span><span class="p">,</span>
+    <span class="s2">"english_words"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"English dictionary words filtered by regex"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">english_words</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.*&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate English words matching a regex pattern.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">english_words</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">".*"</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Generate English words matching a regex pattern.</span>
 
-<span class="sd">    &gt;&gt;&gt; &#39;cat&#39; in list(english_words(pattern=&#39;^cat$&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; 'cat' in list(english_words(pattern='^cat$'))</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">lexis</span>
 
     <span class="n">compiled</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
@@ -254,15 +253,15 @@
 <div class="viewcode-block" id="from_list">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.from_list">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;from_list&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load names from an explicit list&quot;</span><span class="p">,</span>
+    <span class="s2">"from_list"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Load names from an explicit list"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_list</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simply yield the provided names.</span>
+<span class="w">    </span><span class="sd">"""Simply yield the provided names.</span>
 
-<span class="sd">    &gt;&gt;&gt; list(from_list(names=[&#39;alpha&#39;, &#39;beta&#39;]))</span>
-<span class="sd">    [&#39;alpha&#39;, &#39;beta&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; list(from_list(names=['alpha', 'beta']))</span>
+<span class="sd">    ['alpha', 'beta']</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="n">names</span><span class="p">)</span></div>
 
 
@@ -270,11 +269,11 @@
 <div class="viewcode-block" id="from_file">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.from_file">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;from_file&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Load names from a text file (one per line)&quot;</span><span class="p">,</span>
+    <span class="s2">"from_file"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Load names from a text file (one per line)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read names from a file, one name per line, stripping whitespace.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read names from a file, one name per line, stripping whitespace."""</span>
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -286,31 +285,31 @@
 <div class="viewcode-block" id="ai_suggest">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.ai_suggest">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;ai_suggest&quot;</span><span class="p">,</span>
-    <span class="n">cost</span><span class="o">=</span><span class="s2">&quot;expensive&quot;</span><span class="p">,</span>
+    <span class="s2">"ai_suggest"</span><span class="p">,</span>
+    <span class="n">cost</span><span class="o">=</span><span class="s2">"expensive"</span><span class="p">,</span>
     <span class="n">requires_network</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">latency</span><span class="o">=</span><span class="s2">&quot;slow&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;AI-assisted name generation via OpenAI&quot;</span><span class="p">,</span>
+    <span class="n">latency</span><span class="o">=</span><span class="s2">"slow"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"AI-assisted name generation via OpenAI"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">ai_suggest</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Use an LLM to brainstorm brand names for a given context.</span>
+<span class="w">    </span><span class="sd">"""Use an LLM to brainstorm brand names for a given context.</span>
 
 <span class="sd">    Requires the ``oa`` package and an OpenAI API key.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">oa</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;AI generation requires the &#39;oa&#39; package. Install with: pip install oa&quot;</span>
+            <span class="s2">"AI generation requires the 'oa' package. Install with: pip install oa"</span>
         <span class="p">)</span>
 
     <span class="n">ask_fn</span> <span class="o">=</span> <span class="n">oa</span><span class="o">.</span><span class="n">prompt_function</span><span class="p">(</span>
-        <span class="s2">&quot;You are an expert brand namer. Suggest </span><span class="si">{n}</span><span class="s2"> creative, memorable brand &quot;</span>
-        <span class="s2">&quot;names (1-15 characters each) for: </span><span class="si">{context}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-        <span class="s2">&quot;Output ONLY the names, one per line, no numbering or explanation.&quot;</span>
+        <span class="s2">"You are an expert brand namer. Suggest </span><span class="si">{n}</span><span class="s2"> creative, memorable brand "</span>
+        <span class="s2">"names (1-15 characters each) for: </span><span class="si">{context}</span><span class="se">\n\n</span><span class="s2">"</span>
+        <span class="s2">"Output ONLY the names, one per line, no numbering or explanation."</span>
     <span class="p">)</span>
     <span class="n">response</span> <span class="o">=</span> <span class="n">ask_fn</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
     <span class="k">return</span> <span class="n">names</span></div>
 
 
@@ -318,66 +317,66 @@
 <div class="viewcode-block" id="morpheme_combiner">
 <a class="viewcode-back" href="../../module_docs/brand/_generators.html#brand._generators.morpheme_combiner">[docs]</a>
 <span class="nd">@generators</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
-    <span class="s2">&quot;morpheme_combiner&quot;</span><span class="p">,</span>
-    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Combine morpheme roots to create brand-like portmanteaus&quot;</span><span class="p">,</span>
+    <span class="s2">"morpheme_combiner"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s2">"Combine morpheme roots to create brand-like portmanteaus"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">morpheme_combiner</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">prefixes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">suffixes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Combine prefix and suffix morphemes to generate portmanteau-style names.</span>
+<span class="w">    </span><span class="sd">"""Combine prefix and suffix morphemes to generate portmanteau-style names.</span>
 
-<span class="sd">    &gt;&gt;&gt; sorted(morpheme_combiner(prefixes=[&#39;lum&#39;], suffixes=[&#39;ix&#39;, &#39;ify&#39;]))</span>
-<span class="sd">    [&#39;lumify&#39;, &#39;lumix&#39;]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &gt;&gt;&gt; sorted(morpheme_combiner(prefixes=['lum'], suffixes=['ix', 'ify']))</span>
+<span class="sd">    ['lumify', 'lumix']</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">prefixes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">prefixes</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;lum&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;clar&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;vox&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;flux&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;syn&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;lex&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;pho&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;zen&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;arc&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;neo&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;axi&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ori&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;sol&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;nex&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;val&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ver&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;alt&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cor&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;prim&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;evo&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;gen&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;vis&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;aur&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;tel&quot;</span><span class="p">,</span>
+            <span class="s2">"lum"</span><span class="p">,</span>
+            <span class="s2">"clar"</span><span class="p">,</span>
+            <span class="s2">"vox"</span><span class="p">,</span>
+            <span class="s2">"flux"</span><span class="p">,</span>
+            <span class="s2">"syn"</span><span class="p">,</span>
+            <span class="s2">"lex"</span><span class="p">,</span>
+            <span class="s2">"pho"</span><span class="p">,</span>
+            <span class="s2">"zen"</span><span class="p">,</span>
+            <span class="s2">"arc"</span><span class="p">,</span>
+            <span class="s2">"neo"</span><span class="p">,</span>
+            <span class="s2">"axi"</span><span class="p">,</span>
+            <span class="s2">"ori"</span><span class="p">,</span>
+            <span class="s2">"sol"</span><span class="p">,</span>
+            <span class="s2">"nex"</span><span class="p">,</span>
+            <span class="s2">"val"</span><span class="p">,</span>
+            <span class="s2">"ver"</span><span class="p">,</span>
+            <span class="s2">"alt"</span><span class="p">,</span>
+            <span class="s2">"cor"</span><span class="p">,</span>
+            <span class="s2">"prim"</span><span class="p">,</span>
+            <span class="s2">"evo"</span><span class="p">,</span>
+            <span class="s2">"gen"</span><span class="p">,</span>
+            <span class="s2">"vis"</span><span class="p">,</span>
+            <span class="s2">"aur"</span><span class="p">,</span>
+            <span class="s2">"tel"</span><span class="p">,</span>
         <span class="p">]</span>
     <span class="k">if</span> <span class="n">suffixes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">suffixes</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;ify&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ix&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;io&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;us&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;is&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ia&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;eo&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ar&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;um&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;os&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;al&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;en&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;yx&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;on&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;or&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ux&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ive&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ent&quot;</span><span class="p">,</span>
+            <span class="s2">"ify"</span><span class="p">,</span>
+            <span class="s2">"ix"</span><span class="p">,</span>
+            <span class="s2">"io"</span><span class="p">,</span>
+            <span class="s2">"us"</span><span class="p">,</span>
+            <span class="s2">"is"</span><span class="p">,</span>
+            <span class="s2">"ia"</span><span class="p">,</span>
+            <span class="s2">"eo"</span><span class="p">,</span>
+            <span class="s2">"ar"</span><span class="p">,</span>
+            <span class="s2">"um"</span><span class="p">,</span>
+            <span class="s2">"os"</span><span class="p">,</span>
+            <span class="s2">"al"</span><span class="p">,</span>
+            <span class="s2">"en"</span><span class="p">,</span>
+            <span class="s2">"yx"</span><span class="p">,</span>
+            <span class="s2">"on"</span><span class="p">,</span>
+            <span class="s2">"or"</span><span class="p">,</span>
+            <span class="s2">"ux"</span><span class="p">,</span>
+            <span class="s2">"ive"</span><span class="p">,</span>
+            <span class="s2">"ent"</span><span class="p">,</span>
         <span class="p">]</span>
 
     <span class="k">for</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">prefixes</span><span class="p">,</span> <span class="n">suffixes</span><span class="p">):</span>
