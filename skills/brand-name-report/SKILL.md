@@ -245,10 +245,43 @@ and often map to phonetic neighbor data. Surface this proactively.
 Tables with more than 6-7 columns will overflow in PDF. Always transpose
 the main comparison table (names as rows) and use abbreviated headers.
 
+## Bulk-scoring a candidate pool to CSV
+
+When the user wants to score *many* names (hundreds to hundreds of thousands)
+across all the fast local scorers and produce a CSV for spreadsheet analysis
+(Google Sheets / Excel), use the reusable script — do **not** re-implement.
+From the root of this repository:
+
+```
+python examples/score_all_to_csv.py \
+    --input  ~/path/to/names.txt \
+    --output ~/Downloads/scores.csv
+```
+
+- **Input format:** plain text, one candidate name per line.
+- **Throughput:** ~10,000 names/second; 80K names finishes in ~7 seconds.
+- **Defaults:** with no flags, scores `misc/dns_verified_cv3_and_vc3.txt`
+  to `~/Downloads/brand_scores_cv3_vc3.csv`.
+- **Columns** (13): `name`, `vowel_consonant_ratio`, `unique_letter_ratio`,
+  `has_repeating_pattern`, `harsh_cluster_count`, `keyboard_distance`,
+  `novelty_score`, `existing_word`, `spelling_transparency`,
+  `pronunciation_entropy_en`, `pronunciation_entropy_en_fr`,
+  `brandability_score`, `positive_morpheme_score`.
+- **No network, no LLM.** All scorers are formulaic.
+
+If the user wants to filter or rank that CSV down to a shortlist, do it in
+Sheets/Excel, or with `pandas.read_csv` + sort, *not* by re-running this skill.
+
+**Important:** the script silences the `epitran` "lex_lookup (from flite) is
+not installed" warning. Without that suppression, stderr I/O makes a 7-second
+job take over an hour. Don't remove the `logging.getLogger("epitran")` line.
+
 ## Dependencies
 
 - Python 3.12+
 - The `brand` package at `/Users/thorwhalen/Dropbox/py/proj/t/brand`
 - `wordfreq`, `pronouncing` (installed in the brand package environment)
+- For phonetics extras (silenced but imported): `pip install brand[phonetics]`
+  installs `python-BLICK`, `epitran`, `panphon`
 - Network access for Datamuse API (phonetic neighbors) and cross-linguistic checks
 - Agent tool access for parallel deep-dive analyses
