@@ -228,6 +228,11 @@ There are two levels:
 - **User-level** (in `~/.claude/skills/`): Available globally across all projects.
   To install, copy or symlink the skill directory into `~/.claude/skills/`.
 
+Skill *directories* keep their real files in `skills/` at the repository root, with
+a relative symlink in `.claude/skills/`. That way `gh skill` (which skips hidden
+directories) and Claude Code (which reads only `.claude/skills/`) both find them,
+and the files exist in exactly one place.
+
 Project-level skills are invoked by Claude Code when relevant context is detected.
 The user-level `brand-name-report` skill can be invoked explicitly with:
 
@@ -258,9 +263,15 @@ The user-level `brand-name-report` skill can be invoked explicitly with:
 |---|---|
 | `brand-name-report` | Full comparative report for a list of candidate names. Computes all metrics (including `pronunciation_entropy` with cross-linguistic mode), launches parallel AI agents for per-name deep-dive analyses, and compiles a formatted markdown report with transposed tables, per-name write-ups, phonetic neighbor analysis, and a per-grapheme entropy appendix. Designed for the final evaluation stage when you have a shortlist of 5-15 candidates. |
 
-The `brand-name-report` skill is currently installed at `~/.claude/skills/brand-name-report/`.
-If you are setting up on a new machine, copy it there from this repo:
+The real files live at `skills/brand-name-report/`. On a new machine, install it
+either with `gh skill`:
 
 ```bash
-cp -r .claude/skills/brand-name-report ~/.claude/skills/brand-name-report
+gh skill install thorwhalen/brand brand-name-report
+```
+
+or by symlinking this checkout, which keeps the skill and the repo in step:
+
+```bash
+ln -s "$PWD/skills/brand-name-report" ~/.claude/skills/brand-name-report
 ```
