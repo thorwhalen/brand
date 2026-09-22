@@ -1,4 +1,0 @@
-brand.pipeline
-==============
-.. automodule:: brand.pipeline
-   :members:

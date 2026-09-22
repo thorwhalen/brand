@@ -1,4 +1,0 @@
-brand.stages
-============
-.. automodule:: brand.stages
-   :members:

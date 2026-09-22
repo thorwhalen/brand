@@ -1,0 +1,22 @@
+brand.stages
+============
+
+.. automodule:: brand.stages
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      stage_from_dict
+      stages_from_dicts
+      stages_to_dicts
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Filter
+      Generate
+      Score
+   

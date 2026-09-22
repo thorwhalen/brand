@@ -1,4 +1,0 @@
-brand
-=====
-.. automodule:: brand
-   :members:

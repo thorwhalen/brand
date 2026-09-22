@@ -1,247 +1,549 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" data-content_root="./">
+<html lang="en" data-accent-color="indigo" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to brand’s documentation! &mdash; brand 0.1.5 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
-      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>brand</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="API reference" href="api.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d88b86f9" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+  <meta property="og:type" content="website"/><meta property="og:title" content="brand"/>
+    <meta name="twitter:card" content="summary"/>
   
-      <script src="_static/jquery.js?v=5d32c60e"></script>
-      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=59fadc99"></script>
+<link rel="alternate" type="text/markdown" href="index.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+</head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="#">
+      
+      
+      <strong>brand</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/thorwhalen/brand" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/brand.html">brand</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.base.html">brand.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.config.html">brand.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.misc.html">brand.misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.registry.html">brand.registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.stages.html">brand.stages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.templates.html">brand.templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.util.html">brand.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ai-agents.html">For AI agents</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#quick-start">Quick Start</a></li>
+<li><a class="reference internal" href="#pipelines">Pipelines</a><ul>
+<li><a class="reference internal" href="#run-a-pre-configured-template">Run a pre-configured template</a></li>
+<li><a class="reference internal" href="#build-a-custom-pipeline">Build a custom pipeline</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#registry">Registry</a><ul>
+<li><a class="reference internal" href="#register-a-custom-scorer">Register a custom scorer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#generators">Generators</a></li>
+<li><a class="reference internal" href="#scorers">Scorers</a><ul>
+<li><a class="reference internal" href="#phonetic-local-fast">Phonetic (local, fast)</a></li>
+<li><a class="reference internal" href="#linguistic-local-fast">Linguistic (local, fast)</a></li>
+<li><a class="reference internal" href="#linguistic-network">Linguistic (network)</a></li>
+<li><a class="reference internal" href="#visual-typing">Visual / Typing</a></li>
+<li><a class="reference internal" href="#availability-network">Availability (network)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#name-availability-check-legacy-api">Name Availability Check (legacy API)</a></li>
+<li><a class="reference internal" href="#ai-assisted-workflows">AI-Assisted Workflows</a><ul>
+<li><a class="reference internal" href="#generate-names-with-ai">Generate names with AI</a></li>
+<li><a class="reference internal" href="#analyze-names-with-ai">Analyze names with AI</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#claude-code-skills-and-agents">Claude Code Skills and Agents</a><ul>
+<li><a class="reference internal" href="#how-to-activate">How to activate</a></li>
+<li><a class="reference internal" href="#project-level-skills-claude-skills">Project-level skills (<code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code>)</a></li>
+<li><a class="reference internal" href="#project-level-agents-claude-agents">Project-level agents (<code class="docutils literal notranslate"><span class="pre">.claude/agents/</span></code>)</a></li>
+<li><a class="reference internal" href="#user-level-skill-claude-skills">User-level skill (<code class="docutils literal notranslate"><span class="pre">~/.claude/skills/</span></code>)</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="#"><span itemprop="name">brand</span></a>
+        <meta itemprop="position" content="1" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue dark-code" role="main">
+          <!-- generated by epythet -->
+<section id="brand">
+<h1>brand<a class="headerlink" href="#brand" title="Link to this heading">#</a></h1>
+<p>A composable pipeline for brand name generation, evaluation, and availability checking.</p>
+<p>Not just domain checking — a full brand naming workbench. Generate candidates, score them
+on phonetics, linguistics, and sound symbolism, filter by availability across platforms,
+and persist every intermediate result for inspection and branching.</p>
+<p>To install:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">pip</span> <span class="n">install</span> <span class="n">brand</span>
+</span><span data-line="2"><span class="n">pip</span> <span class="n">install</span> <span class="n">brand</span><span class="p">[</span><span class="n">phonetics</span><span class="p">]</span>   <span class="c1"># adds BLICK, epitran, panphon</span>
+</span><span data-line="3"><span class="n">pip</span> <span class="n">install</span> <span class="n">brand</span><span class="p">[</span><span class="nb">all</span><span class="p">]</span>         <span class="c1"># everything including AI generation</span>
+</span></pre></div>
+</div>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<p>Evaluate a single name:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">brand</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">result</span> <span class="o">=</span> <span class="n">brand</span><span class="o">.</span><span class="n">evaluate_name</span><span class="p">(</span><span class="s2">"figiri"</span><span class="p">)</span>
+</span><span data-line="4"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">"scores"</span><span class="p">])</span>
+</span><span data-line="5"><span class="c1"># {'syllables': 3, 'stress_pattern': 'unknown', 'spelling_transparency': 0.88,</span>
+</span><span data-line="6"><span class="c1">#  'sound_symbolism': {'profile': 'modern/sharp', ...}, 'novelty': 1.0, ...}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="pipelines">
+<h2>Pipelines<a class="headerlink" href="#pipelines" title="Link to this heading">#</a></h2>
+<p>The core abstraction is a <strong>pipeline</strong> — a sequence of Generate, Score, and Filter
+stages that progressively enriches, scores, and narrows a set of candidate names.</p>
+<section id="run-a-pre-configured-template">
+<h3>Run a pre-configured template<a class="headerlink" href="#run-a-pre-configured-template" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">results</span> <span class="o">=</span> <span class="n">brand</span><span class="o">.</span><span class="n">run_pipeline</span><span class="p">(</span><span class="s2">"tech_startup"</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">"figiri"</span><span class="p">,</span> <span class="s2">"lumex"</span><span class="p">,</span> <span class="s2">"voxen"</span><span class="p">])</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">results</span><span class="p">[</span><span class="s2">"candidates"</span><span class="p">]:</span>
+</span><span data-line="4">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">candidate</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">candidate</span><span class="p">[</span><span class="s1">'scores'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Available templates:</p>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Template</p></th>
+<th class="head"><p>Use case</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">quick_screen</span></code></p></td>
+<td><p>Fast local-only checks. No network. Screen thousands in seconds.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tech_startup</span></code></p></td>
+<td><p>.com + GitHub + full phonolinguistic battery</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">python_package</span></code></p></td>
+<td><p>PyPI + GitHub + short name + keyboard distance</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">consumer_global</span></code></p></td>
+<td><p>Cross-linguistic safety + trademark + .com mandatory</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">developer_tool</span></code></p></td>
+<td><p>Short (4-6 chars), easy to type, PyPI + npm + GitHub</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ai_ml_product</span></code></p></td>
+<td><p>.ai TLD preferred, modern sound profile, high distinctiveness</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">consultancy</span></code></p></td>
+<td><p>Professional tone, .com mandatory, company registration</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">open_source</span></code></p></td>
+<td><p>GitHub + PyPI + npm, fun/memorable, less trademark concern</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">youtube_channel</span></code></p></td>
+<td><p>YouTube availability, memorable, pronounceable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">full_audit</span></code></p></td>
+<td><p>Every scorer, every check. Thorough but expensive.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="build-a-custom-pipeline">
+<h3>Build a custom pipeline<a class="headerlink" href="#build-a-custom-pipeline" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">brand</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generate</span><span class="p">,</span> <span class="n">Score</span><span class="p">,</span> <span class="n">Filter</span><span class="p">,</span> <span class="n">run_pipeline</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">results</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span>
+</span><span data-line="4">    <span class="p">[</span>
+</span><span data-line="5">        <span class="n">Generate</span><span class="p">(</span><span class="s2">"cvcvcv_filtered"</span><span class="p">),</span>
+</span><span data-line="6">        <span class="n">Score</span><span class="p">([</span><span class="s2">"syllables"</span><span class="p">,</span> <span class="s2">"spelling_transparency"</span><span class="p">,</span> <span class="s2">"sound_symbolism"</span><span class="p">,</span> <span class="s2">"novelty"</span><span class="p">]),</span>
+</span><span data-line="7">        <span class="n">Filter</span><span class="p">(</span><span class="n">top_n</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s2">"spelling_transparency"</span><span class="p">),</span>
+</span><span data-line="8">        <span class="n">Score</span><span class="p">([</span><span class="s2">"dns_com"</span><span class="p">,</span> <span class="s2">"dns_io"</span><span class="p">]),</span>
+</span><span data-line="9">        <span class="n">Filter</span><span class="p">(</span><span class="n">rules</span><span class="o">=</span><span class="p">{</span><span class="s2">"dns_com"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}),</span>
+</span><span data-line="10">        <span class="n">Score</span><span class="p">([</span><span class="s2">"whois_com"</span><span class="p">]),</span>
+</span><span data-line="11">        <span class="n">Filter</span><span class="p">(</span><span class="n">rules</span><span class="o">=</span><span class="p">{</span><span class="s2">"whois_com"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}),</span>
+</span><span data-line="12">        <span class="n">Score</span><span class="p">([</span><span class="s2">"github_org"</span><span class="p">]),</span>
+</span><span data-line="13">    <span class="p">]</span>
+</span><span data-line="14"><span class="p">)</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">'candidates'</span><span class="p">])</span><span class="si">}</span><span class="s2"> names survived the pipeline"</span><span class="p">)</span>
+</span><span data-line="17"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Artifacts saved to: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">'project_dir'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Every run persists intermediate artifacts to disk. You can resume from any stage,
+branch from any checkpoint, and inspect what happened at each step.</p>
+</section>
+</section>
+<section id="registry">
+<h2>Registry<a class="headerlink" href="#registry" title="Link to this heading">#</a></h2>
+<p>All components are discoverable:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">import</span><span class="w"> </span><span class="nn">brand</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># See what's available</span>
+</span><span data-line="4"><span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">scorers</span><span class="p">)</span>  <span class="c1"># ['syllables', 'phonotactic', 'dns_com', ...]</span>
+</span><span data-line="5"><span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">)</span>  <span class="c1"># ['cvcvcv', 'ai_suggest', 'morpheme_combiner', ...]</span>
+</span><span data-line="6"><span class="n">brand</span><span class="o">.</span><span class="n">list_templates</span><span class="p">()</span>  <span class="c1"># ['tech_startup', 'python_package', ...]</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Inspect a scorer</span>
+</span><span data-line="9"><span class="n">brand</span><span class="o">.</span><span class="n">scorers</span><span class="p">[</span><span class="s2">"dns_com"</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span>  <span class="c1"># 'cheap'</span>
+</span><span data-line="10"><span class="n">brand</span><span class="o">.</span><span class="n">scorers</span><span class="p">[</span><span class="s2">"dns_com"</span><span class="p">]</span><span class="o">.</span><span class="n">requires_network</span>  <span class="c1"># True</span>
+</span><span data-line="11"><span class="n">brand</span><span class="o">.</span><span class="n">scorers</span><span class="p">[</span><span class="s2">"whois_com"</span><span class="p">]</span><span class="o">.</span><span class="n">latency</span>  <span class="c1"># 'slow'</span>
+</span></pre></div>
+</div>
+<section id="register-a-custom-scorer">
+<h3>Register a custom scorer<a class="headerlink" href="#register-a-custom-scorer" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nd">@brand</span><span class="o">.</span><span class="n">scorers</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">"my_vowel_ratio"</span><span class="p">)</span>
+</span><span data-line="2"><span class="k">def</span><span class="w"> </span><span class="nf">my_vowel_ratio</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span data-line="3">    <span class="n">vowels</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="s2">"aeiouy"</span><span class="p">)</span>
+</span><span data-line="4">    <span class="k">return</span> <span class="n">vowels</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Now use it in a pipeline</span>
+</span><span data-line="8"><span class="n">results</span> <span class="o">=</span> <span class="n">brand</span><span class="o">.</span><span class="n">run_pipeline</span><span class="p">(</span>
+</span><span data-line="9">    <span class="p">[</span>
+</span><span data-line="10">        <span class="n">Generate</span><span class="p">(</span><span class="s2">"from_list"</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">"names"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"beta"</span><span class="p">,</span> <span class="s2">"omega"</span><span class="p">]}),</span>
+</span><span data-line="11">        <span class="n">Score</span><span class="p">([</span><span class="s2">"my_vowel_ratio"</span><span class="p">,</span> <span class="s2">"syllables"</span><span class="p">]),</span>
+</span><span data-line="12">    <span class="p">]</span>
+</span><span data-line="13"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="generators">
+<h2>Generators<a class="headerlink" href="#generators" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># CVCVCV combinatoric (371k+ candidates)</span>
+</span><span data-line="2"><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">[</span><span class="s2">"cvcvcv"</span><span class="p">]())</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># CVCVCV with few-uniques filter</span>
+</span><span data-line="5"><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">[</span><span class="s2">"cvcvcv_filtered"</span><span class="p">]())</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Custom CV pattern</span>
+</span><span data-line="8"><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">[</span><span class="s2">"pattern"</span><span class="p">](</span><span class="n">pattern</span><span class="o">=</span><span class="s2">"CVCCV"</span><span class="p">))</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Morpheme combiner (portmanteau-style)</span>
+</span><span data-line="11"><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">[</span><span class="s2">"morpheme_combiner"</span><span class="p">](</span>
+</span><span data-line="13">        <span class="n">prefixes</span><span class="o">=</span><span class="p">[</span><span class="s2">"lum"</span><span class="p">,</span> <span class="s2">"vox"</span><span class="p">,</span> <span class="s2">"syn"</span><span class="p">],</span>
+</span><span data-line="14">        <span class="n">suffixes</span><span class="o">=</span><span class="p">[</span><span class="s2">"ify"</span><span class="p">,</span> <span class="s2">"io"</span><span class="p">,</span> <span class="s2">"ar"</span><span class="p">],</span>
+</span><span data-line="15">    <span class="p">)</span>
+</span><span data-line="16"><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># AI-assisted (requires 'oa' package)</span>
+</span><span data-line="19"><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">[</span><span class="s2">"ai_suggest"</span><span class="p">](</span><span class="n">context</span><span class="o">=</span><span class="s2">"AI data tools"</span><span class="p">))</span>
+</span><span data-line="20">
+</span><span data-line="21"><span class="c1"># From a file or list</span>
+</span><span data-line="22"><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">brand</span><span class="o">.</span><span class="n">generators</span><span class="p">[</span><span class="s2">"from_list"</span><span class="p">](</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="s2">"beta"</span><span class="p">]))</span>
+</span></pre></div>
+</div>
+</section>
+<section id="scorers">
+<h2>Scorers<a class="headerlink" href="#scorers" title="Link to this heading">#</a></h2>
+<section id="phonetic-local-fast">
+<h3>Phonetic (local, fast)<a class="headerlink" href="#phonetic-local-fast" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">syllables</span></code> — syllable count via CMU dict or vowel heuristic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stress_pattern</span></code> — stress digits from ARPAbet (trochaic “10” is ideal)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">phonotactic</span></code> — BLICK well-formedness (0 = perfect English phonotactics) [requires <code class="docutils literal notranslate"><span class="pre">brand[phonetics]</span></code>]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">articulatory_complexity</span></code> — place-of-articulation transitions [requires <code class="docutils literal notranslate"><span class="pre">brand[phonetics]</span></code>]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sound_symbolism</span></code> — front/back vowel and voiceless/voiced ratios mapped to brand archetypes</p></li>
+</ul>
+</section>
+<section id="linguistic-local-fast">
+<h3>Linguistic (local, fast)<a class="headerlink" href="#linguistic-local-fast" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">novelty</span></code> — word frequency inverse (1.0 = novel, 0.0 = very common)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">existing_word</span></code> — collision with known English words</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">spelling_transparency</span></code> — grapheme-to-phoneme ambiguity score (flat lookup; see <code class="docutils literal notranslate"><span class="pre">pronunciation_entropy</span></code> for a richer alternative)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy</span></code> — positional, context-aware pronunciation ambiguity measured as Shannon entropy in bits. Models how initial Y before a consonant is far more ambiguous than terminal Y, terminal E (silent? schwa?) vs. medial E, open vs. closed syllables, and intervocalic consonant voicing. Supports cross-linguistic mode: <code class="docutils literal notranslate"><span class="pre">pronunciation_entropy('levole',</span> <span class="pre">languages=('en',</span> <span class="pre">'fr'))</span></code> merges English and French phoneme distributions, capturing real-world ambiguity for names that must work across language communities. Lower = more unambiguous. See also <code class="docutils literal notranslate"><span class="pre">pronunciation_entropy_detail()</span></code> for per-grapheme breakdowns.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">substring_hazards</span></code> — profanity substring scan</p></li>
+</ul>
+</section>
+<section id="linguistic-network">
+<h3>Linguistic (network)<a class="headerlink" href="#linguistic-network" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cross_linguistic</span></code> — word frequency in 11 languages</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">phonetic_neighbors</span></code> — similar-sounding words via Datamuse API</p></li>
+</ul>
+</section>
+<section id="visual-typing">
+<h3>Visual / Typing<a class="headerlink" href="#visual-typing" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">letter_balance</span></code> — ascender/descender/neutral proportions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">keyboard_distance</span></code> — mean QWERTY distance between consecutive letters</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name_length</span></code> — character count</p></li>
+</ul>
+</section>
+<section id="availability-network">
+<h3>Availability (network)<a class="headerlink" href="#availability-network" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dns_com</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_net</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_org</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_io</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_ai</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_co</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_dev</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_app</span></code> — domain availability</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">whois_com</span></code> — WHOIS verification (.com)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">github_org</span></code> — GitHub organization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pypi</span></code> — PyPI project</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span></code> — npm package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">youtube</span></code> — YouTube channel</p></li>
+</ul>
+</section>
+</section>
+<section id="name-availability-check-legacy-api">
+<h2>Name Availability Check (legacy API)<a class="headerlink" href="#name-availability-check-legacy-api" title="Link to this heading">#</a></h2>
+<p>The original availability-checking API still works:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">brand</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_available_as</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="nb">list</span><span class="p">(</span><span class="n">is_available_as</span><span class="p">)</span>
+</span><span data-line="4"><span class="c1"># ['domain_name', 'github_org', 'npm_package', 'pypi_project', 'youtube_channel']</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="n">is_available_as</span><span class="o">.</span><span class="n">github_org</span><span class="p">(</span><span class="s2">"thorwhalen"</span><span class="p">)</span>  <span class="c1"># False</span>
+</span><span data-line="7"><span class="n">is_available_as</span><span class="o">.</span><span class="n">pypi_project</span><span class="p">(</span><span class="s2">"brand"</span><span class="p">)</span>  <span class="c1"># False</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="kn">from</span><span class="w"> </span><span class="nn">brand</span><span class="w"> </span><span class="kn">import</span> <span class="n">domain_name_is_available</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="n">domain_name_is_available</span><span class="p">(</span><span class="s2">"google"</span><span class="p">)</span>  <span class="c1"># False</span>
+</span></pre></div>
+</div>
+</section>
+<section id="ai-assisted-workflows">
+<h2>AI-Assisted Workflows<a class="headerlink" href="#ai-assisted-workflows" title="Link to this heading">#</a></h2>
+<section id="generate-names-with-ai">
+<h3>Generate names with AI<a class="headerlink" href="#generate-names-with-ai" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">brand</span><span class="w"> </span><span class="kn">import</span> <span class="n">ask_ai_to_generate_names</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">names</span> <span class="o">=</span> <span class="n">ask_ai_to_generate_names</span><span class="p">(</span><span class="s2">"AI-powered data visualization platform"</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="analyze-names-with-ai">
+<h3>Analyze names with AI<a class="headerlink" href="#analyze-names-with-ai" title="Link to this heading">#</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">brand</span><span class="w"> </span><span class="kn">import</span> <span class="n">ai_analyze_names</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">analysis</span> <span class="o">=</span> <span class="n">ai_analyze_names</span><span class="p">([</span><span class="s2">"figiri"</span><span class="p">,</span> <span class="s2">"lumex"</span><span class="p">,</span> <span class="s2">"datavox"</span><span class="p">],</span> <span class="n">context</span><span class="o">=</span><span class="s2">"data viz platform"</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="claude-code-skills-and-agents">
+<h2>Claude Code Skills and Agents<a class="headerlink" href="#claude-code-skills-and-agents" title="Link to this heading">#</a></h2>
+<p>When using this project with <a class="reference external" href="https://github.com/anthropics/claude-code">Claude Code</a>,
+several skills and agents are available to automate common workflows.</p>
+<section id="how-to-activate">
+<h3>How to activate<a class="headerlink" href="#how-to-activate" title="Link to this heading">#</a></h3>
+<p>Skills and agents are markdown files that Claude Code reads to guide its behavior.
+There are two levels:</p>
+<ul class="simple">
+<li><p><strong>Project-level</strong> (in <code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code> and <code class="docutils literal notranslate"><span class="pre">.claude/agents/</span></code> within this repo):
+Automatically available when Claude Code is running inside this project directory.</p></li>
+<li><p><strong>User-level</strong> (in <code class="docutils literal notranslate"><span class="pre">~/.claude/skills/</span></code>): Available globally across all projects.
+To install, copy or symlink the skill directory into <code class="docutils literal notranslate"><span class="pre">~/.claude/skills/</span></code>.</p></li>
+</ul>
+<p>Skill <em>directories</em> keep their real files in <code class="docutils literal notranslate"><span class="pre">skills/</span></code> at the repository root, with
+a relative symlink in <code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code>. That way <code class="docutils literal notranslate"><span class="pre">gh</span> <span class="pre">skill</span></code> (which skips hidden
+directories) and Claude Code (which reads only <code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code>) both find them,
+and the files exist in exactly one place.</p>
+<p>Project-level skills are invoked by Claude Code when relevant context is detected.
+The user-level <code class="docutils literal notranslate"><span class="pre">brand-name-report</span></code> skill can be invoked explicitly with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="o">/</span><span class="n">brand</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">report</span> <span class="n">dynody</span> <span class="n">panapy</span> <span class="n">ilumin</span> <span class="o">--</span><span class="n">context</span> <span class="s2">"AI health tools"</span> <span class="o">--</span><span class="n">output</span> <span class="o">~/</span><span class="n">Downloads</span><span class="o">/</span><span class="n">report</span><span class="o">.</span><span class="n">md</span>
+</span></pre></div>
+</div>
+</section>
+<section id="project-level-skills-claude-skills">
+<h3>Project-level skills (<code class="docutils literal notranslate"><span class="pre">.claude/skills/</span></code>)<a class="headerlink" href="#project-level-skills-claude-skills" title="Link to this heading">#</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Skill</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">brand-evaluate</span></code></p></td>
+<td><p>Structured name evaluation combining computed metrics + expert judgment</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">brand-generate</span></code></p></td>
+<td><p>Creative name generation using available generators</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">brand-pipeline-designer</span></code></p></td>
+<td><p>Interactive pipeline design based on your specific needs</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">brand-research</span></code></p></td>
+<td><p>Deep cross-linguistic, cultural, and competitive research on a name</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="project-level-agents-claude-agents">
+<h3>Project-level agents (<code class="docutils literal notranslate"><span class="pre">.claude/agents/</span></code>)<a class="headerlink" href="#project-level-agents-claude-agents" title="Link to this heading">#</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Agent</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">brand-scout</span></code></p></td>
+<td><p>Autonomous generate-evaluate-recommend cycle</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">brand-audit</span></code></p></td>
+<td><p>Comprehensive risk/opportunity audit of existing names</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">brand-pipeline-runner</span></code></p></td>
+<td><p>Pipeline execution, monitoring, resumption, and comparison</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="user-level-skill-claude-skills">
+<h3>User-level skill (<code class="docutils literal notranslate"><span class="pre">~/.claude/skills/</span></code>)<a class="headerlink" href="#user-level-skill-claude-skills" title="Link to this heading">#</a></h3>
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Skill</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">brand-name-report</span></code></p></td>
+<td><p>Full comparative report for a list of candidate names. Computes all metrics (including <code class="docutils literal notranslate"><span class="pre">pronunciation_entropy</span></code> with cross-linguistic mode), launches parallel AI agents for per-name deep-dive analyses, and compiles a formatted markdown report with transposed tables, per-name write-ups, phonetic neighbor analysis, and a per-grapheme entropy appendix. Designed for the final evaluation stage when you have a shortlist of 5-15 candidates.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The real files live at <code class="docutils literal notranslate"><span class="pre">skills/brand-name-report/</span></code>. On a new machine, install it
+either with <code class="docutils literal notranslate"><span class="pre">gh</span> <span class="pre">skill</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/brand<span class="w"> </span>brand-name-report
+</span></pre></div>
+</div>
+<p>or by symlinking this checkout, which keeps the skill and the repo in step:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">ln<span class="w"> </span>-s<span class="w"> </span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/skills/brand-name-report"</span><span class="w"> </span>~/.claude/skills/brand-name-report
+</span></pre></div>
+</div>
+<p class="epythet-aggregates">This documentation as a single file: <a href="brand.md">brand.md</a> (Markdown, for agents).</p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+</section>
+
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-09-22 13:38 UTC from <a href="https://github.com/thorwhalen/brand/commit/5b0b346a1512adbaf3add14f163b571942ecc1f6">5b0b346</a> (master) · brand 0.1.7 · <a href="about-this-build.html">about this build</a></p>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-next">
+    <a href="api.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">API reference</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright">
+  <p>
+    Made with
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+  <a href="https://github.com/thorwhalen/brand" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=ca7ad2ea"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
-      <script src="_static/toggleprompt.js?v=d7ede5d2"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
-      <script src="_static/copybutton.js?v=f281be69"></script>
-    <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="brand" href="module_docs/brand.html" /> 
-</head>
-
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-
-          
-          
-          <a href="#" class="icon icon-home">
-            brand
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand.html">brand</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_generators.html">brand._generators</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers.html">brand._scorers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/availability.html">brand._scorers.availability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/company.html">brand._scorers.company</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/composite.html">brand._scorers.composite</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/llm.html">brand._scorers.llm</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/visual.html">brand._scorers.visual</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/base.html">brand.base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/config.html">brand.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/misc.html">brand.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/pipeline.html">brand.pipeline</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/registry.html">brand.registry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/stages.html">brand.stages</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/templates.html">brand.templates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/util.html">brand.util</a></li>
-</ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">brand</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Welcome to brand’s documentation!</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
-  <section id="welcome-to-brand-s-documentation">
-<h1>Welcome to brand’s documentation!<a class="headerlink" href="#welcome-to-brand-s-documentation" title="Link to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand.html">brand</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand.html#quick-start">Quick start</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_generators.html">brand._generators</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.ai_suggest"><code class="docutils literal notranslate"><span class="pre">ai_suggest()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.cvcvcv"><code class="docutils literal notranslate"><span class="pre">cvcvcv()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.cvcvcv_filtered"><code class="docutils literal notranslate"><span class="pre">cvcvcv_filtered()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.english_words"><code class="docutils literal notranslate"><span class="pre">english_words()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.few_uniques"><code class="docutils literal notranslate"><span class="pre">few_uniques()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.from_file"><code class="docutils literal notranslate"><span class="pre">from_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.from_list"><code class="docutils literal notranslate"><span class="pre">from_list()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.morpheme_combiner"><code class="docutils literal notranslate"><span class="pre">morpheme_combiner()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_generators.html#brand._generators.pattern_generator"><code class="docutils literal notranslate"><span class="pre">pattern_generator()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers.html">brand._scorers</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/availability.html">brand._scorers.availability</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/availability.html#brand._scorers.availability.whois_com"><code class="docutils literal notranslate"><span class="pre">whois_com()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/company.html">brand._scorers.company</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/company.html#brand._scorers.company.company_name_available_us"><code class="docutils literal notranslate"><span class="pre">company_name_available_us()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/company.html#brand._scorers.company.trademark_check_us"><code class="docutils literal notranslate"><span class="pre">trademark_check_us()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/composite.html">brand._scorers.composite</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/composite.html#brand._scorers.composite.brandability_score"><code class="docutils literal notranslate"><span class="pre">brandability_score()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html">brand._scorers.linguistic</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.cross_linguistic_check"><code class="docutils literal notranslate"><span class="pre">cross_linguistic_check()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.existing_word"><code class="docutils literal notranslate"><span class="pre">existing_word()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.novelty_score"><code class="docutils literal notranslate"><span class="pre">novelty_score()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.phonetic_neighbors"><code class="docutils literal notranslate"><span class="pre">phonetic_neighbors()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy"><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.pronunciation_entropy_detail"><code class="docutils literal notranslate"><span class="pre">pronunciation_entropy_detail()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.spelling_transparency"><code class="docutils literal notranslate"><span class="pre">spelling_transparency()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/linguistic.html#brand._scorers.linguistic.substring_hazards"><code class="docutils literal notranslate"><span class="pre">substring_hazards()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/llm.html">brand._scorers.llm</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.get_usage_summary"><code class="docutils literal notranslate"><span class="pre">get_usage_summary()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating"><code class="docutils literal notranslate"><span class="pre">llm_brand_rating()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/llm.html#brand._scorers.llm.llm_brand_rating_batch"><code class="docutils literal notranslate"><span class="pre">llm_brand_rating_batch()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html">brand._scorers.phonetic</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html#optional-dependencies">Optional dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.articulatory_complexity"><code class="docutils literal notranslate"><span class="pre">articulatory_complexity()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.phonotactic_score"><code class="docutils literal notranslate"><span class="pre">phonotactic_score()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.sound_symbolism"><code class="docutils literal notranslate"><span class="pre">sound_symbolism()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.stress_pattern"><code class="docutils literal notranslate"><span class="pre">stress_pattern()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/phonetic.html#brand._scorers.phonetic.syllable_count"><code class="docutils literal notranslate"><span class="pre">syllable_count()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/_scorers/visual.html">brand._scorers.visual</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/visual.html#brand._scorers.visual.keyboard_distance"><code class="docutils literal notranslate"><span class="pre">keyboard_distance()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/visual.html#brand._scorers.visual.letter_balance"><code class="docutils literal notranslate"><span class="pre">letter_balance()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/_scorers/visual.html#brand._scorers.visual.name_length"><code class="docutils literal notranslate"><span class="pre">name_length()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/base.html">brand.base</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.IterableNamespace"><code class="docutils literal notranslate"><span class="pre">IterableNamespace</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.ai_analyze_names"><code class="docutils literal notranslate"><span class="pre">ai_analyze_names()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.ask_ai_to_generate_names"><code class="docutils literal notranslate"><span class="pre">ask_ai_to_generate_names()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.batch_check_available"><code class="docutils literal notranslate"><span class="pre">batch_check_available()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.domain_exists"><code class="docutils literal notranslate"><span class="pre">domain_exists()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.domain_exists_socket"><code class="docutils literal notranslate"><span class="pre">domain_exists_socket()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.domain_exists_whois"><code class="docutils literal notranslate"><span class="pre">domain_exists_whois()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.domain_name_is_available"><code class="docutils literal notranslate"><span class="pre">domain_name_is_available()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.english_words_gen"><code class="docutils literal notranslate"><span class="pre">english_words_gen()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/base.html#brand.base.name_is_available"><code class="docutils literal notranslate"><span class="pre">name_is_available()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/config.html">brand.config</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/misc.html">brand.misc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/pipeline.html">brand.pipeline</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/pipeline.html#brand.pipeline.evaluate_name"><code class="docutils literal notranslate"><span class="pre">evaluate_name()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/pipeline.html#brand.pipeline.list_templates"><code class="docutils literal notranslate"><span class="pre">list_templates()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/pipeline.html#brand.pipeline.load_template"><code class="docutils literal notranslate"><span class="pre">load_template()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/pipeline.html#brand.pipeline.run_pipeline"><code class="docutils literal notranslate"><span class="pre">run_pipeline()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/registry.html">brand.registry</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/registry.html#brand.registry.ComponentMeta"><code class="docutils literal notranslate"><span class="pre">ComponentMeta</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/registry.html#brand.registry.Registry"><code class="docutils literal notranslate"><span class="pre">Registry</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/stages.html">brand.stages</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/stages.html#brand.stages.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/stages.html#brand.stages.Generate"><code class="docutils literal notranslate"><span class="pre">Generate</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/stages.html#brand.stages.Score"><code class="docutils literal notranslate"><span class="pre">Score</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/stages.html#brand.stages.stage_from_dict"><code class="docutils literal notranslate"><span class="pre">stage_from_dict()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/stages.html#brand.stages.stages_from_dicts"><code class="docutils literal notranslate"><span class="pre">stages_from_dicts()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/stages.html#brand.stages.stages_to_dicts"><code class="docutils literal notranslate"><span class="pre">stages_to_dicts()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/templates.html">brand.templates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="module_docs/brand/util.html">brand.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_docs/brand/util.html#brand.util.print_progress"><code class="docutils literal notranslate"><span class="pre">print_progress()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</div>
-</section>
-<section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
-<p>Release: 0.1.5</p>
-<p>Last change: Aug 30, 2026</p>
-</section>
-
-
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="module_docs/brand.html" class="btn btn-neutral float-right" title="brand" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p></p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
-      </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
-
-</body>
+      <script src="_static/copybutton.js?v=fd10adb8"></script>
+      <script src="_static/shibuya.js?v=50760d75"></script></body>
 </html>

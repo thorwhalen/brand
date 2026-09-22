@@ -1,0 +1,13 @@
+brand.registry
+==============
+
+.. automodule:: brand.registry
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      ComponentMeta
+      Registry
+   

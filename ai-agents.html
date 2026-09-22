@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="indigo" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>For AI agents - brand</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="brand.util" href="_autosummary/brand.util.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d88b86f9" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    
+  <meta property="og:type" content="website"/><meta property="og:title" content="For AI agents"/>
+    <meta name="twitter:card" content="summary"/>
+  
+<link rel="alternate" type="text/markdown" href="ai-agents.html.md">
+<link rel="describedby" href="llms.txt" type="text/markdown">
+</head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="index.html">
+      
+      
+      <strong>brand</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/thorwhalen/brand" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/brand.html">brand</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.base.html">brand.base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.config.html">brand.config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.misc.html">brand.misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.pipeline.html">brand.pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.registry.html">brand.registry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.stages.html">brand.stages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.templates.html">brand.templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_autosummary/brand.util.html">brand.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">For AI agents</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#skills">Skills</a><ul>
+<li><a class="reference internal" href="#brand-evaluate"><code class="docutils literal notranslate"><span class="pre">brand-evaluate</span></code></a></li>
+<li><a class="reference internal" href="#brand-generate"><code class="docutils literal notranslate"><span class="pre">brand-generate</span></code></a></li>
+<li><a class="reference internal" href="#brand-name-report"><code class="docutils literal notranslate"><span class="pre">brand-name-report</span></code></a></li>
+<li><a class="reference internal" href="#brand-pipeline-designer"><code class="docutils literal notranslate"><span class="pre">brand-pipeline-designer</span></code></a></li>
+<li><a class="reference internal" href="#brand-research"><code class="docutils literal notranslate"><span class="pre">brand-research</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#subagents">Subagents</a><ul>
+<li><a class="reference internal" href="#brand-audit"><code class="docutils literal notranslate"><span class="pre">brand-audit</span></code></a></li>
+<li><a class="reference internal" href="#brand-pipeline-runner"><code class="docutils literal notranslate"><span class="pre">brand-pipeline-runner</span></code></a></li>
+<li><a class="reference internal" href="#brand-scout"><code class="docutils literal notranslate"><span class="pre">brand-scout</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#instruction-files">Instruction files</a></li>
+<li><a class="reference internal" href="#machine-readable-documentation">Machine-readable documentation</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">brand</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">For AI agents</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue dark-code" role="main">
+          <!-- generated by epythet -->
+<section id="for-ai-agents">
+<h1>For AI agents<a class="headerlink" href="#for-ai-agents" title="Link to this heading">#</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">brand</span></code> ships artifacts for coding agents alongside its code. This page lists
+them, says where each lives in the repository, and points at the
+machine-readable copies of this documentation.</p>
+<section id="skills">
+<h2>Skills<a class="headerlink" href="#skills" title="Link to this heading">#</a></h2>
+<p>Skills are folders holding a <code class="docutils literal notranslate"><span class="pre">SKILL.md</span></code> (the <a class="reference external" href="https://agentskills.io">Agent Skills</a> format): a description that tells an agent when to use it and a body with the procedure. Install one into your agent with <code class="docutils literal notranslate"><span class="pre">gh</span> <span class="pre">skill</span></code> (any host: <code class="docutils literal notranslate"><span class="pre">--agent</span> <span class="pre">claude-code</span></code>, <code class="docutils literal notranslate"><span class="pre">copilot</span></code>, <code class="docutils literal notranslate"><span class="pre">cursor</span></code>, <code class="docutils literal notranslate"><span class="pre">codex</span></code>, <code class="docutils literal notranslate"><span class="pre">gemini</span></code>), or use the copy bundled in the wheel.</p>
+<section id="brand-evaluate">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-evaluate</span></code><a class="headerlink" href="#brand-evaluate" title="Link to this heading">#</a></h3>
+<p>Evaluate, score, or assess one or more candidate brand names by combining the <code class="docutils literal notranslate"><span class="pre">brand</span></code> Python package’s quantitative pipeline (syllables, stress pattern, spelling transparency, sound symbolism, novelty, substring hazards, keyboard distance) with expert synthesis on pronounceability, memorability, emotional valence, sector flexibility, and visual appeal. Use when the user asks to evaluate, score, rate, or assess brand name candidates, or wants a verdict on a shortlist. For a full multi-agent comparative report on 5-15 names, prefer brand-name-report instead.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/brand<span class="w"> </span>brand-evaluate<span class="w"> </span>--agent<span class="w"> </span>claude-code
+</span></pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/skills/brand-evaluate"><code class="docutils literal notranslate"><span class="pre">skills/brand-evaluate</span></code></a>.</p>
+</section>
+<section id="brand-generate">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-generate</span></code><a class="headerlink" href="#brand-generate" title="Link to this heading">#</a></h3>
+<p>Brainstorm, generate, suggest, or create candidate brand names using the <code class="docutils literal notranslate"><span class="pre">brand</span></code> package’s generators (combinatoric CVCVCV/pattern generation, morpheme combination, AI-assisted suggestion) and its quick_screen pipeline to rapidly filter and organize a shortlist by sound profile. Use when the user wants new name ideas rather than an evaluation of names they already have — asks to brainstorm, generate, suggest, or come up with brand/product/ package name candidates.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/brand<span class="w"> </span>brand-generate<span class="w"> </span>--agent<span class="w"> </span>claude-code
+</span></pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/skills/brand-generate"><code class="docutils literal notranslate"><span class="pre">skills/brand-generate</span></code></a>.</p>
+</section>
+<section id="brand-name-report">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-name-report</span></code><a class="headerlink" href="#brand-name-report" title="Link to this heading">#</a></h3>
+<p>Generate a comprehensive brand name analysis report for a list of candidate names. Computes all available metrics from the brand package, launches parallel AI agents for individual name deep-dives, and compiles a formatted markdown report. Use when the user provides candidate brand names and wants a comparative analysis.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/brand<span class="w"> </span>brand-name-report<span class="w"> </span>--agent<span class="w"> </span>claude-code
+</span></pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/skills/brand-name-report"><code class="docutils literal notranslate"><span class="pre">skills/brand-name-report</span></code></a>.</p>
+</section>
+<section id="brand-pipeline-designer">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-pipeline-designer</span></code><a class="headerlink" href="#brand-pipeline-designer" title="Link to this heading">#</a></h3>
+<p>Design a custom brand-name evaluation pipeline with the <code class="docutils literal notranslate"><span class="pre">brand</span></code> package by discovering the user’s needs (purpose, audience, required platform availability, tone, budget, candidate volume) and assembling Generate/Score/ Filter stages from the available generators and scorers, ordered cheap before expensive. Use when the user wants to design a custom pipeline, understand what stages/scorers/generators are available, modify an existing pipeline template, or plan a systematic large-scale name search rather than evaluate or generate names directly.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/brand<span class="w"> </span>brand-pipeline-designer<span class="w"> </span>--agent<span class="w"> </span>claude-code
+</span></pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/skills/brand-pipeline-designer"><code class="docutils literal notranslate"><span class="pre">skills/brand-pipeline-designer</span></code></a>.</p>
+</section>
+<section id="brand-research">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-research</span></code><a class="headerlink" href="#brand-research" title="Link to this heading">#</a></h3>
+<p>Deep-dive research on one specific brand name candidate: etymology and morpheme breakdown, phonaesthetics, cross-linguistic safety (meanings and homophone collisions in other languages), competitive landscape (similar existing brands, domain/social-media availability, SEO crowding), cultural and historical context, and strategic brand-architecture assessment. Use when the user wants in-depth research on a specific name beyond the standard evaluation pipeline — cultural context, competitive landscape, etymology, or strategic positioning for one finalist candidate.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">gh<span class="w"> </span>skill<span class="w"> </span>install<span class="w"> </span>thorwhalen/brand<span class="w"> </span>brand-research<span class="w"> </span>--agent<span class="w"> </span>claude-code
+</span></pre></div>
+</div>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/skills/brand-research"><code class="docutils literal notranslate"><span class="pre">skills/brand-research</span></code></a>.</p>
+</section>
+</section>
+<section id="subagents">
+<h2>Subagents<a class="headerlink" href="#subagents" title="Link to this heading">#</a></h2>
+<p>Subagents are Markdown files with a frontmatter (<code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">description</span></code>, <code class="docutils literal notranslate"><span class="pre">tools</span></code>) and a system prompt as the body. Copy one into your project’s <code class="docutils literal notranslate"><span class="pre">.claude/agents/</span></code> (or your agent host’s equivalent) to delegate the task it describes.</p>
+<section id="brand-audit">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-audit</span></code><a class="headerlink" href="#brand-audit" title="Link to this heading">#</a></h3>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/.claude/agents/brand-audit.md"><code class="docutils literal notranslate"><span class="pre">.claude/agents/brand-audit.md</span></code></a>.</p>
+</section>
+<section id="brand-pipeline-runner">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-pipeline-runner</span></code><a class="headerlink" href="#brand-pipeline-runner" title="Link to this heading">#</a></h3>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/.claude/agents/brand-pipeline-runner.md"><code class="docutils literal notranslate"><span class="pre">.claude/agents/brand-pipeline-runner.md</span></code></a>.</p>
+</section>
+<section id="brand-scout">
+<h3><code class="docutils literal notranslate"><span class="pre">brand-scout</span></code><a class="headerlink" href="#brand-scout" title="Link to this heading">#</a></h3>
+<p>Source: <a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/.claude/agents/brand-scout.md"><code class="docutils literal notranslate"><span class="pre">.claude/agents/brand-scout.md</span></code></a>.</p>
+</section>
+</section>
+<section id="instruction-files">
+<h2>Instruction files<a class="headerlink" href="#instruction-files" title="Link to this heading">#</a></h2>
+<p>Files agents read before working in this repository.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/thorwhalen/brand/tree/HEAD/CLAUDE.md"><code class="docutils literal notranslate"><span class="pre">CLAUDE.md</span></code></a>: read by Claude Code</p></li>
+</ul>
+</section>
+<section id="machine-readable-documentation">
+<h2>Machine-readable documentation<a class="headerlink" href="#machine-readable-documentation" title="Link to this heading">#</a></h2>
+<p>This site publishes the same documentation in forms that fit an agent’s context window:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://thorwhalen.github.io/brand/llms.txt"><code class="docutils literal notranslate"><span class="pre">llms.txt</span></code></a>: an index of every page with a one-line description (<a class="reference external" href="https://llmstxt.org">llms.txt</a> format)</p></li>
+<li><p><a class="reference external" href="https://thorwhalen.github.io/brand/brand.md"><code class="docutils literal notranslate"><span class="pre">brand.md</span></code></a>: the whole documentation as one Markdown file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;page&gt;.html.md</span></code>: a rendered Markdown twin of every page, advertised from each page’s <code class="docutils literal notranslate"><span class="pre">&lt;head&gt;</span></code> with <code class="docutils literal notranslate"><span class="pre">&lt;link</span> <span class="pre">rel=&quot;alternate&quot;</span> <span class="pre">type=&quot;text/markdown&quot;&gt;</span></code></p></li>
+<li><p><a class="reference external" href="https://thorwhalen.github.io/brand/objects.inv"><code class="docutils literal notranslate"><span class="pre">objects.inv</span></code></a>: the Sphinx inventory: a symbol-to-URL index (<code class="docutils literal notranslate"><span class="pre">sphobjinv</span> <span class="pre">convert</span> <span class="pre">plain</span> <span class="pre">objects.inv</span> <span class="pre">-</span></code>)</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="_autosummary/brand.util.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">brand.util</div></div>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright">
+  <p>
+    Made with
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+  <a href="https://github.com/thorwhalen/brand" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=fd10adb8"></script>
+      <script src="_static/shibuya.js?v=50760d75"></script></body>
+</html>

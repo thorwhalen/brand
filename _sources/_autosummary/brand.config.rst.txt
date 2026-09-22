@@ -1,0 +1,6 @@
+brand.config
+============
+
+.. automodule:: brand.config
+
+   

@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-09-22T13:38:38Z",
+  "package": {
+    "name": "brand",
+    "version": "0.1.7",
+    "display_name": "brand",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "5b0b346a1512adbaf3add14f163b571942ecc1f6",
+    "short_commit": "5b0b346",
+    "branch": "master",
+    "tags": [
+      "0.1.7"
+    ],
+    "dirty": false,
+    "remote_url": "https://github.com/thorwhalen/brand",
+    "commit_url": "https://github.com/thorwhalen/brand/commit/5b0b346a1512adbaf3add14f163b571942ecc1f6",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "thorwhalen/brand",
+    "sha": "2ed9d85b5e4755f6258628e3eaaf0be8351615d0",
+    "sha_in_history": true,
+    "ref": "refs/heads/master",
+    "ref_name": "master",
+    "run_id": "35734524951",
+    "run_url": "https://github.com/thorwhalen/brand/actions/runs/35734524951",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.12",
+    "sphinx": "9.1.0",
+    "docutils": "0.22.4",
+    "python": "3.12.14"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "shibuya",
+    "accent": "#26569f",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 9,
+    "objects_documented": 24
+  },
+  "pypi": {
+    "checked": true,
+    "latest": "0.1.7",
+    "relation": "same",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/thorwhalen/brand && cd brand\ngit checkout 5b0b346a1512adbaf3add14f163b571942ecc1f6\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": true,
+    "notes": []
+  }
+}

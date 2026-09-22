@@ -1,0 +1,15 @@
+brand.pipeline
+==============
+
+.. automodule:: brand.pipeline
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      evaluate_name
+      list_templates
+      load_template
+      run_pipeline
+   

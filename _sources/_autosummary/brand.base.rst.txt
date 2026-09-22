@@ -1,0 +1,41 @@
+brand.base
+==========
+
+.. automodule:: brand.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_to_set
+      ai_analyze_names
+      all_cvcvcv
+      already_checked_names
+      ask_ai_to_generate_names
+      available_names
+      batch_check_available
+      domain_exists
+      domain_exists_socket
+      domain_exists_whois
+      domain_name_is_available
+      english_words_gen
+      ensure_dir
+      few_uniques
+      get_store
+      logs_diagnosis
+      name_is_available
+      not_available_names
+      process_names
+      status_code_says_it_is_available
+      template_based_availability_func
+      try_some_names
+      url_says_it_is_available
+      url_template_base_availability
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      IterableNamespace
+   

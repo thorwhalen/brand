@@ -1,0 +1,28 @@
+# brand
+
+> A composable pipeline for brand name generation, evaluation, and availability checking
+
+
+## Pages
+
+- [brand](index.html.md): A composable pipeline for brand name generation, evaluation, and availability checking.
+- [API reference](api.html.md): | &#96;brand&#96;   | Brand: a composable pipeline for brand name generation, evaluation, and availability c...
+- [brand](_autosummary/brand.html.md): Brand: a composable pipeline for brand name generation, evaluation, and availability checking.
+- [brand.base](_autosummary/brand.base.html.md): Base functions for brand
+- [brand.config](_autosummary/brand.config.html.md): Configuration for the brand package.
+- [brand.misc](_autosummary/brand.misc.html.md): | &#96;github_org_name_available&#96;(name)                   |    |
+- [brand.pipeline](_autosummary/brand.pipeline.html.md): Pipeline engine: run, persist, resume, and branch evaluation pipelines.
+- [brand.registry](_autosummary/brand.registry.html.md): Discoverable, extensible component registries for brand.
+- [brand.stages](_autosummary/brand.stages.html.md): Pipeline stage definitions: Generate, Score, Filter.
+- [brand.templates](_autosummary/brand.templates.html.md): Pipeline templates — pre-configured pipelines for common use cases.
+- [brand.util](_autosummary/brand.util.html.md): Util functions
+- [For AI agents](ai-agents.html.md): &#96;brand&#96; ships artifacts for coding agents alongside its code. This page lists
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-22 13:38 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+
+## Optional
+
+- [brand.md](brand.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

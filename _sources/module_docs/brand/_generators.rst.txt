@@ -1,4 +1,0 @@
-brand._generators
-=================
-.. automodule:: brand._generators
-   :members:

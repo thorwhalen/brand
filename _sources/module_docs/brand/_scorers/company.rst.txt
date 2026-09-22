@@ -1,4 +1,0 @@
-brand._scorers.company
-======================
-.. automodule:: brand._scorers.company
-   :members:

@@ -1,0 +1,13 @@
+brand.misc
+==========
+
+.. automodule:: brand.misc
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      github_org_name_available
+      search_for_available_github_org_names
+   
