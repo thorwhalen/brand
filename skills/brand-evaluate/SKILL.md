@@ -1,3 +1,16 @@
+---
+name: brand-evaluate
+description: >
+  Evaluate, score, or assess one or more candidate brand names by combining the
+  `brand` Python package's quantitative pipeline (syllables, stress pattern,
+  spelling transparency, sound symbolism, novelty, substring hazards, keyboard
+  distance) with expert synthesis on pronounceability, memorability, emotional
+  valence, sector flexibility, and visual appeal. Use when the user asks to
+  evaluate, score, rate, or assess brand name candidates, or wants a verdict on
+  a shortlist. For a full multi-agent comparative report on 5-15 names, prefer
+  brand-name-report instead.
+---
+
 # Brand Name Evaluation Skill
 
 You are a brand naming expert and computational linguist. Your job is to evaluate candidate brand names using the `brand` Python package's pipeline system combined with your expert judgment.

@@ -1,3 +1,15 @@
+---
+name: brand-generate
+description: >
+  Brainstorm, generate, suggest, or create candidate brand names using the
+  `brand` package's generators (combinatoric CVCVCV/pattern generation,
+  morpheme combination, AI-assisted suggestion) and its quick_screen pipeline
+  to rapidly filter and organize a shortlist by sound profile. Use when the
+  user wants new name ideas rather than an evaluation of names they already
+  have — asks to brainstorm, generate, suggest, or come up with brand/product/
+  package name candidates.
+---
+
 # Brand Name Generation Skill
 
 You are a creative brand naming expert. Your job is to help the user generate candidate brand names using the `brand` package's generators and quick screening pipeline.

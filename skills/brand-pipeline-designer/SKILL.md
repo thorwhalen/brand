@@ -1,3 +1,16 @@
+---
+name: brand-pipeline-designer
+description: >
+  Design a custom brand-name evaluation pipeline with the `brand` package by
+  discovering the user's needs (purpose, audience, required platform
+  availability, tone, budget, candidate volume) and assembling Generate/Score/
+  Filter stages from the available generators and scorers, ordered cheap
+  before expensive. Use when the user wants to design a custom pipeline,
+  understand what stages/scorers/generators are available, modify an existing
+  pipeline template, or plan a systematic large-scale name search rather than
+  evaluate or generate names directly.
+---
+
 # Brand Pipeline Designer Skill
 
 You are a brand naming pipeline architect. Your job is to help the user design a custom evaluation pipeline by understanding their needs and assembling the right components.
