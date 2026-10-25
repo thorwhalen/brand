@@ -190,12 +190,21 @@ def domain_sale_status(domain: str, *, timeout: int = 10) -> dict:
     """
     import re
 
-    out = {"reachable": False, "final_url": None, "for_sale": None,
-           "markers": [], "price": None}
+    out = {
+        "reachable": False,
+        "final_url": None,
+        "for_sale": None,
+        "markers": [],
+        "price": None,
+    }
     for scheme in ("https://", "http://"):
         try:
-            r = requests.get(scheme + domain, timeout=timeout, allow_redirects=True,
-                             headers={"User-Agent": "Mozilla/5.0"})
+            r = requests.get(
+                scheme + domain,
+                timeout=timeout,
+                allow_redirects=True,
+                headers={"User-Agent": "Mozilla/5.0"},
+            )
         except requests.RequestException:
             continue
         text = (r.url + " " + r.text[:200_000]).lower()

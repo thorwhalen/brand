@@ -173,7 +173,9 @@ def company_us_sec(name: str) -> bool | None:
 # ---------------------------------------------------------------------------
 
 
-def _opencorporates_search(name: str, *, jurisdiction="us", api_token=None) -> list[dict]:
+def _opencorporates_search(
+    name: str, *, jurisdiction="us", api_token=None
+) -> list[dict]:
     """Search OpenCorporates for companies matching *name*.
 
     Raises ``requests.HTTPError`` on failure (e.g. 401 without a token).
@@ -236,8 +238,15 @@ def uspto_trademarks(name: str, *, size=100, timeout=20) -> list[dict]:
         json={
             "query": {"bool": {"must": [{"match_phrase": {"WM": name}}]}},
             "size": size,
-            "_source": ["wordmark", "alive", "internationalClass",
-                        "statusDescription", "ownerName", "id", "registrationId"],
+            "_source": [
+                "wordmark",
+                "alive",
+                "internationalClass",
+                "statusDescription",
+                "ownerName",
+                "id",
+                "registrationId",
+            ],
         },
         headers={"User-Agent": "Mozilla/5.0", "Content-Type": "application/json"},
         timeout=timeout,
@@ -246,26 +255,34 @@ def uspto_trademarks(name: str, *, size=100, timeout=20) -> list[dict]:
     out = []
     for h in r.json()["hits"]["hits"]:
         s = h["source"]
-        out.append({
-            "wordmark": s.get("wordmark") or "",
-            "alive": bool(s.get("alive")),
-            "classes": [c.replace("IC", "").strip() for c in s.get("internationalClass") or []],
-            "status": s.get("statusDescription"),
-            "owner": (s.get("ownerName") or [None])[0],
-            "serial": s.get("id"),
-            "registration": s.get("registrationId"),
-        })
+        out.append(
+            {
+                "wordmark": s.get("wordmark") or "",
+                "alive": bool(s.get("alive")),
+                "classes": [
+                    c.replace("IC", "").strip()
+                    for c in s.get("internationalClass") or []
+                ],
+                "status": s.get("statusDescription"),
+                "owner": (s.get("ownerName") or [None])[0],
+                "serial": s.get("id"),
+                "registration": s.get("registrationId"),
+            }
+        )
     return out
 
 
-def trademark_conflicts_us(name: str, *, classes=DEFAULT_TRADEMARK_CLASSES) -> list[dict]:
+def trademark_conflicts_us(
+    name: str, *, classes=DEFAULT_TRADEMARK_CLASSES
+) -> list[dict]:
     """Live marks whose word mark equals *name* (normalized), in *classes*.
 
     ``classes=None`` means any class.
     """
     target = normalize_entity_name(name)
     return [
-        t for t in uspto_trademarks(name)
+        t
+        for t in uspto_trademarks(name)
         if t["alive"]
         and normalize_entity_name(t["wordmark"]) == target
         and (classes is None or set(t["classes"]) & set(classes))
