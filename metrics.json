@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 5.053983926773071,
+  "collection_duration_seconds": 5.6150596141815186,
   "commit_message": "domain_sale_status: rank listed prices by frequency instead of taking the first\n\nThe first dollar amount on a marketplace page is often a fee or another\nlisting (HugeDomains showed $100 for a $2,395 name). Return the amounts\nmost repeated first as prices, and price as the first of them, documented\nas a hint to confirm by eye.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
   "commit_sha": "0f98bd72a6f6cc707c2dc61c6bea59bc0a33b5f4",
   "metrics": {
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36017,
-      "comment_lines_ratio": 0.06028928545722067,
-      "docs_lines": 80168,
-      "empty_lines": 74668,
-      "empty_lines_ratio": 0.12498765489962387,
+      "comment_lines": 36469,
+      "comment_lines_ratio": 0.06042876269254222,
+      "docs_lines": 80972,
+      "empty_lines": 75640,
+      "empty_lines_ratio": 0.12533471194888518,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1287,
-      "function_lines": 297550,
-      "function_lines_ratio": 0.4980724904294086,
-      "mean_lines_per_function": 16.664799775973115,
-      "num_classes": 3248,
-      "num_functions": 17855,
+      "files_analyzed": 1296,
+      "function_lines": 301851,
+      "function_lines_ratio": 0.5001640419947506,
+      "mean_lines_per_function": 16.65201081259999,
+      "num_classes": 3307,
+      "num_functions": 18127,
       "pypi_version": "0.1.7",
       "total_errors": 1,
-      "total_lines": 597403
+      "total_lines": 603504
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-25T08:14:22.950092Z",
+  "timestamp": "2026-10-25T08:14:37.089807Z",
   "workflow_status": {}
 }
