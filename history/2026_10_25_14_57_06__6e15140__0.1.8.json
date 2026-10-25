@@ -1,0 +1,51 @@
+{
+  "collection_duration_seconds": 6.550060749053955,
+  "commit_message": "domain_sale_status: match sedo.com / sedoparking, not a bare 'sedo' (#9)\n\nA bare 'sedo' matched ordinary sites (freehand.com, virtahealth.com) through\nidentifiers in their scripts and flagged them as for sale.\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "6e151404bb372cb7be48d0678ec08b396ea4e151",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 36469,
+      "comment_lines_ratio": 0.060430865492482805,
+      "docs_lines": 80965,
+      "empty_lines": 75634,
+      "empty_lines_ratio": 0.12532913106085838,
+      "errors": [
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
+      ],
+      "files_analyzed": 1296,
+      "function_lines": 301829,
+      "function_lines_ratio": 0.5001449916567658,
+      "mean_lines_per_function": 16.65263448275862,
+      "num_classes": 3307,
+      "num_functions": 18125,
+      "pypi_version": "0.1.8",
+      "total_errors": 1,
+      "total_lines": 603483
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-25T14:52:35Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40204192421",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-25T14:57:05.797246Z",
+  "workflow_status": {}
+}
