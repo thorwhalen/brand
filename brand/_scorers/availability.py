@@ -182,12 +182,33 @@ FOR_SALE_MARKERS = (
 )
 
 
+def _prices_by_frequency(html: str) -> list[str]:
+    """Dollar amounts in *html*, most frequent first; ties go to the larger amount.
+
+    >>> _prices_by_frequency("Fee $99. Buy for $2,395 or $2,395 now. Other: $5,995")
+    ['$2,395', '$5,995', '$99']
+    """
+    import re
+    from collections import Counter
+
+    amounts = Counter(re.findall(r"\$\s?[0-9][0-9,]*(?:\.[0-9]{2})?", html))
+
+    def value(a):
+        return float(re.sub(r"[^0-9.]", "", a) or 0)
+
+    ranked = sorted(amounts, key=lambda a: (-amounts[a], -value(a)))
+    return [a.replace(" ", "") for a in ranked]
+
+
 def domain_sale_status(domain: str, *, timeout: int = 10) -> dict:
     """Look at a registered domain's landing page for for-sale/parking markers.
 
     Returns ``{"reachable": bool, "final_url": str|None, "for_sale": bool|None,
-    "markers": [...], "price": str|None}``.  ``price`` is the first ``$``
-    amount on a page that has for-sale markers; it is a hint, not a quote.
+    "markers": [...], "price": str|None, "prices": [...]}``.  On a page with
+    for-sale markers, ``prices`` lists its ``$`` amounts, most repeated first,
+    and ``price`` is the first of them.  Marketplace pages also show fees,
+    lease terms and other listings, so ``price`` is a hint to confirm by eye,
+    not a quote.
     """
     import re
 
@@ -197,6 +218,7 @@ def domain_sale_status(domain: str, *, timeout: int = 10) -> dict:
         "for_sale": None,
         "markers": [],
         "price": None,
+        "prices": [],
     }
     for scheme in ("https://", "http://"):
         try:
@@ -214,8 +236,8 @@ def domain_sale_status(domain: str, *, timeout: int = 10) -> dict:
         out["markers"] = [m for m in FOR_SALE_MARKERS if m in text]
         out["for_sale"] = bool(out["markers"])
         if out["for_sale"]:
-            m = re.search(r"(?:us)?\$\s?[0-9][0-9,]*(?:\.[0-9]{2})?", r.text)
-            out["price"] = m.group(0) if m else None
+            out["prices"] = _prices_by_frequency(r.text)[:5]
+            out["price"] = out["prices"][0] if out["prices"] else None
         return out
     return out
 

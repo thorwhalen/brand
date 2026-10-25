@@ -63,7 +63,8 @@ def test_npm_uses_registry_and_lowercase(monkeypatch):
 
 
 def test_domain_sale_status(monkeypatch):
-    page = "<h1>thisname.com is for sale</h1> Buy now for $2,495 at Afternic"
+    page = ("<h1>thisname.com is for sale</h1> Fee $99. Buy now for $2,495 at Afternic."
+            " Price: $2,495. Similar: $5,995")
     _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, text=page, url=url))
     info = availability.domain_sale_status("thisname.com")
     assert info["for_sale"] is True
