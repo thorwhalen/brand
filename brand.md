@@ -1,4 +1,4 @@
-> built 2026-09-22 13:38 UTC from 5b0b346 (master) · brand 0.1.7. Details: build_info.json
+> built 2026-10-25 08:06 UTC from 8078751 (master) · brand 0.1.8. Details: build_info.json
 
 # index.html.md
 
@@ -181,12 +181,27 @@ names = list(brand.generators["from_list"](names=["alpha", "beta"]))
 
 ### Availability (network)
 
-- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability
+Availability scorers return `True` (available), `False` (taken) or `None` (unknown: the check could not run or got an ambiguous answer). `None` is never treated as available, so `Filter(rules={"dns_com": True})` drops it.
+
+- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability (DNS, then the registry’s RDAP for .com/.net, else WHOIS)
+- `rdap_com` — authoritative .com registration check (Verisign RDAP); sees registered domains that have no DNS
 - `whois_com` — WHOIS verification (.com)
 - `github_org` — GitHub organization
-- `pypi` — PyPI project
-- `npm` — npm package
+- `pypi` — PyPI project (JSON API)
+- `npm` — npm package (registry API)
+- `npm_scope` — npm scope `@name` (no user or org by that name)
 - `youtube` — YouTube channel
+
+`brand._scorers.availability.domain_sale_status("name.com")` looks at a registered domain’s landing page for parking and for-sale markers, and the listed price when one is shown.
+
+### Company and trademark (network, United States)
+
+- `company_us_states` — no entity with this exact name in the open-data business registries of NY, CO, OR and CT (these include Delaware and other out-of-state companies registered there); extend `STATE_REGISTRIES` to add states
+- `company_us_sec` — no SEC EDGAR filer with this name (includes Form D filings by funded startups)
+- `company_name_us` — OpenCorporates, all US jurisdictions; needs `OPENCORPORATES_API_TOKEN`, else `None`
+- `trademark_us` — no live exact USPTO word mark in Nice classes 9, 15, 41, 42 (pass `classes=` to change, `classes=None` for any); `uspto_trademarks(name)` returns the wider set of marks containing the name
+
+Delaware’s and California’s own registries have no open API, so they are covered only through the sources above.
 
 ## Name Availability Check (legacy API)
 
@@ -557,13 +572,13 @@ True
 
 List available pipeline template names.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
-
 ```pycon
 >>> 'quick_screen' in list_templates()
 True
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### brand.pipeline.load_template(name)
 
@@ -572,14 +587,14 @@ Load a pipeline template by name.
 Searches the built-in templates directory and returns a list of stage
 objects.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
-
 ```pycon
 >>> stages = load_template('quick_screen')
 >>> len(stages) > 0
 True
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
 ### brand.pipeline.run_pipeline(stages, , names=None, context=None, project_name=None, resume_from=None, pipeline_dir=None, on_stage_complete=None)
 
@@ -724,7 +739,7 @@ combination).  Rules are dicts mapping scorer names to required values:
 {'type': 'filter', 'rules': {'dns_com': True}}
 ```
 
-### *class* brand.stages.Generate(generator, params=<factory>)
+### *class* brand.stages.Generate(generator, params=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -742,7 +757,7 @@ Produce candidate names.
 {'type': 'generate', 'generator': 'cvcvcv', 'params': {'consonants': 'bdfglmnprstvz'}}
 ```
 
-### *class* brand.stages.Score(scorers=<factory>)
+### *class* brand.stages.Score(scorers=list())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -816,7 +831,7 @@ use: To be able to track processes (and the time they take)
 
 # About this build
 
-This documentation was built on **2026-09-22 13:38 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/5b0b346a1512adbaf3add14f163b571942ecc1f6"><code>5b0b346</code></a> on branch <code>master</code>, for **brand 0.1.7** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-25 08:06 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/8078751367fc9aba7a9c304b7dcbb93f416bd809"><code>8078751</code></a> on branch <code>master</code>, for **brand 0.1.8** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -825,9 +840,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/5b0b346a1512adbaf3add14f163b571942ecc1f6"><code>5b0b346a1512adbaf3add14f163b571942ecc1f6</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/8078751367fc9aba7a9c304b7dcbb93f416bd809"><code>8078751367fc9aba7a9c304b7dcbb93f416bd809</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.7</code>                                                                                                                                      |
+| Tags at this commit | <code>0.1.8</code>                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -836,18 +851,18 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/35734524951">35734524951</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40175212982">40175212982</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>2ed9d85b5e4755f6258628e3eaaf0be8351615d0</code> (in the history of the built commit) |
+| Event commit | <code>32a860bb4209ec8ad2761085a6d020f479bd79f0</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.12  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.22  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.14 |
+| Python   | 3.12.15 |
 
 ## Configuration as resolved
 
@@ -863,14 +878,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.7/">0.1.7</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.8/">0.1.8</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout 5b0b346a1512adbaf3add14f163b571942ecc1f6
-pip install "epythet==0.2.12"
+git checkout 8078751367fc9aba7a9c304b7dcbb93f416bd809
+pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

@@ -47,7 +47,7 @@ combination).  Rules are dicts mapping scorer names to required values:
 {'type': 'filter', 'rules': {'dns_com': True}}
 ```
 
-### *class* brand.stages.Generate(generator, params=<factory>)
+### *class* brand.stages.Generate(generator, params=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -65,7 +65,7 @@ Produce candidate names.
 {'type': 'generate', 'generator': 'cvcvcv', 'params': {'consonants': 'bdfglmnprstvz'}}
 ```
 
-### *class* brand.stages.Score(scorers=<factory>)
+### *class* brand.stages.Score(scorers=list())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 

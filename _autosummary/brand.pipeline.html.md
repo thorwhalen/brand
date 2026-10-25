@@ -42,13 +42,13 @@ True
 
 List available pipeline template names.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
-
 ```pycon
 >>> 'quick_screen' in list_templates()
 True
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)[[`str`](https://docs.python.org/3/builtins/stdtypes.html#str)]
 
 ### brand.pipeline.load_template(name)
 
@@ -57,14 +57,14 @@ Load a pipeline template by name.
 Searches the built-in templates directory and returns a list of stage
 objects.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
-
 ```pycon
 >>> stages = load_template('quick_screen')
 >>> len(stages) > 0
 True
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
 ### brand.pipeline.run_pipeline(stages, , names=None, context=None, project_name=None, resume_from=None, pipeline_dir=None, on_stage_complete=None)
 

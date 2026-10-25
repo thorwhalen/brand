@@ -177,12 +177,27 @@ names = list(brand.generators["from_list"](names=["alpha", "beta"]))
 
 ### Availability (network)
 
-- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability
+Availability scorers return `True` (available), `False` (taken) or `None` (unknown: the check could not run or got an ambiguous answer). `None` is never treated as available, so `Filter(rules={"dns_com": True})` drops it.
+
+- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability (DNS, then the registry’s RDAP for .com/.net, else WHOIS)
+- `rdap_com` — authoritative .com registration check (Verisign RDAP); sees registered domains that have no DNS
 - `whois_com` — WHOIS verification (.com)
 - `github_org` — GitHub organization
-- `pypi` — PyPI project
-- `npm` — npm package
+- `pypi` — PyPI project (JSON API)
+- `npm` — npm package (registry API)
+- `npm_scope` — npm scope `@name` (no user or org by that name)
 - `youtube` — YouTube channel
+
+`brand._scorers.availability.domain_sale_status("name.com")` looks at a registered domain’s landing page for parking and for-sale markers, and the listed price when one is shown.
+
+### Company and trademark (network, United States)
+
+- `company_us_states` — no entity with this exact name in the open-data business registries of NY, CO, OR and CT (these include Delaware and other out-of-state companies registered there); extend `STATE_REGISTRIES` to add states
+- `company_us_sec` — no SEC EDGAR filer with this name (includes Form D filings by funded startups)
+- `company_name_us` — OpenCorporates, all US jurisdictions; needs `OPENCORPORATES_API_TOKEN`, else `None`
+- `trademark_us` — no live exact USPTO word mark in Nice classes 9, 15, 41, 42 (pass `classes=` to change, `classes=None` for any); `uspto_trademarks(name)` returns the wider set of marks containing the name
+
+Delaware’s and California’s own registries have no open API, so they are covered only through the sources above.
 
 ## Name Availability Check (legacy API)
 

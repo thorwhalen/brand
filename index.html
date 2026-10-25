@@ -7,6 +7,7 @@
     setColorMode(localStorage._theme||"auto");
   </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d88b86f9" />
     <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=2ceb65ce" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,6 +108,7 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#linguistic-network">Linguistic (network)</a></li>
 <li><a class="reference internal" href="#visual-typing">Visual / Typing</a></li>
 <li><a class="reference internal" href="#availability-network">Availability (network)</a></li>
+<li><a class="reference internal" href="#company-and-trademark-network-united-states">Company and trademark (network, United States)</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#name-availability-check-legacy-api">Name Availability Check (legacy API)</a></li>
@@ -354,14 +356,28 @@ branch from any checkpoint, and inspect what happened at each step.</p>
 </section>
 <section id="availability-network">
 <h3>Availability (network)<a class="headerlink" href="#availability-network" title="Link to this heading">#</a></h3>
+<p>Availability scorers return <code class="docutils literal notranslate"><span class="pre">True</span></code> (available), <code class="docutils literal notranslate"><span class="pre">False</span></code> (taken) or <code class="docutils literal notranslate"><span class="pre">None</span></code> (unknown: the check could not run or got an ambiguous answer). <code class="docutils literal notranslate"><span class="pre">None</span></code> is never treated as available, so <code class="docutils literal notranslate"><span class="pre">Filter(rules={&quot;dns_com&quot;:</span> <span class="pre">True})</span></code> drops it.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dns_com</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_net</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_org</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_io</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_ai</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_co</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_dev</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_app</span></code> — domain availability</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dns_com</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_net</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_org</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_io</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_ai</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_co</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_dev</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_app</span></code> — domain availability (DNS, then the registry’s RDAP for .com/.net, else WHOIS)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rdap_com</span></code> — authoritative .com registration check (Verisign RDAP); sees registered domains that have no DNS</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">whois_com</span></code> — WHOIS verification (.com)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">github_org</span></code> — GitHub organization</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">pypi</span></code> — PyPI project</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">npm</span></code> — npm package</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pypi</span></code> — PyPI project (JSON API)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm</span></code> — npm package (registry API)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">npm_scope</span></code> — npm scope <code class="docutils literal notranslate"><span class="pre">&#64;name</span></code> (no user or org by that name)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">youtube</span></code> — YouTube channel</p></li>
 </ul>
+<p><code class="docutils literal notranslate"><span class="pre">brand._scorers.availability.domain_sale_status(&quot;name.com&quot;)</span></code> looks at a registered domain’s landing page for parking and for-sale markers, and the listed price when one is shown.</p>
+</section>
+<section id="company-and-trademark-network-united-states">
+<h3>Company and trademark (network, United States)<a class="headerlink" href="#company-and-trademark-network-united-states" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">company_us_states</span></code> — no entity with this exact name in the open-data business registries of NY, CO, OR and CT (these include Delaware and other out-of-state companies registered there); extend <code class="docutils literal notranslate"><span class="pre">STATE_REGISTRIES</span></code> to add states</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">company_us_sec</span></code> — no SEC EDGAR filer with this name (includes Form D filings by funded startups)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">company_name_us</span></code> — OpenCorporates, all US jurisdictions; needs <code class="docutils literal notranslate"><span class="pre">OPENCORPORATES_API_TOKEN</span></code>, else <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">trademark_us</span></code> — no live exact USPTO word mark in Nice classes 9, 15, 41, 42 (pass <code class="docutils literal notranslate"><span class="pre">classes=</span></code> to change, <code class="docutils literal notranslate"><span class="pre">classes=None</span></code> for any); <code class="docutils literal notranslate"><span class="pre">uspto_trademarks(name)</span></code> returns the wider set of marks containing the name</p></li>
+</ul>
+<p>Delaware’s and California’s own registries have no open API, so they are covered only through the sources above.</p>
 </section>
 </section>
 <section id="name-availability-check-legacy-api">
@@ -505,7 +521,7 @@ either with <code class="docutils literal notranslate"><span class="pre">gh</spa
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-09-22 13:38 UTC from <a href="https://github.com/thorwhalen/brand/commit/5b0b346a1512adbaf3add14f163b571942ecc1f6">5b0b346</a> (master) · brand 0.1.7 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-25 08:06 UTC from <a href="https://github.com/thorwhalen/brand/commit/8078751367fc9aba7a9c304b7dcbb93f416bd809">8078751</a> (master) · brand 0.1.8 · <a href="about-this-build.html">about this build</a></p>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
@@ -540,7 +556,7 @@ either with <code class="docutils literal notranslate"><span class="pre">gh</spa
     </div>
   </div>
 </footer>
-      <script src="_static/documentation_options.js?v=ca7ad2ea"></script>
+      <script src="_static/documentation_options.js?v=22607128"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
