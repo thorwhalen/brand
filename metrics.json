@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 4.212754487991333,
-  "commit_message": "Merge 2a6253b5fdcdd8e1e59ae7c8e0ec4725fa3b432d into 5b0b346a1512adbaf3add14f163b571942ecc1f6",
-  "commit_sha": "c6e86b069c5c042b2c977ca925d53218a39ab77e",
+  "collection_duration_seconds": 4.1946539878845215,
+  "commit_message": "Honest availability checks: tri-state results, RDAP .com, USPTO, state registries, npm scope\n\nAvailability, company and trademark scorers now return True (available),\nFalse (taken) or None (unknown). Previously several returned \"available\"\nwhenever the check failed:\n\n- trademark_us queried a TSDR URL that does not search marks and returned\n  True on any error; it now queries the tmsearch.uspto.gov backend, keeps\n  live exact word marks, and filters by Nice class (9/15/41/42 by default).\n- company_name_us got 401 from OpenCorporates (a token is now required) and\n  returned True; it now reads OPENCORPORATES_API_TOKEN and returns None\n  without one.\n- WHOIS errors returned True; they now return None.\n- npm used www.npmjs.com, which answers bots with 403 (read as \"taken\");\n  it now uses the registry API. PyPI uses the JSON API.\n\nNew: rdap_com (Verisign RDAP, also used as the second pass of dns_com and\ndns_net), npm_scope, company_us_states (NY/CO/OR/CT open-data registries,\nwhich include Delaware companies registered there), company_us_sec (SEC\nEDGAR entities), domain_sale_status (parked/for-sale landing pages).\nresearch_company now filters on the keyless company checks.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "2a6253b5fdcdd8e1e59ae7c8e0ec4725fa3b432d",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-25T08:03:44.299282Z",
+  "timestamp": "2026-10-25T08:03:50.270459Z",
   "workflow_status": {}
 }
