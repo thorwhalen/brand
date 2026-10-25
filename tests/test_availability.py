@@ -125,3 +125,10 @@ def test_trademark_us_classes_and_liveness(monkeypatch):
 def test_trademark_us_failure_is_unknown(monkeypatch):
     _fake(monkeypatch, "post", lambda url, **kw: _Resp(503))
     assert brand.scorers["trademark_us"]("somename") is None
+
+
+def test_domain_sale_status_ignores_marketplace_names_in_code(monkeypatch):
+    page = "<script>var closedOn = 1; var usedOne = 2;</script><h1>Freehand drawing</h1>"
+    page = page.replace("closedOn", "losedo")  # a bare 'sedo' inside an identifier
+    _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, text=page, url=url))
+    assert availability.domain_sale_status("freehand.com")["for_sale"] is False
