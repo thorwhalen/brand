@@ -25,11 +25,11 @@
     },
     {
       "type": "score",
-      "scorers": ["company_name_us"]
+      "scorers": ["company_us_states", "company_us_sec"]
     },
     {
       "type": "filter",
-      "rules": {"company_name_us": true}
+      "rules": {"company_us_states": true, "company_us_sec": true}
     },
     {
       "type": "score",
