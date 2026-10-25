@@ -2,7 +2,7 @@
 
 # About this build
 
-This documentation was built on **2026-10-25 08:06 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/8078751367fc9aba7a9c304b7dcbb93f416bd809"><code>8078751</code></a> on branch <code>master</code>, for **brand 0.1.8** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-25 14:58 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/e8818770eba9f782260659adc462165bfe4f3777"><code>e881877</code></a> on branch <code>master</code>, for **brand 0.1.9** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -11,9 +11,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/8078751367fc9aba7a9c304b7dcbb93f416bd809"><code>8078751367fc9aba7a9c304b7dcbb93f416bd809</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/e8818770eba9f782260659adc462165bfe4f3777"><code>e8818770eba9f782260659adc462165bfe4f3777</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.8</code>                                                                                                                                      |
+| Tags at this commit | <code>0.1.9</code>                                                                                                                                      |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -22,9 +22,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40175212982">40175212982</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40204548605">40204548605</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>32a860bb4209ec8ad2761085a6d020f479bd79f0</code> (in the history of the built commit) |
+| Event commit | <code>6e151404bb372cb7be48d0678ec08b396ea4e151</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +49,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.8/">0.1.8</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.9/">0.1.9</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout 8078751367fc9aba7a9c304b7dcbb93f416bd809
+git checkout e8818770eba9f782260659adc462165bfe4f3777
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
