@@ -1,0 +1,38 @@
+metric,value
+schema_version,1.0
+timestamp,2026-10-25T08:03:44.299282Z
+commit_sha,c6e86b069c5c042b2c977ca925d53218a39ab77e
+commit_message,Merge 2a6253b5fdcdd8e1e59ae7c8e0ec4725fa3b432d into 5b0b346a1512adbaf3add14f163b571942ecc1f6
+python_version,3.10
+metrics.umpyre_stats.num_functions,18125
+metrics.umpyre_stats.num_classes,3307
+metrics.umpyre_stats.total_lines,603482
+metrics.umpyre_stats.empty_lines,75634
+metrics.umpyre_stats.comment_lines,36469
+metrics.umpyre_stats.docs_lines,80965
+metrics.umpyre_stats.function_lines,301829
+metrics.umpyre_stats.empty_lines_ratio,0.12532933873752655
+metrics.umpyre_stats.comment_lines_ratio,0.06043096562946368
+metrics.umpyre_stats.function_lines_ratio,0.5001458204221502
+metrics.umpyre_stats.mean_lines_per_function,16.65263448275862
+metrics.umpyre_stats.files_analyzed,1296
+metrics.umpyre_stats.pypi_version,0.1.7
+metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
+metrics.umpyre_stats.total_errors,1
+metrics.workflow_status.last_run_status,success
+metrics.workflow_status.last_success_timestamp,2026-09-22T13:39:15Z
+metrics.workflow_status.recent_failure_count,0
+metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/35734838077
+metrics.workflow_status.total_runs_analyzed,10
+metrics.wily.cyclomatic_avg,0.0
+metrics.wily.maintainability_index,0.0
+metrics.wily.total_loc,0
+metrics.wily.files_analyzed,0
+metrics.wily.error,"wily build failed: [31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'[0m
+"
+metrics.coverage.line_coverage,0.0
+metrics.coverage.branch_coverage,0.0
+metrics.coverage.statements_covered,0
+metrics.coverage.statements_total,0
+metrics.coverage.error,No coverage file found
+collection_duration_seconds,4.212754487991333

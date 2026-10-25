@@ -1,0 +1,51 @@
+{
+  "collection_duration_seconds": 4.212754487991333,
+  "commit_message": "Merge 2a6253b5fdcdd8e1e59ae7c8e0ec4725fa3b432d into 5b0b346a1512adbaf3add14f163b571942ecc1f6",
+  "commit_sha": "c6e86b069c5c042b2c977ca925d53218a39ab77e",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 36469,
+      "comment_lines_ratio": 0.06043096562946368,
+      "docs_lines": 80965,
+      "empty_lines": 75634,
+      "empty_lines_ratio": 0.12532933873752655,
+      "errors": [
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
+      ],
+      "files_analyzed": 1296,
+      "function_lines": 301829,
+      "function_lines_ratio": 0.5001458204221502,
+      "mean_lines_per_function": 16.65263448275862,
+      "num_classes": 3307,
+      "num_functions": 18125,
+      "pypi_version": "0.1.7",
+      "total_errors": 1,
+      "total_lines": 603482
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily build failed: \u001b[31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'\u001b[0m\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-09-22T13:39:15Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/35734838077",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-25T08:03:44.299282Z",
+  "workflow_status": {}
+}
