@@ -1,45 +1,46 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-25T08:14:37.089807Z
-commit_sha,0f98bd72a6f6cc707c2dc61c6bea59bc0a33b5f4
-commit_message,"domain_sale_status: rank listed prices by frequency instead of taking the first
+timestamp,2026-10-25T14:52:28.311656Z
+commit_sha,d865f2ba7a894cd39b3db56fb7981bc78939f15c
+commit_message,"domain_sale_status: match sedo.com / sedoparking, not a bare 'sedo'
 
-The first dollar amount on a marketplace page is often a fee or another
-listing (HugeDomains showed $100 for a $2,395 name). Return the amounts
-most repeated first as prices, and price as the first of them, documented
-as a hint to confirm by eye.
+A bare 'sedo' matched ordinary sites (freehand.com, virtahealth.com) through
+identifiers in their scripts and flagged them as for sale.
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,18127
-metrics.umpyre_stats.num_classes,3307
-metrics.umpyre_stats.total_lines,603504
-metrics.umpyre_stats.empty_lines,75640
-metrics.umpyre_stats.comment_lines,36469
-metrics.umpyre_stats.docs_lines,80972
-metrics.umpyre_stats.function_lines,301851
-metrics.umpyre_stats.empty_lines_ratio,0.12533471194888518
-metrics.umpyre_stats.comment_lines_ratio,0.06042876269254222
-metrics.umpyre_stats.function_lines_ratio,0.5001640419947506
-metrics.umpyre_stats.mean_lines_per_function,16.65201081259999
-metrics.umpyre_stats.files_analyzed,1296
-metrics.umpyre_stats.pypi_version,0.1.7
+metrics.umpyre_stats.num_functions,17853
+metrics.umpyre_stats.num_classes,3248
+metrics.umpyre_stats.total_lines,597382
+metrics.umpyre_stats.empty_lines,74662
+metrics.umpyre_stats.comment_lines,36017
+metrics.umpyre_stats.docs_lines,80161
+metrics.umpyre_stats.function_lines,297528
+metrics.umpyre_stats.empty_lines_ratio,0.12498200481433991
+metrics.umpyre_stats.comment_lines_ratio,0.060291404829740436
+metrics.umpyre_stats.function_lines_ratio,0.4980531720071914
+metrics.umpyre_stats.mean_lines_per_function,16.66543438077634
+metrics.umpyre_stats.files_analyzed,1287
+metrics.umpyre_stats.pypi_version,0.1.8
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-25T08:07:19Z
+metrics.workflow_status.last_success_timestamp,2026-10-25T08:14:42Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/40175354993
+metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/40175782656
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
 metrics.wily.total_loc,0
 metrics.wily.files_analyzed,0
-metrics.wily.error,"wily build failed: [31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'[0m
+metrics.wily.error,"wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...
+Try 'wily report --help' for help.
+
+Error: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.
 "
 metrics.coverage.line_coverage,0.0
 metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,5.6150596141815186
+collection_duration_seconds,7.019312143325806

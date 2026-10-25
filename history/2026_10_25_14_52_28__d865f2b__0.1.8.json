@@ -1,0 +1,51 @@
+{
+  "collection_duration_seconds": 7.019312143325806,
+  "commit_message": "domain_sale_status: match sedo.com / sedoparking, not a bare 'sedo'\n\nA bare 'sedo' matched ordinary sites (freehand.com, virtahealth.com) through\nidentifiers in their scripts and flagged them as for sale.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "d865f2ba7a894cd39b3db56fb7981bc78939f15c",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 36017,
+      "comment_lines_ratio": 0.060291404829740436,
+      "docs_lines": 80161,
+      "empty_lines": 74662,
+      "empty_lines_ratio": 0.12498200481433991,
+      "errors": [
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
+      ],
+      "files_analyzed": 1287,
+      "function_lines": 297528,
+      "function_lines_ratio": 0.4980531720071914,
+      "mean_lines_per_function": 16.66543438077634,
+      "num_classes": 3248,
+      "num_functions": 17853,
+      "pypi_version": "0.1.8",
+      "total_errors": 1,
+      "total_lines": 597382
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-25T08:14:42Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40175782656",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-25T14:52:28.311656Z",
+  "workflow_status": {}
+}
