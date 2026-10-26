@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 7.145255088806152,
-  "commit_message": "Merge 3e13b962dc366eddcf138a57df4aa9fcc506285f into 7fb0a50235a8bed72f2576c5904bdd94846a9036",
-  "commit_sha": "ecb735267e9d10a146c68485314b52d0edd77fce",
+  "collection_duration_seconds": 6.960820436477661,
+  "commit_message": "Add phonaesthetics scorer (#10) (#12)",
+  "commit_sha": "d259f7a7b5fc0b3b1eae75bd55031d7d95cb3fd8",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T06:39:22.587746Z",
+  "timestamp": "2026-10-26T06:40:41.332575Z",
   "workflow_status": {}
 }
