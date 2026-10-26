@@ -1,7 +1,23 @@
 """Discoverable, extensible component registries for brand."""
 
+import warnings
 from collections.abc import Mapping
 from dataclasses import dataclass, field
+
+
+_ON_DUPLICATE = ("warn", "raise", "overwrite")
+
+
+def _identity(func) -> str:
+    return f"{getattr(func, '__module__', '?')}.{getattr(func, '__qualname__', repr(func))}"
+
+
+def _same_function(a, b) -> bool:
+    """Same object, or a reloaded module-level function of the same dotted name."""
+    if a is b:
+        return True
+    ident = _identity(a)
+    return ident == _identity(b) and "<" not in ident
 
 
 @dataclass
@@ -52,9 +68,40 @@ class Registry(Mapping):
     'cheap'
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, *, on_duplicate: str = "warn"):
+        if on_duplicate not in _ON_DUPLICATE:
+            raise ValueError(f"on_duplicate must be one of {_ON_DUPLICATE}")
         self._name = name
+        self._on_duplicate = on_duplicate
         self._items: dict[str, ComponentMeta] = {}
+
+    def _add(self, key: str, func, **meta_kwargs):
+        """Store ``func`` under ``key``, applying the ``on_duplicate`` policy.
+
+        Re-registering the same function (e.g. a module reload) is silent.
+
+        >>> r = Registry('scorers')
+        >>> r.register('x')(lambda n: 1) and None
+        >>> import warnings
+        >>> with warnings.catch_warnings(record=True) as w:
+        ...     warnings.simplefilter('always')
+        ...     _ = r.register('x')(lambda n: 2)
+        >>> len(w)
+        1
+        >>> Registry('s', on_duplicate='raise').register('x')(len) is len
+        True
+        """
+        old = self._items.get(key)
+        if old is not None and not _same_function(old.func, func):
+            msg = (
+                f"{self._name} already has {key!r} ({_identity(old.func)}); "
+                f"replacing it with {_identity(func)}"
+            )
+            if self._on_duplicate == "raise":
+                raise ValueError(msg)
+            if self._on_duplicate == "warn":
+                warnings.warn(msg, stacklevel=4)
+        self._items[key] = ComponentMeta(func=func, name=key, **meta_kwargs)
 
     # -- Registration ---------------------------------------------------------
 
@@ -98,14 +145,14 @@ class Registry(Mapping):
 
         def decorator(func):
             key = name if isinstance(name, str) else func.__name__
-            self._items[key] = ComponentMeta(func=func, name=key, **meta_kwargs)
+            self._add(key, func, **meta_kwargs)
             return func
 
         # @registry.register  (no parens, name is the function itself)
         if callable(name):
             func = name
             name_str = func.__name__
-            self._items[name_str] = ComponentMeta(func=func, name=name_str)
+            self._add(name_str, func)
             return func
 
         return decorator

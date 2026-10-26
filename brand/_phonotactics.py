@@ -17,6 +17,7 @@ False
 True
 """
 
+import itertools
 import re
 import unicodedata
 from functools import lru_cache
@@ -218,3 +219,34 @@ def phonotactic_ai(
     response = ask(phonotactic_prompt(family, context=context, n=n))
     names = phonotactic_family(names=parse_name_lines(response), family=family)
     return list(dict.fromkeys(names))
+
+
+@generators.register(
+    "phonotactic_enumerate",
+    description="Enumerate every name of a phonotactic family (offline, no LLM)",
+)
+def phonotactic_enumerate(
+    *, family="japanese_cv", syllables: int = 3, limit: int | None = 100_000
+) -> Iterable[str]:
+    """Enumerate names of exactly ``syllables`` syllables legal in ``family``.
+
+    The product grows fast (the default ``japanese_cv`` has ~100 syllables), so
+    ``limit`` caps the number yielded; pass ``limit=None`` for all of them.
+
+    >>> list(phonotactic_enumerate(family='bantu_prenasalised', syllables=2, limit=3))
+    ['baba', 'babe', 'babi']
+    """
+    fam = _family(family)
+    if not fam.min_syllables <= syllables <= fam.max_syllables:
+        raise ValueError(
+            f"syllables must be in [{fam.min_syllables}, {fam.max_syllables}]"
+        )
+    codas = ("",) + fam.codas
+    onsets = ("",) + fam.onsets
+    parts = [o + v + c for o in onsets for v in fam.vowels for c in codas]
+    names = (
+        name
+        for combo in itertools.product(parts, repeat=syllables)
+        if validate_phonotactic(name := "".join(combo), fam)
+    )
+    return itertools.islice(dict.fromkeys(names), limit)
