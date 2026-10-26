@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 7.202813148498535,
-  "commit_message": "Review fixes: rename scorer to avoid clobbering BLICK 'phonotactic', share ask/parse helpers with ai_suggest, dedupe, tests (#14)",
-  "commit_sha": "0c11e0664beadbab66567c04123bc843db876192",
+  "collection_duration_seconds": 7.460290431976318,
+  "commit_message": "Merge 0c11e0664beadbab66567c04123bc843db876192 into 407a19ee6843370539d7fa1dd06bcb3f22b08e3f",
+  "commit_sha": "0e0b60ac81f6d1cbf67443f466105d1323ae3e8d",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T09:25:46.618477Z",
+  "timestamp": "2026-10-26T09:25:51.957101Z",
   "workflow_status": {}
 }
