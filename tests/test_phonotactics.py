@@ -25,7 +25,12 @@ def test_finnic_vowel_harmony():
 
 def test_prompt_mentions_inventory_and_context():
     p = phonotactic_prompt("finnic_harmony", context="a tea shop", n=7)
-    assert "a tea shop" in p and "7" in p and "harmony" in p.lower()
+    assert (
+        "a tea shop" in p
+        and "Compose 7" in p
+        and "k, l, m" in p
+        and "harmony" in p.lower()
+    )
 
 
 def test_unknown_family_raises():
@@ -43,7 +48,7 @@ def test_custom_family_validation_and_harmony_only_on_vowels():
     from brand._phonotactics import PhonotacticFamily
 
     fam = PhonotacticFamily(
-        onsets=tuple("kyt"), vowels=tuple("aouä"), harmony=("aou", "ä")
+        onsets=tuple("kyt"), vowels=tuple("aouä"), harmony=("aou", "yä")
     )
     assert validate_phonotactic("yaka", fam)
     with pytest.raises(ValueError):
@@ -70,8 +75,8 @@ def test_register_family_and_scorer():
     register_family("ab", PhonotacticFamily(onsets=("b",), vowels=("a",)))
     try:
         assert validate_phonotactic("baba", "ab")
-        assert brand.scorers["phonotactic"]("baba", family="ab") is True
-        assert brand.scorers["phonotactic"]("kimono", family="ab") is False
+        assert brand.scorers["in_phonotactic_family"]("baba", family="ab") is True
+        assert brand.scorers["in_phonotactic_family"]("kimono", family="ab") is False
     finally:
         from brand._phonotactics import PHONOTACTIC_FAMILIES
 
@@ -83,7 +88,7 @@ def test_phonotactic_ai_with_injected_ask():
 
     def ask(prompt):
         seen.append(prompt)
-        return "kimono\nstrik\n\nSakura\n"
+        return "kimono\nstrik\n\nSakura\nkimono\n"
 
     out = brand.generators["phonotactic_ai"](context="tea", ask=ask)
-    assert out == ["kimono", "sakura"] and "tea" in seen[0]
+    assert out == ["kimono", "sakura"] and "tea" in seen[0] and "japanese_cv" in seen[0]

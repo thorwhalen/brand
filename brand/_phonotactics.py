@@ -21,8 +21,9 @@ import re
 import unicodedata
 from functools import lru_cache
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
+from brand._generators import default_ask, parse_name_lines
 from brand.registry import generators, scorers
 
 
@@ -39,11 +40,11 @@ class PhonotacticFamily:
     vowels: tuple[str, ...]
     codas: tuple[str, ...] = ()
     description: str = ""
-    harmony: tuple[str, ...] = field(default_factory=tuple)  # e.g. ("aou", "yäö")
+    harmony: tuple[str, ...] = ()  # e.g. ("aou", "yäö")
     neutral: str = ""
     min_syllables: int = 2
     max_syllables: int = 4
-    illegal_syllables: tuple[str, ...] = ()  # onset+vowel(+coda) strings to reject
+    illegal_syllables: tuple[str, ...] = ()  # onset+vowel strings to reject (no codas)
 
     def __post_init__(self):
         if not self.vowels:
@@ -60,7 +61,7 @@ PHONOTACTIC_FAMILIES: dict[str, PhonotacticFamily] = {
         codas=("n",),
         description="Japanese-like: open CV syllables, optional syllable-final n",
         illegal_syllables=tuple(
-            "ti tu di du si zi hu yi ye wi wu we fa fi fe fo".split()
+            "ti tu di du si zi hu yi ye wi wu we fa fi fe fo tsa tsi tse tso she che je".split()
         ),
     ),
     "finnic_harmony": PhonotacticFamily(
@@ -82,7 +83,7 @@ PHONOTACTIC_FAMILIES: dict[str, PhonotacticFamily] = {
 
 def register_family(name: str, family: PhonotacticFamily) -> PhonotacticFamily:
     """Make ``family`` available by ``name`` to the validator, prompt and generators."""
-    PHONOTACTIC_FAMILIES[name] = family  # type: ignore[index]
+    PHONOTACTIC_FAMILIES[name] = family
     return family
 
 
@@ -191,26 +192,12 @@ def phonotactic_family(*, names: Iterable[str], family="japanese_cv") -> Iterabl
 
 
 @scorers.register(
-    "phonotactic",
+    "in_phonotactic_family",
     description="True if the name is legal in a phonotactic family (usable in Filter rules)",
 )
-def phonotactic_scorer(name: str, *, family="japanese_cv") -> bool:
+def in_phonotactic_family(name: str, *, family="japanese_cv") -> bool:
     """Boolean scorer form of ``validate_phonotactic``, for pipeline ``Filter`` rules."""
     return validate_phonotactic(name, family)
-
-
-def _parse_names(response: str) -> list[str]:
-    return [line.strip() for line in response.strip().splitlines() if line.strip()]
-
-
-def _default_ask(prompt: str) -> str:
-    try:
-        import oa
-    except ImportError:
-        raise ImportError(
-            "AI generation requires the 'oa' package. Install with: pip install oa"
-        ) from None
-    return oa.prompt_function("{prompt}")(prompt=prompt)
 
 
 @generators.register(
@@ -227,6 +214,7 @@ def phonotactic_ai(
 
     ``ask`` is any ``prompt -> response text`` callable (default: OpenAI via ``oa``).
     """
-    ask = ask or _default_ask
+    ask = ask or default_ask
     response = ask(phonotactic_prompt(family, context=context, n=n))
-    return list(phonotactic_family(names=_parse_names(response), family=family))
+    names = phonotactic_family(names=parse_name_lines(response), family=family)
+    return list(dict.fromkeys(names))
