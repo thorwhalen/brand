@@ -63,8 +63,10 @@ def test_npm_uses_registry_and_lowercase(monkeypatch):
 
 
 def test_domain_sale_status(monkeypatch):
-    page = ("<h1>thisname.com is for sale</h1> Fee $99. Buy now for $2,495 at Afternic."
-            " Price: $2,495. Similar: $5,995")
+    page = (
+        "<h1>thisname.com is for sale</h1> Fee $99. Buy now for $2,495 at Afternic."
+        " Price: $2,495. Similar: $5,995"
+    )
     _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, text=page, url=url))
     info = availability.domain_sale_status("thisname.com")
     assert info["for_sale"] is True
@@ -107,8 +109,13 @@ def test_company_us_sec(monkeypatch):
 
 
 def _tm_hit(wordmark, alive, classes):
-    return {"source": {"wordmark": wordmark, "alive": alive,
-                       "internationalClass": [f"IC {c}" for c in classes]}}
+    return {
+        "source": {
+            "wordmark": wordmark,
+            "alive": alive,
+            "internationalClass": [f"IC {c}" for c in classes],
+        }
+    }
 
 
 def test_trademark_us_classes_and_liveness(monkeypatch):
@@ -129,7 +136,9 @@ def test_trademark_us_failure_is_unknown(monkeypatch):
 
 
 def test_domain_sale_status_ignores_marketplace_names_in_code(monkeypatch):
-    page = "<script>var closedOn = 1; var usedOne = 2;</script><h1>Freehand drawing</h1>"
+    page = (
+        "<script>var closedOn = 1; var usedOne = 2;</script><h1>Freehand drawing</h1>"
+    )
     page = page.replace("closedOn", "losedo")  # a bare 'sedo' inside an identifier
     _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, text=page, url=url))
     assert availability.domain_sale_status("freehand.com")["for_sale"] is False

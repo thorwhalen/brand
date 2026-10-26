@@ -27,6 +27,7 @@ Run a pre-configured pipeline:
 # -- Trigger auto-registration of built-in scorers and generators -------------
 import brand._scorers  # noqa: F401
 import brand._generators  # noqa: F401
+import brand._phonotactics  # noqa: F401
 
 # -- Registries (import these to discover/register components) ----------------
 from brand.registry import scorers, generators, filters, pipelines
