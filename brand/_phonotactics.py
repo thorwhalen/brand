@@ -18,6 +18,8 @@ True
 """
 
 import re
+import unicodedata
+from functools import lru_cache
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 
@@ -42,6 +44,12 @@ class PhonotacticFamily:
     min_syllables: int = 2
     max_syllables: int = 4
 
+    def __post_init__(self):
+        if not self.vowels:
+            raise ValueError("A phonotactic family needs at least one vowel")
+        if not 1 <= self.min_syllables <= self.max_syllables:
+            raise ValueError("Need 1 <= min_syllables <= max_syllables")
+
 
 PHONOTACTIC_FAMILIES: Mapping[str, PhonotacticFamily] = {
     "japanese_cv": PhonotacticFamily(
@@ -49,7 +57,7 @@ PHONOTACTIC_FAMILIES: Mapping[str, PhonotacticFamily] = {
         + ("sh", "ch", "ts", "j", "f"),
         vowels=tuple("aeiou"),
         codas=("n",),
-        description="Japanese-like: open CV syllables, optional moraic final n",
+        description="Japanese-like: open CV syllables, optional syllable-final n (no ti/si/hu/yi/wu restrictions)",
     ),
     "finnic_harmony": PhonotacticFamily(
         onsets=tuple("k l m n p r s t v h j".split()),
@@ -84,12 +92,13 @@ def _alt(items: Iterable[str]) -> str:
     return "|".join(re.escape(x) for x in sorted(items, key=len, reverse=True))
 
 
+@lru_cache(maxsize=None)
 def _name_regex(fam: PhonotacticFamily) -> re.Pattern:
     syllable = f"(?:(?:{_alt(fam.onsets)})?(?:{_alt(fam.vowels)})"
     if fam.codas:
         syllable += f"(?:{_alt(fam.codas)})?"
     syllable += ")"
-    return re.compile(f"^{syllable}{{{fam.min_syllables},{fam.max_syllables}}}$")
+    return re.compile(f"{syllable}{{{fam.min_syllables},{fam.max_syllables}}}")
 
 
 def validate_phonotactic(name: str, family="japanese_cv") -> bool:
@@ -98,15 +107,15 @@ def validate_phonotactic(name: str, family="japanese_cv") -> bool:
     ``family`` is a key of ``PHONOTACTIC_FAMILIES`` or a ``PhonotacticFamily``.
     """
     fam = _family(family)
-    name = name.lower()
-    if not _name_regex(fam).match(name):
+    name = unicodedata.normalize("NFC", name).lower()
+    if not _name_regex(fam).fullmatch(name):
         return False
     if fam.harmony:
         groups = {
             i
             for i, group in enumerate(fam.harmony)
             for ch in name
-            if ch in group and ch not in fam.neutral
+            if ch in fam.vowels and ch in group and ch not in fam.neutral
         }
         if len(groups) > 1:
             return False
@@ -162,6 +171,8 @@ def phonotactic_family(*, names: Iterable[str], family="japanese_cv") -> Iterabl
     >>> list(phonotactic_family(names=['kimono', 'strik', 'sakura'], family='japanese_cv'))
     ['kimono', 'sakura']
     """
+    if isinstance(names, str):
+        raise TypeError("names must be an iterable of strings, not a single string")
     for name in names:
         name = name.strip().lower()
         if name and validate_phonotactic(name, family):

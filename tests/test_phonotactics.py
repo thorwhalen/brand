@@ -31,3 +31,27 @@ def test_prompt_mentions_inventory_and_context():
 def test_unknown_family_raises():
     with pytest.raises(KeyError):
         validate_phonotactic("kimono", "nope")
+
+
+def test_validator_edge_cases():
+    assert not validate_phonotactic("kimono\n", "japanese_cv")
+    assert validate_phonotactic("kälö", "finnic_harmony")
+    assert validate_phonotactic("KIMONO", "japanese_cv")
+
+
+def test_custom_family_validation_and_harmony_only_on_vowels():
+    from brand._phonotactics import PhonotacticFamily
+
+    fam = PhonotacticFamily(
+        onsets=tuple("kyt"), vowels=tuple("aouä"), harmony=("aou", "ä")
+    )
+    assert validate_phonotactic("yaka", fam)
+    with pytest.raises(ValueError):
+        PhonotacticFamily(onsets=(), vowels=())
+    with pytest.raises(ValueError):
+        PhonotacticFamily(onsets=(), vowels=("a",), min_syllables=5, max_syllables=2)
+
+
+def test_generator_rejects_bare_string():
+    with pytest.raises(TypeError):
+        list(brand.generators["phonotactic_family"](names="kimono"))

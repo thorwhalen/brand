@@ -12,7 +12,10 @@ def test_components_and_score():
 def test_reduplication_penalised_and_weights_override():
     f = brand.scorers["phonaesthetics"]
     assert f("lalamo")["reduplication"] is True
-    zero = f("lalamo", weights={k: 0 for k in f.func.__globals__["DEFAULT_PHONAESTHETIC_WEIGHTS"]})
+    zero = f(
+        "lalamo",
+        weights={k: 0 for k in f.func.__globals__["DEFAULT_PHONAESTHETIC_WEIGHTS"]},
+    )
     assert zero["score"] == 0
 
 

@@ -22,8 +22,9 @@ def test_retry_then_success():
 
 
 def test_retry_gives_up_and_returns_last_response():
-    with mock.patch("requests.get", return_value=_Resp(429)) as m, mock.patch(
-        "time.sleep"
+    with (
+        mock.patch("requests.get", return_value=_Resp(429)) as m,
+        mock.patch("time.sleep"),
     ):
         r = _http.request_with_retry("GET", "http://x", max_retries=2, backoff=0)
     assert r.status_code == 429 and m.call_count == 3
