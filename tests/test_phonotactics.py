@@ -92,3 +92,41 @@ def test_phonotactic_ai_with_injected_ask():
 
     out = brand.generators["phonotactic_ai"](context="tea", ask=ask)
     assert out == ["kimono", "sakura"] and "tea" in seen[0] and "japanese_cv" in seen[0]
+
+
+def test_enumerate_yields_only_valid_unique_names():
+    from brand._phonotactics import phonotactic_enumerate
+
+    out = list(
+        phonotactic_enumerate(family="bantu_prenasalised", syllables=2, limit=500)
+    )
+    assert len(out) == 500 and len(set(out)) == 500
+    assert all(validate_phonotactic(n, "bantu_prenasalised") for n in out)
+    assert (
+        len(list(phonotactic_enumerate(family="japanese_cv", syllables=2, limit=1000)))
+        == 1000
+    )
+
+
+def test_enumerate_rejects_out_of_range_syllables():
+    from brand._phonotactics import phonotactic_enumerate
+
+    with pytest.raises(ValueError):
+        phonotactic_enumerate(family="japanese_cv", syllables=9)
+
+
+def test_enumerate_is_lazy_and_deduplicated():
+    import time
+
+    from brand._phonotactics import phonotactic_enumerate
+
+    t0 = time.time()
+    assert (
+        len(list(phonotactic_enumerate(family="japanese_cv", syllables=4, limit=10)))
+        == 10
+    )
+    assert time.time() - t0 < 2
+    out = list(phonotactic_enumerate(family="finnic_harmony", syllables=2, limit=3000))
+    assert len(out) == len(set(out)) == 3000
+    with pytest.raises(ValueError):
+        phonotactic_enumerate(limit=-1)

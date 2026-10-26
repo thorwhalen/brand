@@ -17,6 +17,7 @@ False
 True
 """
 
+import itertools
 import re
 import unicodedata
 from functools import lru_cache
@@ -218,3 +219,48 @@ def phonotactic_ai(
     response = ask(phonotactic_prompt(family, context=context, n=n))
     names = phonotactic_family(names=parse_name_lines(response), family=family)
     return list(dict.fromkeys(names))
+
+
+DEFAULT_ENUMERATE_LIMIT = 100_000  # the full product is huge; pass limit=None for all
+
+
+@generators.register(
+    "phonotactic_enumerate",
+    latency="medium",
+    description="Enumerate every name of a phonotactic family (offline, no LLM)",
+)
+def phonotactic_enumerate(
+    *,
+    family="japanese_cv",
+    syllables: int = 3,
+    limit: int | None = DEFAULT_ENUMERATE_LIMIT,
+) -> Iterable[str]:
+    """Lazily enumerate names of exactly ``syllables`` syllables legal in ``family``.
+
+    Names come in product order (onset-less syllables first), so a small
+    ``limit`` gives a lopsided sample; the full product is large, so cap it with
+    ``limit`` (default ``DEFAULT_ENUMERATE_LIMIT``; ``None`` for no cap).
+
+    >>> list(phonotactic_enumerate(family='bantu_prenasalised', syllables=2, limit=3))
+    ['aa', 'ae', 'ai']
+    """
+    fam = _family(family)
+    if not fam.min_syllables <= syllables <= fam.max_syllables:
+        raise ValueError(
+            f"syllables must be in [{fam.min_syllables}, {fam.max_syllables}]"
+        )
+    if limit is not None and limit < 0:
+        raise ValueError("limit must be >= 0")
+    codas = ("",) + fam.codas
+    onsets = ("",) + fam.onsets
+    parts = [o + v + c for o in onsets for v in fam.vowels for c in codas]
+
+    def names():
+        seen = set()
+        for combo in itertools.product(parts, repeat=syllables):
+            name = "".join(combo)
+            if name not in seen and validate_phonotactic(name, fam):
+                seen.add(name)
+                yield name
+
+    return itertools.islice(names(), limit)
