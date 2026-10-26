@@ -6,7 +6,7 @@ Discoverable, extensible component registries for brand.
 
 | [`ComponentMeta`](#brand.registry.ComponentMeta)(func, name[, cost, ...])   | Metadata for a registered component.                     |
 |-------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| [`Registry`](#brand.registry.Registry)(name)                           | A discoverable, extensible registry of named components. |
+| [`Registry`](#brand.registry.Registry)(name, \*[, on_duplicate])       | A discoverable, extensible registry of named components. |
 
 ### *class* brand.registry.ComponentMeta(func, name, cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
@@ -14,7 +14,7 @@ Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
 Metadata for a registered component.
 
-### *class* brand.registry.Registry(name)
+### *class* brand.registry.Registry(name, , on_duplicate='warn')
 
 Bases: [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)
 

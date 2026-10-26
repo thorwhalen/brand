@@ -1,4 +1,4 @@
-> built 2026-10-26 09:28 UTC from d3d2f90 (master) · brand 0.1.14. Details: build_info.json
+> built 2026-10-26 09:38 UTC from 487e50e (master) · brand 0.1.15. Details: build_info.json
 
 # index.html.md
 
@@ -650,7 +650,7 @@ Discoverable, extensible component registries for brand.
 
 | [`ComponentMeta`](_autosummary/brand.registry.html.md#brand.registry.ComponentMeta)(func, name[, cost, ...])   | Metadata for a registered component.                     |
 |-------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| [`Registry`](_autosummary/brand.registry.html.md#brand.registry.Registry)(name)                           | A discoverable, extensible registry of named components. |
+| [`Registry`](_autosummary/brand.registry.html.md#brand.registry.Registry)(name, \*[, on_duplicate])       | A discoverable, extensible registry of named components. |
 
 ### *class* brand.registry.ComponentMeta(func, name, cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
@@ -658,7 +658,7 @@ Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
 Metadata for a registered component.
 
-### *class* brand.registry.Registry(name)
+### *class* brand.registry.Registry(name, , on_duplicate='warn')
 
 Bases: [`Mapping`](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping)
 
@@ -844,18 +844,20 @@ use: To be able to track processes (and the time they take)
 
 # About this build
 
-This documentation was built on **2026-10-26 09:28 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/d3d2f905ebc118496469d03a489f20d513b61d70"><code>d3d2f90</code></a> on branch <code>master</code>, for **brand 0.1.14** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 09:38 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/487e50e9bda7ab261b2a0d242adaf31f965a4257"><code>487e50e</code></a> on branch <code>master</code>, for **brand 0.1.15** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.15) is ahead of the latest release on PyPI (0.1.14): these docs describe unreleased code.
 
 ## Source
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/d3d2f905ebc118496469d03a489f20d513b61d70"><code>d3d2f905ebc118496469d03a489f20d513b61d70</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/487e50e9bda7ab261b2a0d242adaf31f965a4257"><code>487e50e9bda7ab261b2a0d242adaf31f965a4257</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.14</code>                                                                                                                                     |
+| Tags at this commit | <code>0.1.15</code>                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -864,9 +866,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40299529829">40299529829</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40300865943">40300865943</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>2125edeb1d23e3c8d29b8e7c03738112163609e5</code> (in the history of the built commit) |
+| Event commit | <code>585059b0dcc3c0d519c7b3fde0938c473ce5af2f</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -891,13 +893,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.14/">0.1.14</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.14/">0.1.14</a>, older than the documented version (0.1.15).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout d3d2f905ebc118496469d03a489f20d513b61d70
+git checkout 487e50e9bda7ab261b2a0d242adaf31f965a4257
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
