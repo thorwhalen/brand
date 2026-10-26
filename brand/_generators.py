@@ -168,6 +168,33 @@ def from_file(*, path: str) -> Iterable[str]:
                 yield line
 
 
+def default_ask(prompt: str) -> str:
+    """Send ``prompt`` to an LLM via ``oa`` and return the response text."""
+    try:
+        import oa
+    except ImportError:
+        raise ImportError(
+            "AI generation requires the 'oa' package. Install with: pip install oa"
+        ) from None
+    return oa.prompt_function("{prompt}")(prompt=prompt)
+
+
+def parse_name_lines(response: str) -> list[str]:
+    """Split an LLM response into names, one per non-empty line.
+
+    >>> parse_name_lines(' a\\n\\nb \\n')
+    ['a', 'b']
+    """
+    return [line.strip() for line in response.strip().splitlines() if line.strip()]
+
+
+_AI_SUGGEST_PROMPT = (
+    "You are an expert brand namer. Suggest {n} creative, memorable brand "
+    "names (1-15 characters each) for: {context}\n\n"
+    "Output ONLY the names, one per line, no numbering or explanation."
+)
+
+
 @generators.register(
     "ai_suggest",
     cost="expensive",
@@ -175,26 +202,17 @@ def from_file(*, path: str) -> Iterable[str]:
     latency="slow",
     description="AI-assisted name generation via OpenAI",
 )
-def ai_suggest(*, context: str, n: int = 30) -> Iterable[str]:
+def ai_suggest(*, context: str, n: int = 30, ask=None) -> Iterable[str]:
     """Use an LLM to brainstorm brand names for a given context.
 
-    Requires the ``oa`` package and an OpenAI API key.
-    """
-    try:
-        import oa
-    except ImportError:
-        raise ImportError(
-            "AI generation requires the 'oa' package. Install with: pip install oa"
-        )
+    ``ask`` is any ``prompt -> response text`` callable; the default needs the
+    ``oa`` package and an OpenAI API key.
 
-    ask_fn = oa.prompt_function(
-        "You are an expert brand namer. Suggest {n} creative, memorable brand "
-        "names (1-15 characters each) for: {context}\n\n"
-        "Output ONLY the names, one per line, no numbering or explanation."
-    )
-    response = ask_fn(context=context, n=n)
-    names = [line.strip() for line in response.strip().split("\n") if line.strip()]
-    return names
+    >>> ai_suggest(context='tea', n=2, ask=lambda p: 'a\\nb')
+    ['a', 'b']
+    """
+    ask = ask or default_ask
+    return parse_name_lines(ask(_AI_SUGGEST_PROMPT.format(n=n, context=context)))
 
 
 @generators.register(

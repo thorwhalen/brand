@@ -21,9 +21,10 @@ import re
 import unicodedata
 from functools import lru_cache
 from collections.abc import Iterable, Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
-from brand.registry import generators
+from brand._generators import default_ask, parse_name_lines
+from brand.registry import generators, scorers
 
 
 @dataclass(frozen=True)
@@ -39,10 +40,11 @@ class PhonotacticFamily:
     vowels: tuple[str, ...]
     codas: tuple[str, ...] = ()
     description: str = ""
-    harmony: tuple[str, ...] = field(default_factory=tuple)  # e.g. ("aou", "yäö")
+    harmony: tuple[str, ...] = ()  # e.g. ("aou", "yäö")
     neutral: str = ""
     min_syllables: int = 2
     max_syllables: int = 4
+    illegal_syllables: tuple[str, ...] = ()  # onset+vowel strings to reject (no codas)
 
     def __post_init__(self):
         if not self.vowels:
@@ -51,13 +53,16 @@ class PhonotacticFamily:
             raise ValueError("Need 1 <= min_syllables <= max_syllables")
 
 
-PHONOTACTIC_FAMILIES: Mapping[str, PhonotacticFamily] = {
+PHONOTACTIC_FAMILIES: dict[str, PhonotacticFamily] = {
     "japanese_cv": PhonotacticFamily(
         onsets=tuple("k s t n h m y r w g z d b p".split())
         + ("sh", "ch", "ts", "j", "f"),
         vowels=tuple("aeiou"),
         codas=("n",),
-        description="Japanese-like: open CV syllables, optional syllable-final n (no ti/si/hu/yi/wu restrictions)",
+        description="Japanese-like: open CV syllables, optional syllable-final n",
+        illegal_syllables=tuple(
+            "ti tu di du si zi hu yi ye wi wu we fa fi fe fo tsa tsi tse tso she che je".split()
+        ),
     ),
     "finnic_harmony": PhonotacticFamily(
         onsets=tuple("k l m n p r s t v h j".split()),
@@ -74,6 +79,12 @@ PHONOTACTIC_FAMILIES: Mapping[str, PhonotacticFamily] = {
         description="Bantu-like: strictly open syllables, prenasalised onsets",
     ),
 }
+
+
+def register_family(name: str, family: PhonotacticFamily) -> PhonotacticFamily:
+    """Make ``family`` available by ``name`` to the validator, prompt and generators."""
+    PHONOTACTIC_FAMILIES[name] = family
+    return family
 
 
 def _family(family) -> PhonotacticFamily:
@@ -94,7 +105,8 @@ def _alt(items: Iterable[str]) -> str:
 
 @lru_cache(maxsize=None)
 def _name_regex(fam: PhonotacticFamily) -> re.Pattern:
-    syllable = f"(?:(?:{_alt(fam.onsets)})?(?:{_alt(fam.vowels)})"
+    ban = f"(?!{_alt(fam.illegal_syllables)})" if fam.illegal_syllables else ""
+    syllable = f"(?:{ban}(?:{_alt(fam.onsets)})?(?:{_alt(fam.vowels)})"
     if fam.codas:
         syllable += f"(?:{_alt(fam.codas)})?"
     syllable += ")"
@@ -177,3 +189,32 @@ def phonotactic_family(*, names: Iterable[str], family="japanese_cv") -> Iterabl
         name = name.strip().lower()
         if name and validate_phonotactic(name, family):
             yield name
+
+
+@scorers.register(
+    "in_phonotactic_family",
+    description="True if the name is legal in a phonotactic family (usable in Filter rules)",
+)
+def in_phonotactic_family(name: str, *, family="japanese_cv") -> bool:
+    """Boolean scorer form of ``validate_phonotactic``, for pipeline ``Filter`` rules."""
+    return validate_phonotactic(name, family)
+
+
+@generators.register(
+    "phonotactic_ai",
+    cost="expensive",
+    requires_network=True,
+    latency="slow",
+    description="LLM composes names within a phonotactic family; off-family names are dropped",
+)
+def phonotactic_ai(
+    *, context: str, family="japanese_cv", n: int = 50, ask=None
+) -> Iterable[str]:
+    """Ask an LLM for ``n`` names in ``family`` and keep only the valid ones.
+
+    ``ask`` is any ``prompt -> response text`` callable (default: OpenAI via ``oa``).
+    """
+    ask = ask or default_ask
+    response = ask(phonotactic_prompt(family, context=context, n=n))
+    names = phonotactic_family(names=parse_name_lines(response), family=family)
+    return list(dict.fromkeys(names))
