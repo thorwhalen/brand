@@ -234,7 +234,7 @@ def phonotactic_enumerate(
     ``limit`` caps the number yielded; pass ``limit=None`` for all of them.
 
     >>> list(phonotactic_enumerate(family='bantu_prenasalised', syllables=2, limit=3))
-    ['baba', 'babe', 'babi']
+    ['aa', 'ae', 'ai']
     """
     fam = _family(family)
     if not fam.min_syllables <= syllables <= fam.max_syllables:
