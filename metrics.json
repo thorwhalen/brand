@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 7.496003150939941,
-  "commit_message": "domain_sale_status: rank listed prices by frequency instead of taking the first\n\nThe first dollar amount on a marketplace page is often a fee or another\nlisting (HugeDomains showed $100 for a $2,395 name). Return the amounts\nmost repeated first as prices, and price as the first of them, documented\nas a hint to confirm by eye.\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
-  "commit_sha": "bc63feb939799d024a8ba55acafa1a4d3870fc74",
+  "collection_duration_seconds": 7.359737873077393,
+  "commit_message": "domain_sale_status: rank listed prices by frequency instead of taking the first (#8)\n\nThe first dollar amount on a marketplace page is often a fee or another\nlisting (HugeDomains showed $100 for a $2,395 name). Return the amounts\nmost repeated first as prices, and price as the first of them, documented\nas a hint to confirm by eye.\n\nCo-authored-by: Claude Opus 5.5 <noreply@anthropic.com>",
+  "commit_sha": "86e851330cd78930a3b2b10d28e64a42f2882832",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36017,
-      "comment_lines_ratio": 0.0602891845384363,
-      "docs_lines": 80168,
-      "empty_lines": 74668,
-      "empty_lines_ratio": 0.12498744568164927,
+      "comment_lines": 36469,
+      "comment_lines_ratio": 0.060428662562861946,
+      "docs_lines": 80972,
+      "empty_lines": 75640,
+      "empty_lines_ratio": 0.12533450427088424,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1287,
-      "function_lines": 297550,
-      "function_lines_ratio": 0.49807165670132775,
-      "mean_lines_per_function": 16.664799775973115,
-      "num_classes": 3248,
-      "num_functions": 17855,
+      "files_analyzed": 1296,
+      "function_lines": 301851,
+      "function_lines_ratio": 0.5001632132293851,
+      "mean_lines_per_function": 16.65201081259999,
+      "num_classes": 3307,
+      "num_functions": 18127,
       "pypi_version": "0.1.9",
       "total_errors": 1,
-      "total_lines": 597404
+      "total_lines": 603505
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -38,14 +38,14 @@
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-25T14:58:34Z",
+      "last_success_timestamp": "2026-10-26T06:33:30Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40204705205",
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40280409053",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T06:33:24.641104Z",
+  "timestamp": "2026-10-26T06:34:46.683217Z",
   "workflow_status": {}
 }
