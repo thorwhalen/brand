@@ -1,4 +1,4 @@
-> built 2026-10-26 06:38 UTC from 7fb0a50 (master) · brand 0.1.11. Details: build_info.json
+> built 2026-10-26 06:41 UTC from 46c312b (master) · brand 0.1.12. Details: build_info.json
 
 # index.html.md
 
@@ -844,18 +844,20 @@ use: To be able to track processes (and the time they take)
 
 # About this build
 
-This documentation was built on **2026-10-26 06:38 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/7fb0a50235a8bed72f2576c5904bdd94846a9036"><code>7fb0a50</code></a> on branch <code>master</code>, for **brand 0.1.11** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 06:41 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/46c312be416d115b1ba48fdc7300cb6ec226f938"><code>46c312b</code></a> on branch <code>master</code>, for **brand 0.1.12** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.12) is ahead of the latest release on PyPI (0.1.11): these docs describe unreleased code.
 
 ## Source
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/7fb0a50235a8bed72f2576c5904bdd94846a9036"><code>7fb0a50235a8bed72f2576c5904bdd94846a9036</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/46c312be416d115b1ba48fdc7300cb6ec226f938"><code>46c312be416d115b1ba48fdc7300cb6ec226f938</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.11</code>                                                                                                                                     |
+| Tags at this commit | <code>0.1.12</code>                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -864,9 +866,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40280857844">40280857844</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40281126437">40281126437</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>c24a7b2963d7500d08b7d66eabc3a1cf8e8b5735</code> (in the history of the built commit) |
+| Event commit | <code>d259f7a7b5fc0b3b1eae75bd55031d7d95cb3fd8</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -891,13 +893,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.11/">0.1.11</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.11/">0.1.11</a>, older than the documented version (0.1.12).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout 7fb0a50235a8bed72f2576c5904bdd94846a9036
+git checkout 46c312be416d115b1ba48fdc7300cb6ec226f938
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
