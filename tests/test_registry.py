@@ -74,3 +74,24 @@ def test_bare_register_warning_points_at_caller():
     with pytest.warns(UserWarning) as w:
         r.register(other)
     assert w[0].filename == __file__
+
+
+def test_on_duplicate_is_assignable_and_validated():
+    r = Registry("scorers")
+    assert r.on_duplicate == "warn"
+    r.on_duplicate = "raise"
+    r.register("x")(_f)
+    with pytest.raises(ValueError):
+        r.register("x")(_g)
+    with pytest.raises(ValueError):
+        r.on_duplicate = "nope"
+    assert r.on_duplicate == "raise"
+
+
+def test_unregister_removes_and_returns():
+    r = Registry("scorers")
+    r.register("x")(_f)
+    assert r.unregister("x").func is _f and "x" not in r
+    r.register("x")(_g)  # the name is free again: no duplicate warning
+    with pytest.raises(KeyError, match="no 'y'"):
+        r.unregister("y")

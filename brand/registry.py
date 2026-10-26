@@ -72,11 +72,42 @@ class Registry(Mapping):
     """
 
     def __init__(self, name: str, *, on_duplicate: str = "warn"):
-        if on_duplicate not in _ON_DUPLICATE:
-            raise ValueError(f"on_duplicate must be one of {_ON_DUPLICATE}")
         self._name = name
-        self._on_duplicate = on_duplicate
+        self.on_duplicate = on_duplicate
         self._items: dict[str, ComponentMeta] = {}
+
+    @property
+    def on_duplicate(self) -> str:
+        """What registering a different function under a taken name does: one of
+        ``"warn"`` (default), ``"raise"``, ``"overwrite"``. Assignable.
+
+        >>> r = Registry('s')
+        >>> r.on_duplicate = 'raise'
+        >>> r.on_duplicate
+        'raise'
+        """
+        return self._on_duplicate
+
+    @on_duplicate.setter
+    def on_duplicate(self, policy: str):
+        if policy not in _ON_DUPLICATE:
+            raise ValueError(f"on_duplicate must be one of {_ON_DUPLICATE}")
+        self._on_duplicate = policy
+
+    def unregister(self, name: str) -> ComponentMeta:
+        """Remove ``name`` and return what was registered under it (KeyError if absent).
+
+        >>> r = Registry('s')
+        >>> _ = r.register('x')(len)
+        >>> r.unregister('x').func is len, 'x' in r
+        (True, False)
+        """
+        try:
+            return self._items.pop(name)
+        except KeyError:
+            raise KeyError(
+                f"{self._name} has no {name!r}; available: {', '.join(sorted(self._items))}"
+            ) from None
 
     def _add(self, key: str, func, *, stacklevel: int = 3, **meta_kwargs):
         """Store ``func`` under ``key``, applying the ``on_duplicate`` policy.

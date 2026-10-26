@@ -18,6 +18,7 @@ True
 """
 
 import itertools
+import random
 import re
 import unicodedata
 from functools import lru_cache
@@ -222,27 +223,86 @@ def phonotactic_ai(
 
 
 DEFAULT_ENUMERATE_LIMIT = 100_000  # the full product is huge; pass limit=None for all
+MAX_SAMPLE_STALLS = 10_000  # consecutive repeats after which a seeded sample stops
+
+
+def _legal_syllables(fam: PhonotacticFamily) -> dict[int | None, list[tuple[str, int | None]]]:
+    """The legal syllables of ``fam`` as ``(text, harmony group)``, indexed by the group
+    of the name so far (None: no group yet, any syllable fits).
+
+    A syllable whose vowels span two harmony groups, or that starts with an
+    illegal syllable, is dropped here instead of rejected after the name is built.
+    """
+    codas = ("",) + fam.codas
+    onsets = fam.onsets + ("",)  # onset-less last: a small ``limit`` is not all vowels
+    syllables = []
+    for onset in onsets:
+        for vowel in fam.vowels:
+            for coda in codas:
+                text = onset + vowel + coda
+                if text.startswith(fam.illegal_syllables):
+                    continue
+                groups = {
+                    i
+                    for i, group in enumerate(fam.harmony)
+                    for ch in text
+                    if ch in fam.vowels and ch in group and ch not in fam.neutral
+                }
+                if len(groups) <= 1:
+                    syllables.append((text, next(iter(groups), None)))
+    by_group = {None: syllables}
+    for group in range(len(fam.harmony)):
+        by_group[group] = [(t, g) for t, g in syllables if g in (None, group)]
+    return by_group
+
+
+def _product(by_group, syllables: int, group=None) -> Iterable[str]:
+    """Every name of ``syllables`` syllables, in product order, fitting ``group``."""
+    if syllables == 0:
+        yield ""
+        return
+    for text, g in by_group[group]:
+        for rest in _product(by_group, syllables - 1, group if g is None else g):
+            yield text + rest
+
+
+def _sample(by_group, syllables: int, rng) -> str:
+    """One name of ``syllables`` syllables, each syllable drawn at random."""
+    name, group = "", None
+    for _ in range(syllables):
+        text, g = rng.choice(by_group[group])
+        name, group = name + text, group if g is None else g
+    return name
 
 
 @generators.register(
     "phonotactic_enumerate",
     latency="medium",
-    description="Enumerate every name of a phonotactic family (offline, no LLM)",
+    description="Enumerate or sample names of a phonotactic family (offline, no LLM)",
 )
 def phonotactic_enumerate(
     *,
     family="japanese_cv",
     syllables: int = 3,
     limit: int | None = DEFAULT_ENUMERATE_LIMIT,
+    seed: int | None = None,
 ) -> Iterable[str]:
-    """Lazily enumerate names of exactly ``syllables`` syllables legal in ``family``.
+    """Lazily yield names of exactly ``syllables`` syllables legal in ``family``.
 
-    Names come in product order (onset-less syllables first), so a small
-    ``limit`` gives a lopsided sample; the full product is large, so cap it with
-    ``limit`` (default ``DEFAULT_ENUMERATE_LIMIT``; ``None`` for no cap).
+    Illegal syllables are never built, and vowel harmony is applied syllable by
+    syllable. By default the names come in product order (the first syllable
+    changes slowest), so a small ``limit`` gives a lopsided sample. With ``seed``
+    they are drawn at random instead (reproducibly, without repeats), until
+    ``limit`` names are out or ``MAX_SAMPLE_STALLS`` draws in a row repeat one (the
+    family is then very probably exhausted); a seeded sample needs a ``limit``. Each
+    syllable is drawn uniformly, so names are not: one with several parses
+    ("ka"+"na", "kan"+"a") is likelier. (Onset-less names used to come first in
+    product order; they now come last.)
 
     >>> list(phonotactic_enumerate(family='bantu_prenasalised', syllables=2, limit=3))
-    ['aa', 'ae', 'ai']
+    ['baba', 'babe', 'babi']
+    >>> len(list(phonotactic_enumerate(syllables=2, limit=5, seed=0)))
+    5
     """
     fam = _family(family)
     if not fam.min_syllables <= syllables <= fam.max_syllables:
@@ -251,16 +311,31 @@ def phonotactic_enumerate(
         )
     if limit is not None and limit < 0:
         raise ValueError("limit must be >= 0")
-    codas = ("",) + fam.codas
-    onsets = ("",) + fam.onsets
-    parts = [o + v + c for o in onsets for v in fam.vowels for c in codas]
+    if seed is not None and limit is None:
+        raise ValueError("a seeded sample needs a limit")
+    by_group = _legal_syllables(fam)
 
     def names():
         seen = set()
-        for combo in itertools.product(parts, repeat=syllables):
-            name = "".join(combo)
-            if name not in seen and validate_phonotactic(name, fam):
-                seen.add(name)
+
+        def fresh(name):
+            # "ka"+"na" and "kan"+"a" are one name; the final check guards families
+            # whose illegal syllables straddle two of the syllables built here
+            if name in seen or not validate_phonotactic(name, fam):
+                return False
+            seen.add(name)
+            return True
+
+        if not by_group[None]:  # every syllable is illegal
+            return
+        if seed is None:
+            yield from (n for n in _product(by_group, syllables) if fresh(n))
+            return
+        rng, stalls = random.Random(seed), 0
+        while stalls < MAX_SAMPLE_STALLS:
+            name = _sample(by_group, syllables, rng)
+            stalls = 0 if fresh(name) else stalls + 1
+            if stalls == 0:
                 yield name
 
     return itertools.islice(names(), limit)
