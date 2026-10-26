@@ -55,3 +55,35 @@ def test_custom_family_validation_and_harmony_only_on_vowels():
 def test_generator_rejects_bare_string():
     with pytest.raises(TypeError):
         list(brand.generators["phonotactic_family"](names="kimono"))
+
+
+def test_japanese_illegal_syllables():
+    for bad in ("tita", "hufu", "wuwo", "fafa"):
+        assert not validate_phonotactic(bad, "japanese_cv"), bad
+    for good in ("chitsu", "kinshi", "fuji", "sakura"):
+        assert validate_phonotactic(good, "japanese_cv"), good
+
+
+def test_register_family_and_scorer():
+    from brand._phonotactics import PhonotacticFamily, register_family
+
+    register_family("ab", PhonotacticFamily(onsets=("b",), vowels=("a",)))
+    try:
+        assert validate_phonotactic("baba", "ab")
+        assert brand.scorers["phonotactic"]("baba", family="ab") is True
+        assert brand.scorers["phonotactic"]("kimono", family="ab") is False
+    finally:
+        from brand._phonotactics import PHONOTACTIC_FAMILIES
+
+        del PHONOTACTIC_FAMILIES["ab"]
+
+
+def test_phonotactic_ai_with_injected_ask():
+    seen = []
+
+    def ask(prompt):
+        seen.append(prompt)
+        return "kimono\nstrik\n\nSakura\n"
+
+    out = brand.generators["phonotactic_ai"](context="tea", ask=ask)
+    assert out == ["kimono", "sakura"] and "tea" in seen[0]
