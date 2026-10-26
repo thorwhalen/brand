@@ -226,7 +226,9 @@ DEFAULT_ENUMERATE_LIMIT = 100_000  # the full product is huge; pass limit=None f
 MAX_SAMPLE_STALLS = 10_000  # consecutive repeats after which a seeded sample stops
 
 
-def _legal_syllables(fam: PhonotacticFamily) -> dict[int | None, list[tuple[str, int | None]]]:
+def _legal_syllables(
+    fam: PhonotacticFamily,
+) -> dict[int | None, list[tuple[str, int | None]]]:
     """The legal syllables of ``fam`` as ``(text, harmony group)``, indexed by the group
     of the name so far (None: no group yet, any syllable fits).
 
