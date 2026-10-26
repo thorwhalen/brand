@@ -78,10 +78,11 @@ class Registry(Mapping):
         self._on_duplicate = on_duplicate
         self._items: dict[str, ComponentMeta] = {}
 
-    def _add(self, key: str, func, **meta_kwargs):
+    def _add(self, key: str, func, *, stacklevel: int = 3, **meta_kwargs):
         """Store ``func`` under ``key``, applying the ``on_duplicate`` policy.
 
-        Re-registering the same function (e.g. a module reload) is silent.
+        Re-registering the same module-level function (e.g. a module reload) is silent;
+        closures made in a factory are not recognised as the same.
 
         >>> r = Registry('scorers')
         >>> r.register('x')(lambda n: 1) and None
@@ -103,7 +104,7 @@ class Registry(Mapping):
             if self._on_duplicate == "raise":
                 raise ValueError(msg)
             if self._on_duplicate == "warn":
-                warnings.warn(msg, stacklevel=3)
+                warnings.warn(msg, stacklevel=stacklevel)
         self._items[key] = ComponentMeta(func=func, name=key, **meta_kwargs)
 
     # -- Registration ---------------------------------------------------------
@@ -146,9 +147,11 @@ class Registry(Mapping):
             max_workers=max_workers,
         )
 
+        bare = callable(name)
+
         def decorator(func):
             key = name if isinstance(name, str) else func.__name__
-            self._add(key, func, **meta_kwargs)
+            self._add(key, func, stacklevel=4 if bare else 3, **meta_kwargs)
             return func
 
         # @registry.register  (no parens, name is the function itself)

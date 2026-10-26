@@ -65,3 +65,12 @@ def test_warning_points_at_caller_and_callable_objects_warn():
     with pytest.warns(UserWarning) as w:
         r.register("c")(C())
     assert w[0].filename == __file__
+
+
+def test_bare_register_warning_points_at_caller():
+    r = Registry("scorers")
+    r.register(_f)
+    other = type(_f)(_g.__code__, globals(), "_f")
+    with pytest.warns(UserWarning) as w:
+        r.register(other)
+    assert w[0].filename == __file__

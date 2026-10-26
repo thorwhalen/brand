@@ -221,19 +221,25 @@ def phonotactic_ai(
     return list(dict.fromkeys(names))
 
 
+DEFAULT_ENUMERATE_LIMIT = 100_000  # the full product is huge; pass limit=None for all
+
+
 @generators.register(
     "phonotactic_enumerate",
     latency="medium",
     description="Enumerate every name of a phonotactic family (offline, no LLM)",
 )
 def phonotactic_enumerate(
-    *, family="japanese_cv", syllables: int = 3, limit: int | None = None
+    *,
+    family="japanese_cv",
+    syllables: int = 3,
+    limit: int | None = DEFAULT_ENUMERATE_LIMIT,
 ) -> Iterable[str]:
     """Lazily enumerate names of exactly ``syllables`` syllables legal in ``family``.
 
     Names come in product order (onset-less syllables first), so a small
     ``limit`` gives a lopsided sample; the full product is large, so cap it with
-    ``limit`` (or ``itertools.islice``) rather than materialising it.
+    ``limit`` (default ``DEFAULT_ENUMERATE_LIMIT``; ``None`` for no cap).
 
     >>> list(phonotactic_enumerate(family='bantu_prenasalised', syllables=2, limit=3))
     ['aa', 'ae', 'ai']
