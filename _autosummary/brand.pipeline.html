@@ -94,6 +94,7 @@ data-aria-dark="Switch to auto color mode">
 <li><a class="reference internal" href="#brand.pipeline.evaluate_name"><code class="docutils literal notranslate"><span class="pre">evaluate_name()</span></code></a></li>
 <li><a class="reference internal" href="#brand.pipeline.list_templates"><code class="docutils literal notranslate"><span class="pre">list_templates()</span></code></a></li>
 <li><a class="reference internal" href="#brand.pipeline.load_template"><code class="docutils literal notranslate"><span class="pre">load_template()</span></code></a></li>
+<li><a class="reference internal" href="#brand.pipeline.rescore_unknown"><code class="docutils literal notranslate"><span class="pre">rescore_unknown()</span></code></a></li>
 <li><a class="reference internal" href="#brand.pipeline.run_pipeline"><code class="docutils literal notranslate"><span class="pre">run_pipeline()</span></code></a></li>
 </ul>
 </div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
@@ -154,7 +155,10 @@ allowing inspection, resumption, and branching.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#brand.pipeline.load_template" title="brand.pipeline.load_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_template</span></code></a>(name)</p></td>
 <td><p>Load a pipeline template by name.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#brand.pipeline.run_pipeline" title="brand.pipeline.run_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pipeline</span></code></a>(stages, *[, names, context, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#brand.pipeline.rescore_unknown" title="brand.pipeline.rescore_unknown"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rescore_unknown</span></code></a>(project_name, scorer, *[, ...])</p></td>
+<td><p>Re-run <em>scorer</em> on the candidates whose persisted score is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#brand.pipeline.run_pipeline" title="brand.pipeline.run_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pipeline</span></code></a>(stages, *[, names, context, ...])</p></td>
 <td><p>Execute a brand evaluation pipeline.</p></td>
 </tr>
 </tbody>
@@ -216,6 +220,21 @@ objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="brand.pipeline.rescore_unknown">
+<span class="sig-prename descclassname"><span class="pre">brand.pipeline.</span></span><span class="sig-name descname"><span class="pre">rescore_unknown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/brand/pipeline.html#rescore_unknown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.pipeline.rescore_unknown" title="Link to this definition">#</a></dt>
+<dd><p>Re-run <em>scorer</em> on the candidates whose persisted score is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>Meant for network scorers that were throttled on the first pass.  Updates
+the stage’s <code class="docutils literal notranslate"><span class="pre">results.json</span></code> (and <code class="docutils literal notranslate"><span class="pre">final/</span></code> when it holds the same
+candidates) in place and returns the number of cells that are now known.
+<em>stage_index</em> defaults to the last score stage that has the scorer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -298,7 +317,7 @@ string to load from the templates registry.</p></li>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=bafade30"></script>
+      <script src="../_static/documentation_options.js?v=1e825a29"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

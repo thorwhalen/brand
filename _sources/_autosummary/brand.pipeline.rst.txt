@@ -11,5 +11,6 @@ brand.pipeline
       evaluate_name
       list_templates
       load_template
+      rescore_unknown
       run_pipeline
    

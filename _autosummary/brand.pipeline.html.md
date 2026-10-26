@@ -11,11 +11,12 @@ allowing inspection, resumption, and branching.
 
 ### Functions
 
-| [`evaluate_name`](#brand.pipeline.evaluate_name)(name, \*[, template, scorers])    | Evaluate a single name with a quick scorecard.   |
-|--------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| [`list_templates`](#brand.pipeline.list_templates)()                                | List available pipeline template names.          |
-| [`load_template`](#brand.pipeline.load_template)(name)                             | Load a pipeline template by name.                |
-| [`run_pipeline`](#brand.pipeline.run_pipeline)(stages, \*[, names, context, ...]) | Execute a brand evaluation pipeline.             |
+| [`evaluate_name`](#brand.pipeline.evaluate_name)(name, \*[, template, scorers])     | Evaluate a single name with a quick scorecard.                     |
+|---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| [`list_templates`](#brand.pipeline.list_templates)()                                 | List available pipeline template names.                            |
+| [`load_template`](#brand.pipeline.load_template)(name)                              | Load a pipeline template by name.                                  |
+| [`rescore_unknown`](#brand.pipeline.rescore_unknown)(project_name, scorer, \*[, ...]) | Re-run *scorer* on the candidates whose persisted score is `None`. |
+| [`run_pipeline`](#brand.pipeline.run_pipeline)(stages, \*[, names, context, ...])  | Execute a brand evaluation pipeline.                               |
 
 ### brand.pipeline.evaluate_name(name, , template=None, scorers=None)
 
@@ -65,6 +66,18 @@ True
 
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
+
+### brand.pipeline.rescore_unknown(project_name, scorer, , stage_index=None, pipeline_dir=None, scorer_params=None)
+
+Re-run *scorer* on the candidates whose persisted score is `None`.
+
+Meant for network scorers that were throttled on the first pass.  Updates
+the stage’s `results.json` (and `final/` when it holds the same
+candidates) in place and returns the number of cells that are now known.
+*stage_index* defaults to the last score stage that has the scorer.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
 
 ### brand.pipeline.run_pipeline(stages, , names=None, context=None, project_name=None, resume_from=None, pipeline_dir=None, on_stage_complete=None)
 

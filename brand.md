@@ -1,4 +1,4 @@
-> built 2026-10-26 06:35 UTC from cdb9786 (master) · brand 0.1.10. Details: build_info.json
+> built 2026-10-26 06:38 UTC from 7fb0a50 (master) · brand 0.1.11. Details: build_info.json
 
 # index.html.md
 
@@ -541,11 +541,12 @@ allowing inspection, resumption, and branching.
 
 ### Functions
 
-| [`evaluate_name`](_autosummary/brand.pipeline.html.md#brand.pipeline.evaluate_name)(name, \*[, template, scorers])    | Evaluate a single name with a quick scorecard.   |
-|--------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| [`list_templates`](_autosummary/brand.pipeline.html.md#brand.pipeline.list_templates)()                                | List available pipeline template names.          |
-| [`load_template`](_autosummary/brand.pipeline.html.md#brand.pipeline.load_template)(name)                             | Load a pipeline template by name.                |
-| [`run_pipeline`](_autosummary/brand.pipeline.html.md#brand.pipeline.run_pipeline)(stages, \*[, names, context, ...]) | Execute a brand evaluation pipeline.             |
+| [`evaluate_name`](_autosummary/brand.pipeline.html.md#brand.pipeline.evaluate_name)(name, \*[, template, scorers])     | Evaluate a single name with a quick scorecard.                     |
+|---------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| [`list_templates`](_autosummary/brand.pipeline.html.md#brand.pipeline.list_templates)()                                 | List available pipeline template names.                            |
+| [`load_template`](_autosummary/brand.pipeline.html.md#brand.pipeline.load_template)(name)                              | Load a pipeline template by name.                                  |
+| [`rescore_unknown`](_autosummary/brand.pipeline.html.md#brand.pipeline.rescore_unknown)(project_name, scorer, \*[, ...]) | Re-run *scorer* on the candidates whose persisted score is `None`. |
+| [`run_pipeline`](_autosummary/brand.pipeline.html.md#brand.pipeline.run_pipeline)(stages, \*[, names, context, ...])  | Execute a brand evaluation pipeline.                               |
 
 ### brand.pipeline.evaluate_name(name, , template=None, scorers=None)
 
@@ -596,6 +597,18 @@ True
 * **Return type:**
   [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
+### brand.pipeline.rescore_unknown(project_name, scorer, , stage_index=None, pipeline_dir=None, scorer_params=None)
+
+Re-run *scorer* on the candidates whose persisted score is `None`.
+
+Meant for network scorers that were throttled on the first pass.  Updates
+the stage’s `results.json` (and `final/` when it holds the same
+candidates) in place and returns the number of cells that are now known.
+*stage_index* defaults to the last score stage that has the scorer.
+
+* **Return type:**
+  [`int`](https://docs.python.org/3/builtins/functions.html#int)
+
 ### brand.pipeline.run_pipeline(stages, , names=None, context=None, project_name=None, resume_from=None, pipeline_dir=None, on_stage_complete=None)
 
 Execute a brand evaluation pipeline.
@@ -639,7 +652,7 @@ Discoverable, extensible component registries for brand.
 |-------------------------------------------------------------------------------------------|----------------------------------------------------------|
 | [`Registry`](_autosummary/brand.registry.html.md#brand.registry.Registry)(name)                           | A discoverable, extensible registry of named components. |
 
-### *class* brand.registry.ComponentMeta(func, name, cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=())
+### *class* brand.registry.ComponentMeta(func, name, cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -669,7 +682,7 @@ check membership just like a dict.
 'cheap'
 ```
 
-#### register(name=None, , cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=())
+#### register(name=None, , cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
 Register a function. Usable as decorator with or without arguments.
 
@@ -831,20 +844,18 @@ use: To be able to track processes (and the time they take)
 
 # About this build
 
-This documentation was built on **2026-10-26 06:35 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/cdb978616c119e13bb5b30f44bef2d251e27d1ba"><code>cdb9786</code></a> on branch <code>master</code>, for **brand 0.1.10** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 06:38 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/7fb0a50235a8bed72f2576c5904bdd94846a9036"><code>7fb0a50</code></a> on branch <code>master</code>, for **brand 0.1.11** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.10) is ahead of the latest release on PyPI (0.1.9): these docs describe unreleased code.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/cdb978616c119e13bb5b30f44bef2d251e27d1ba"><code>cdb978616c119e13bb5b30f44bef2d251e27d1ba</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/7fb0a50235a8bed72f2576c5904bdd94846a9036"><code>7fb0a50235a8bed72f2576c5904bdd94846a9036</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.10</code>                                                                                                                                     |
+| Tags at this commit | <code>0.1.11</code>                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -853,9 +864,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40280553207">40280553207</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40280857844">40280857844</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>86e851330cd78930a3b2b10d28e64a42f2882832</code> (in the history of the built commit) |
+| Event commit | <code>c24a7b2963d7500d08b7d66eabc3a1cf8e8b5735</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -880,13 +891,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.9/">0.1.9</a>, older than the documented version (0.1.10).
+Latest release: <a href="https://pypi.org/project/brand/0.1.11/">0.1.11</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout cdb978616c119e13bb5b30f44bef2d251e27d1ba
+git checkout 7fb0a50235a8bed72f2576c5904bdd94846a9036
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

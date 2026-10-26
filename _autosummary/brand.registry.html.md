@@ -8,7 +8,7 @@ Discoverable, extensible component registries for brand.
 |-------------------------------------------------------------------------------------------|----------------------------------------------------------|
 | [`Registry`](#brand.registry.Registry)(name)                           | A discoverable, extensible registry of named components. |
 
-### *class* brand.registry.ComponentMeta(func, name, cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=())
+### *class* brand.registry.ComponentMeta(func, name, cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -38,7 +38,7 @@ check membership just like a dict.
 'cheap'
 ```
 
-#### register(name=None, , cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=())
+#### register(name=None, , cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
 Register a function. Usable as decorator with or without arguments.
 

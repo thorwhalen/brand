@@ -2,20 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-10-26 06:35 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/cdb978616c119e13bb5b30f44bef2d251e27d1ba"><code>cdb9786</code></a> on branch <code>master</code>, for **brand 0.1.10** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 06:38 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/7fb0a50235a8bed72f2576c5904bdd94846a9036"><code>7fb0a50</code></a> on branch <code>master</code>, for **brand 0.1.11** (from <code>pyproject.toml</code>).
 
-#### WARNING
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.10) is ahead of the latest release on PyPI (0.1.9): these docs describe unreleased code.
+#### NOTE
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 
 ## Source
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/cdb978616c119e13bb5b30f44bef2d251e27d1ba"><code>cdb978616c119e13bb5b30f44bef2d251e27d1ba</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/7fb0a50235a8bed72f2576c5904bdd94846a9036"><code>7fb0a50235a8bed72f2576c5904bdd94846a9036</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.10</code>                                                                                                                                     |
+| Tags at this commit | <code>0.1.11</code>                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -24,9 +22,9 @@ The documentation and the package may be misaligned:
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40280553207">40280553207</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40280857844">40280857844</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>86e851330cd78930a3b2b10d28e64a42f2882832</code> (in the history of the built commit) |
+| Event commit | <code>c24a7b2963d7500d08b7d66eabc3a1cf8e8b5735</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -51,13 +49,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.9/">0.1.9</a>, older than the documented version (0.1.10).
+Latest release: <a href="https://pypi.org/project/brand/0.1.11/">0.1.11</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout cdb978616c119e13bb5b30f44bef2d251e27d1ba
+git checkout 7fb0a50235a8bed72f2576c5904bdd94846a9036
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
