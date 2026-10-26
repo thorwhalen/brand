@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 4.401132822036743,
+  "collection_duration_seconds": 7.227888584136963,
   "commit_message": "Add phonotactic_family generator, prompt and validator (#13)\n\n* Add phonotactic_family generator: family inventories, LLM prompt template and validator (#10)\n\n* Harden phonotactic validator after adversarial review (#10)",
   "commit_sha": "d2244565f4f2460c7a41690cad6fcf697501cb8a",
   "metrics": {
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36024,
-      "comment_lines_ratio": 0.06025853762980409,
-      "docs_lines": 80226,
-      "empty_lines": 74731,
-      "empty_lines_ratio": 0.12500501819933627,
+      "comment_lines": 36476,
+      "comment_lines_ratio": 0.06039552812144011,
+      "docs_lines": 81034,
+      "empty_lines": 75710,
+      "empty_lines_ratio": 0.12535764431610458,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1289,
-      "function_lines": 297794,
-      "function_lines_ratio": 0.4981298843806873,
-      "mean_lines_per_function": 16.666330870830535,
-      "num_classes": 3250,
-      "num_functions": 17868,
+      "files_analyzed": 1298,
+      "function_lines": 302123,
+      "function_lines_ratio": 0.5002433968262379,
+      "mean_lines_per_function": 16.653235585933192,
+      "num_classes": 3309,
+      "num_functions": 18142,
       "pypi_version": "0.1.12",
       "total_errors": 1,
-      "total_lines": 597824
+      "total_lines": 603952
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T09:11:37.753640Z",
+  "timestamp": "2026-10-26T09:11:44.117297Z",
   "workflow_status": {}
 }
