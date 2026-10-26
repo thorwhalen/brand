@@ -70,4 +70,4 @@ def test_rescore_unknown(tmp_path):
 
     final = json.load(open(tmp_path / "p" / "final" / "results.json"))
     assert all(c["scores"]["_flaky_test"] is True for c in final)
-    del brand.scorers._items["_flaky_test"]
+    brand.scorers.unregister("_flaky_test")

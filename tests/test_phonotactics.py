@@ -3,7 +3,12 @@
 import pytest
 
 import brand
-from brand._phonotactics import phonotactic_prompt, validate_phonotactic
+from brand._phonotactics import (
+    PHONOTACTIC_FAMILIES,
+    PhonotacticFamily,
+    phonotactic_prompt,
+    validate_phonotactic,
+)
 
 
 def test_generator_filters_off_family_names():
@@ -130,3 +135,74 @@ def test_enumerate_is_lazy_and_deduplicated():
     assert len(out) == len(set(out)) == 3000
     with pytest.raises(ValueError):
         phonotactic_enumerate(limit=-1)
+
+
+def _brute_force(family, syllables):
+    """Every legal name, found the slow way: build all, then validate."""
+    import itertools
+
+    fam = PHONOTACTIC_FAMILIES[family]
+    parts = [o + v + c for o in ("",) + fam.onsets for v in fam.vowels for c in ("",) + fam.codas]
+    return {
+        n
+        for n in map("".join, itertools.product(parts, repeat=syllables))
+        if validate_phonotactic(n, family)
+    }
+
+
+@pytest.mark.parametrize("family", sorted(PHONOTACTIC_FAMILIES))
+def test_enumerate_finds_exactly_the_legal_names(family):
+    from brand._phonotactics import phonotactic_enumerate
+
+    out = list(phonotactic_enumerate(family=family, syllables=2, limit=None))
+    assert len(out) == len(set(out))
+    assert set(out) == _brute_force(family, 2)
+
+
+def test_enumerate_small_limit_is_not_all_onsetless():
+    from brand._phonotactics import phonotactic_enumerate
+
+    first = list(phonotactic_enumerate(family="japanese_cv", syllables=2, limit=5))
+    assert not any(n[0] in "aeiou" for n in first)
+
+
+def test_enumerate_seed_is_reproducible_varied_and_valid():
+    from brand._phonotactics import phonotactic_enumerate
+
+    run = lambda seed: list(
+        phonotactic_enumerate(family="finnic_harmony", syllables=3, limit=200, seed=seed)
+    )
+    a = run(1)
+    assert a == run(1) and a != run(2)
+    assert len(set(a)) == 200 and all(validate_phonotactic(n, "finnic_harmony") for n in a)
+    assert len({n[0] for n in a}) > 3  # spread over first syllables, not lopsided
+
+
+def test_enumerate_seed_needs_a_limit_and_stops_when_exhausted():
+    from brand._phonotactics import phonotactic_enumerate
+
+    with pytest.raises(ValueError, match="needs a limit"):
+        phonotactic_enumerate(seed=0, limit=None)
+    tiny = PhonotacticFamily(onsets=("k", "t"), vowels=("a", "i"), min_syllables=1)
+    out = list(phonotactic_enumerate(family=tiny, syllables=1, limit=100, seed=0))
+    assert sorted(out) == ["a", "i", "ka", "ki", "ta", "ti"]  # stopped by MAX_SAMPLE_STALLS
+
+
+def test_enumerate_never_yields_what_the_validator_rejects():
+    from brand._phonotactics import phonotactic_enumerate
+
+    # "kai" is illegal but is built as "ka"+"i": a ban that spans two syllables
+    odd = PhonotacticFamily(
+        onsets=("k",), vowels=("a", "i", "ai"), illegal_syllables=("kai",), min_syllables=1
+    )
+    for kw in ({}, {"seed": 0}):
+        out = list(phonotactic_enumerate(family=odd, syllables=2, limit=500, **kw))
+        assert out and all(validate_phonotactic(n, odd) for n in out)
+
+
+def test_enumerate_of_a_family_with_no_legal_syllable_is_empty():
+    from brand._phonotactics import phonotactic_enumerate
+
+    dead = PhonotacticFamily(onsets=("k",), vowels=("a",), illegal_syllables=("k", "a"), min_syllables=1)
+    assert list(phonotactic_enumerate(family=dead, syllables=1)) == []
+    assert list(phonotactic_enumerate(family=dead, syllables=1, limit=3, seed=0)) == []
