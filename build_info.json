@@ -1,34 +1,34 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-26T06:41:35Z",
+  "built_at": "2026-10-26T09:12:39Z",
   "package": {
     "name": "brand",
-    "version": "0.1.12",
+    "version": "0.1.13",
     "display_name": "brand",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "46c312be416d115b1ba48fdc7300cb6ec226f938",
-    "short_commit": "46c312b",
+    "commit": "407a19ee6843370539d7fa1dd06bcb3f22b08e3f",
+    "short_commit": "407a19e",
     "branch": "master",
     "tags": [
-      "0.1.12"
+      "0.1.13"
     ],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/brand",
-    "commit_url": "https://github.com/thorwhalen/brand/commit/46c312be416d115b1ba48fdc7300cb6ec226f938",
+    "commit_url": "https://github.com/thorwhalen/brand/commit/407a19ee6843370539d7fa1dd06bcb3f22b08e3f",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/brand",
-    "sha": "d259f7a7b5fc0b3b1eae75bd55031d7d95cb3fd8",
+    "sha": "d2244565f4f2460c7a41690cad6fcf697501cb8a",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "40281126437",
-    "run_url": "https://github.com/thorwhalen/brand/actions/runs/40281126437",
+    "run_id": "40297544467",
+    "run_url": "https://github.com/thorwhalen/brand/actions/runs/40297544467",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -62,16 +62,14 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.11",
-    "relation": "ahead",
+    "latest": "0.1.13",
+    "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/brand && cd brand\ngit checkout 46c312be416d115b1ba48fdc7300cb6ec226f938\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/brand && cd brand\ngit checkout 407a19ee6843370539d7fa1dd06bcb3f22b08e3f\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": false,
-    "notes": [
-      "The documented version (0.1.12) is ahead of the latest release on PyPI (0.1.11): these docs describe unreleased code."
-    ]
+    "aligned": true,
+    "notes": []
   }
 }
