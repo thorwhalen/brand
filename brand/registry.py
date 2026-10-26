@@ -1,5 +1,6 @@
 """Discoverable, extensible component registries for brand."""
 
+import inspect
 import warnings
 from collections.abc import Mapping
 from dataclasses import dataclass, field
@@ -16,6 +17,8 @@ def _same_function(a, b) -> bool:
     """Same object, or a reloaded module-level function of the same dotted name."""
     if a is b:
         return True
+    if not (inspect.isfunction(a) and inspect.isfunction(b)):
+        return False
     ident = _identity(a)
     return ident == _identity(b) and "<" not in ident
 
@@ -100,7 +103,7 @@ class Registry(Mapping):
             if self._on_duplicate == "raise":
                 raise ValueError(msg)
             if self._on_duplicate == "warn":
-                warnings.warn(msg, stacklevel=4)
+                warnings.warn(msg, stacklevel=3)
         self._items[key] = ComponentMeta(func=func, name=key, **meta_kwargs)
 
     # -- Registration ---------------------------------------------------------
@@ -150,10 +153,7 @@ class Registry(Mapping):
 
         # @registry.register  (no parens, name is the function itself)
         if callable(name):
-            func = name
-            name_str = func.__name__
-            self._add(name_str, func)
-            return func
+            return decorator(name)
 
         return decorator
 

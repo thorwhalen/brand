@@ -47,7 +47,21 @@ def test_raise_and_overwrite_modes():
 def test_bare_decorator_and_bad_policy():
     r = Registry("scorers")
     r.register(_f)
-    with pytest.warns(UserWarning):
-        r.register(_f.__class__(_g.__code__, globals(), "_f"))
+    assert r["_f"].func is _f
     with pytest.raises(ValueError):
         Registry("x", on_duplicate="nope")
+
+
+def test_warning_points_at_caller_and_callable_objects_warn():
+    class C:
+        def __call__(self, n):
+            return 0
+
+        def __repr__(self):
+            return "C()"
+
+    r = Registry("scorers")
+    r.register("c")(C())
+    with pytest.warns(UserWarning) as w:
+        r.register("c")(C())
+    assert w[0].filename == __file__

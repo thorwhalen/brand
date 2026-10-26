@@ -113,3 +113,20 @@ def test_enumerate_rejects_out_of_range_syllables():
 
     with pytest.raises(ValueError):
         phonotactic_enumerate(family="japanese_cv", syllables=9)
+
+
+def test_enumerate_is_lazy_and_deduplicated():
+    import time
+
+    from brand._phonotactics import phonotactic_enumerate
+
+    t0 = time.time()
+    assert (
+        len(list(phonotactic_enumerate(family="japanese_cv", syllables=4, limit=10)))
+        == 10
+    )
+    assert time.time() - t0 < 2
+    out = list(phonotactic_enumerate(family="finnic_harmony", syllables=2, limit=3000))
+    assert len(out) == len(set(out)) == 3000
+    with pytest.raises(ValueError):
+        phonotactic_enumerate(limit=-1)

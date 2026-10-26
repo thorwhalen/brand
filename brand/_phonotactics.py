@@ -223,15 +223,17 @@ def phonotactic_ai(
 
 @generators.register(
     "phonotactic_enumerate",
+    latency="medium",
     description="Enumerate every name of a phonotactic family (offline, no LLM)",
 )
 def phonotactic_enumerate(
-    *, family="japanese_cv", syllables: int = 3, limit: int | None = 100_000
+    *, family="japanese_cv", syllables: int = 3, limit: int | None = None
 ) -> Iterable[str]:
-    """Enumerate names of exactly ``syllables`` syllables legal in ``family``.
+    """Lazily enumerate names of exactly ``syllables`` syllables legal in ``family``.
 
-    The product grows fast (the default ``japanese_cv`` has ~100 syllables), so
-    ``limit`` caps the number yielded; pass ``limit=None`` for all of them.
+    Names come in product order (onset-less syllables first), so a small
+    ``limit`` gives a lopsided sample; the full product is large, so cap it with
+    ``limit`` (or ``itertools.islice``) rather than materialising it.
 
     >>> list(phonotactic_enumerate(family='bantu_prenasalised', syllables=2, limit=3))
     ['aa', 'ae', 'ai']
@@ -241,12 +243,18 @@ def phonotactic_enumerate(
         raise ValueError(
             f"syllables must be in [{fam.min_syllables}, {fam.max_syllables}]"
         )
+    if limit is not None and limit < 0:
+        raise ValueError("limit must be >= 0")
     codas = ("",) + fam.codas
     onsets = ("",) + fam.onsets
     parts = [o + v + c for o in onsets for v in fam.vowels for c in codas]
-    names = (
-        name
-        for combo in itertools.product(parts, repeat=syllables)
-        if validate_phonotactic(name := "".join(combo), fam)
-    )
-    return itertools.islice(dict.fromkeys(names), limit)
+
+    def names():
+        seen = set()
+        for combo in itertools.product(parts, repeat=syllables):
+            name = "".join(combo)
+            if name not in seen and validate_phonotactic(name, fam):
+                seen.add(name)
+                yield name
+
+    return itertools.islice(names(), limit)
