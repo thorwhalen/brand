@@ -1,0 +1,51 @@
+{
+  "collection_duration_seconds": 6.088342666625977,
+  "commit_message": "Fix bare-register warning location, document reload scope, cap enumerate by default (#16)",
+  "commit_sha": "ea2ece413cf22f05accd6b9a94ff448e625132aa",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 36486,
+      "comment_lines_ratio": 0.06038948786615865,
+      "docs_lines": 81079,
+      "empty_lines": 75750,
+      "empty_lines_ratio": 0.12537695844602087,
+      "errors": [
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
+      ],
+      "files_analyzed": 1299,
+      "function_lines": 302234,
+      "function_lines_ratio": 0.5002399954980155,
+      "mean_lines_per_function": 16.64925907563488,
+      "num_classes": 3309,
+      "num_functions": 18153,
+      "pypi_version": "0.1.13",
+      "total_errors": 1,
+      "total_lines": 604178
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-26T09:33:35Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40300340878",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-26T09:35:46.439952Z",
+  "workflow_status": {}
+}
