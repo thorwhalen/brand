@@ -17,7 +17,7 @@
 - [brand.templates](_autosummary/brand.templates.html.md): Pipeline templates — pre-configured pipelines for common use cases.
 - [brand.util](_autosummary/brand.util.html.md): Util functions
 - [For AI agents](ai-agents.html.md): &#96;brand&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-26 09:12 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-10-26 09:28 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 
