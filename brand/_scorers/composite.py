@@ -6,7 +6,6 @@ suitable for ranking large candidate sets before expensive network checks.
 
 from brand.registry import scorers
 
-
 # ---------------------------------------------------------------------------
 # Sub-score helpers (inlined to avoid circular imports with other scorer modules)
 # ---------------------------------------------------------------------------
@@ -342,3 +341,91 @@ def brandability_score(name: str) -> float:
     )
 
     return round(max(0.0, min(1.0, score)), 4)
+
+
+# ---------------------------------------------------------------------------
+# Phonaesthetics
+# ---------------------------------------------------------------------------
+
+# Consonants that sound like flow (liquids, nasals, v), as opposed to pulse
+# (stops).  Override per call through ``flow_consonants``.
+FLOW_CONSONANTS = "lmnrv"
+
+DEFAULT_PHONAESTHETIC_WEIGHTS = {
+    "sonority": 0.35,
+    "vowel_variety": 0.15,
+    "brandability": 0.35,
+    "pronunciation_entropy": -0.04,  # per bit
+    "reduplication": -0.15,
+    "english_word": -0.30,
+}
+
+ENGLISH_WORD_ZIPF = 3  # at or above this, the name reads as an ordinary English word
+
+
+@scorers.register(
+    "phonaesthetics",
+    description=(
+        "How a name sounds: sonority (flow vs pulse consonants), vowel variety, "
+        "reduplication and brandability, combined into one weighted score"
+    ),
+    cost="cheap",
+    requires_network=False,
+    latency="fast",
+)
+def phonaesthetics(
+    name: str,
+    *,
+    weights: dict | None = None,
+    flow_consonants: str = FLOW_CONSONANTS,
+    languages: tuple[str, ...] = ("en", "fr"),
+) -> dict:
+    """Components of a name's sound plus their weighted ``score``.
+
+    - ``sonority``: share of consonants in *flow_consonants*
+    - ``vowel_variety``: distinct vowels / vowels
+    - ``reduplication``: whether a letter pair repeats at once (``vavi``)
+    - ``brandability``: ``brandability_score``
+    - ``pronunciation_entropy``: bits, over *languages*
+    - ``english_word``: whether wordfreq's English zipf is at least
+      ``ENGLISH_WORD_ZIPF``
+
+    *weights* overrides entries of ``DEFAULT_PHONAESTHETIC_WEIGHTS``.
+
+    >>> r = phonaesthetics('lumeni')
+    >>> r['sonority'], r['reduplication']
+    (1.0, False)
+    >>> phonaesthetics('lalamo')['reduplication']
+    True
+    """
+    from brand._scorers.linguistic import pronunciation_entropy
+
+    n = name.lower()
+    cons = [c for c in n if c.isalpha() and c not in "aeiouy"]
+    vowels = [c for c in n if c in "aeiou"]
+    try:
+        from wordfreq import zipf_frequency
+
+        english_word = zipf_frequency(n, "en") >= ENGLISH_WORD_ZIPF
+    except ImportError:
+        english_word = False
+
+    parts = {
+        "sonority": sum(c in flow_consonants for c in cons) / (len(cons) or 1),
+        "vowel_variety": len(set(vowels)) / (len(vowels) or 1),
+        "brandability": brandability_score(name),
+        "pronunciation_entropy": pronunciation_entropy(name, languages=languages),
+        "reduplication": any(
+            n[i : i + 2] == n[i + 2 : i + 4] for i in range(len(n) - 3)
+        ),
+        "english_word": english_word,
+    }
+    w = {**DEFAULT_PHONAESTHETIC_WEIGHTS, **(weights or {})}
+    score = sum(w[k] * float(v) for k, v in parts.items())
+    return {
+        **{
+            k: round(float(v), 4) if not isinstance(v, bool) else v
+            for k, v in parts.items()
+        },
+        "score": round(score, 4),
+    }
