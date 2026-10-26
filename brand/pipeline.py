@@ -158,7 +158,9 @@ def rescore_unknown(
     proj = os.path.join(pipeline_dir or PIPELINES_DIR, project_name)
     stage_dirs = sorted(d for d in os.listdir(proj) if d.endswith("_score"))
     if stage_index is not None:
-        stage_dirs = [d for d in stage_dirs if d.startswith(f"stage_{stage_index:02d}_")]
+        stage_dirs = [
+            d for d in stage_dirs if d.startswith(f"stage_{stage_index:02d}_")
+        ]
     path = None
     for d in reversed(stage_dirs):
         cands = _read_json(os.path.join(proj, d, "results.json"))
@@ -170,9 +172,7 @@ def rescore_unknown(
 
     unknown = [c for c in cands if c["scores"].get(scorer) is None]
     if unknown:
-        _score_parallel(
-            unknown, scorer, scorer_registry[scorer], scorer_params or {}
-        )
+        _score_parallel(unknown, scorer, scorer_registry[scorer], scorer_params or {})
     _write_json(path, cands)
 
     final = os.path.join(proj, "final", "results.json")

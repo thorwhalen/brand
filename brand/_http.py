@@ -22,7 +22,9 @@ def _retry_delay(response, attempt: int, *, backoff: float) -> float:
     4.0
     """
     try:
-        return min(float(getattr(response, "headers", {})["Retry-After"]), MAX_RETRY_AFTER)
+        return min(
+            float(getattr(response, "headers", {})["Retry-After"]), MAX_RETRY_AFTER
+        )
     except (AttributeError, KeyError, TypeError, ValueError):
         return backoff * 2**attempt
 
