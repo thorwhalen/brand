@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 7.208979606628418,
-  "commit_message": "Add phonaesthetics scorer (#10) (#12)",
-  "commit_sha": "d259f7a7b5fc0b3b1eae75bd55031d7d95cb3fd8",
+  "collection_duration_seconds": 5.062877655029297,
+  "commit_message": "Harden phonotactic validator after adversarial review (#10)",
+  "commit_sha": "4671ea087b26868e6abdc10aef588a13810a1623",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -12,22 +12,22 @@
     },
     "umpyre_stats": {
       "comment_lines": 36476,
-      "comment_lines_ratio": 0.060416335400434625,
-      "docs_lines": 81014,
-      "empty_lines": 75674,
-      "empty_lines_ratio": 0.12534120421900674,
+      "comment_lines_ratio": 0.060398228256819966,
+      "docs_lines": 81030,
+      "empty_lines": 75703,
+      "empty_lines_ratio": 0.12535165790454111,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1297,
-      "function_lines": 302016,
-      "function_lines_ratio": 0.5002385116870727,
-      "mean_lines_per_function": 16.655600286769978,
-      "num_classes": 3308,
-      "num_functions": 18133,
-      "pypi_version": "0.1.11",
+      "files_analyzed": 1298,
+      "function_lines": 302095,
+      "function_lines_ratio": 0.5002193981040692,
+      "mean_lines_per_function": 16.653528114663725,
+      "num_classes": 3309,
+      "num_functions": 18140,
+      "pypi_version": "0.1.12",
       "total_errors": 1,
-      "total_lines": 603744
+      "total_lines": 603925
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -38,14 +38,14 @@
     },
     "workflow_status": {
       "last_run_status": "success",
-      "last_success_timestamp": "2026-10-26T06:39:12Z",
+      "last_success_timestamp": "2026-10-26T06:42:05Z",
       "recent_failure_count": 0,
-      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40281044864",
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40281322268",
       "total_runs_analyzed": 10
     }
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T06:40:44.507236Z",
+  "timestamp": "2026-10-26T09:10:01.358625Z",
   "workflow_status": {}
 }

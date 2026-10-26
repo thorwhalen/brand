@@ -1,28 +1,28 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-26T06:40:44.507236Z
-commit_sha,d259f7a7b5fc0b3b1eae75bd55031d7d95cb3fd8
-commit_message,Add phonaesthetics scorer (#10) (#12)
+timestamp,2026-10-26T09:10:01.358625Z
+commit_sha,4671ea087b26868e6abdc10aef588a13810a1623
+commit_message,Harden phonotactic validator after adversarial review (#10)
 python_version,3.10
-metrics.umpyre_stats.num_functions,18133
-metrics.umpyre_stats.num_classes,3308
-metrics.umpyre_stats.total_lines,603744
-metrics.umpyre_stats.empty_lines,75674
+metrics.umpyre_stats.num_functions,18140
+metrics.umpyre_stats.num_classes,3309
+metrics.umpyre_stats.total_lines,603925
+metrics.umpyre_stats.empty_lines,75703
 metrics.umpyre_stats.comment_lines,36476
-metrics.umpyre_stats.docs_lines,81014
-metrics.umpyre_stats.function_lines,302016
-metrics.umpyre_stats.empty_lines_ratio,0.12534120421900674
-metrics.umpyre_stats.comment_lines_ratio,0.060416335400434625
-metrics.umpyre_stats.function_lines_ratio,0.5002385116870727
-metrics.umpyre_stats.mean_lines_per_function,16.655600286769978
-metrics.umpyre_stats.files_analyzed,1297
-metrics.umpyre_stats.pypi_version,0.1.11
+metrics.umpyre_stats.docs_lines,81030
+metrics.umpyre_stats.function_lines,302095
+metrics.umpyre_stats.empty_lines_ratio,0.12535165790454111
+metrics.umpyre_stats.comment_lines_ratio,0.060398228256819966
+metrics.umpyre_stats.function_lines_ratio,0.5002193981040692
+metrics.umpyre_stats.mean_lines_per_function,16.653528114663725
+metrics.umpyre_stats.files_analyzed,1298
+metrics.umpyre_stats.pypi_version,0.1.12
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-26T06:39:12Z
+metrics.workflow_status.last_success_timestamp,2026-10-26T06:42:05Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/40281044864
+metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/40281322268
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -38,4 +38,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,7.208979606628418
+collection_duration_seconds,5.062877655029297
