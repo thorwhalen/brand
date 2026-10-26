@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 7.099652051925659,
+  "collection_duration_seconds": 7.145255088806152,
   "commit_message": "Merge 3e13b962dc366eddcf138a57df4aa9fcc506285f into 7fb0a50235a8bed72f2576c5904bdd94846a9036",
   "commit_sha": "ecb735267e9d10a146c68485314b52d0edd77fce",
   "metrics": {
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36476,
-      "comment_lines_ratio": 0.060416335400434625,
-      "docs_lines": 81014,
-      "empty_lines": 75674,
-      "empty_lines_ratio": 0.12534120421900674,
+      "comment_lines": 36024,
+      "comment_lines_ratio": 0.06027678731282722,
+      "docs_lines": 80210,
+      "empty_lines": 74702,
+      "empty_lines_ratio": 0.12499435281597877,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1297,
-      "function_lines": 302016,
-      "function_lines_ratio": 0.5002385116870727,
-      "mean_lines_per_function": 16.655600286769978,
-      "num_classes": 3308,
-      "num_functions": 18133,
+      "files_analyzed": 1288,
+      "function_lines": 297715,
+      "function_lines_ratio": 0.49814856026089155,
+      "mean_lines_per_function": 16.66843961704272,
+      "num_classes": 3249,
+      "num_functions": 17861,
       "pypi_version": "0.1.11",
       "total_errors": 1,
-      "total_lines": 603744
+      "total_lines": 597643
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T06:39:16.617234Z",
+  "timestamp": "2026-10-26T06:39:22.587746Z",
   "workflow_status": {}
 }

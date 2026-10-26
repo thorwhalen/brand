@@ -1,0 +1,51 @@
+{
+  "collection_duration_seconds": 7.145255088806152,
+  "commit_message": "Merge 3e13b962dc366eddcf138a57df4aa9fcc506285f into 7fb0a50235a8bed72f2576c5904bdd94846a9036",
+  "commit_sha": "ecb735267e9d10a146c68485314b52d0edd77fce",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 36024,
+      "comment_lines_ratio": 0.06027678731282722,
+      "docs_lines": 80210,
+      "empty_lines": 74702,
+      "empty_lines_ratio": 0.12499435281597877,
+      "errors": [
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
+      ],
+      "files_analyzed": 1288,
+      "function_lines": 297715,
+      "function_lines_ratio": 0.49814856026089155,
+      "mean_lines_per_function": 16.66843961704272,
+      "num_classes": 3249,
+      "num_functions": 17861,
+      "pypi_version": "0.1.11",
+      "total_errors": 1,
+      "total_lines": 597643
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...\nTry 'wily report --help' for help.\n\nError: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-10-26T06:39:12Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/40281044864",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-10-26T06:39:22.587746Z",
+  "workflow_status": {}
+}
