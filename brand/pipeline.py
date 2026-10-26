@@ -14,6 +14,7 @@ import math
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+from brand._http import RateLimiter
 from brand.config import PIPELINES_DIR
 from brand.registry import scorers as scorer_registry, generators as generator_registry
 from brand.stages import Generate, Score, Filter, stages_to_dicts, stages_from_dicts
@@ -110,9 +111,16 @@ def _score_parallel(
     *,
     max_workers: int = 10,
 ) -> list[dict]:
-    """Score candidates in parallel using a thread pool."""
+    """Score candidates in parallel using a thread pool.
+
+    The scorer's registered ``max_workers`` and ``rate_limit`` (requests per
+    second, shared by all threads) take precedence over the defaults.
+    """
+    max_workers = scorer_meta.max_workers or max_workers
+    limiter = RateLimiter(scorer_meta.rate_limit)
 
     def _score_one(cand):
+        limiter.wait()
         try:
             result = scorer_meta.func(cand["name"], **scorer_params)
         except Exception as e:
@@ -130,6 +138,52 @@ def _score_parallel(
         cand["scores"][scorer_name] = results.get(cand["name"])
 
     return candidates
+
+
+def rescore_unknown(
+    project_name: str,
+    scorer: str,
+    *,
+    stage_index: int | None = None,
+    pipeline_dir: str | None = None,
+    scorer_params: dict | None = None,
+) -> int:
+    """Re-run *scorer* on the candidates whose persisted score is ``None``.
+
+    Meant for network scorers that were throttled on the first pass.  Updates
+    the stage's ``results.json`` (and ``final/`` when it holds the same
+    candidates) in place and returns the number of cells that are now known.
+    *stage_index* defaults to the last score stage that has the scorer.
+    """
+    proj = os.path.join(pipeline_dir or PIPELINES_DIR, project_name)
+    stage_dirs = sorted(d for d in os.listdir(proj) if d.endswith("_score"))
+    if stage_index is not None:
+        stage_dirs = [d for d in stage_dirs if d.startswith(f"stage_{stage_index:02d}_")]
+    path = None
+    for d in reversed(stage_dirs):
+        cands = _read_json(os.path.join(proj, d, "results.json"))
+        if any(scorer in c["scores"] for c in cands):
+            path = os.path.join(proj, d, "results.json")
+            break
+    if path is None:
+        raise FileNotFoundError(f"No score stage with scorer {scorer!r} in {proj}")
+
+    unknown = [c for c in cands if c["scores"].get(scorer) is None]
+    if unknown:
+        _score_parallel(
+            unknown, scorer, scorer_registry[scorer], scorer_params or {}
+        )
+    _write_json(path, cands)
+
+    final = os.path.join(proj, "final", "results.json")
+    if os.path.exists(final):
+        by_name = {c["name"]: c for c in cands}
+        merged = _read_json(final)
+        for c in merged:
+            if c["name"] in by_name and scorer in by_name[c["name"]]["scores"]:
+                c["scores"][scorer] = by_name[c["name"]]["scores"][scorer]
+        _write_json(final, merged)
+    return sum(c["scores"].get(scorer) is not None for c in unknown)
 
 
 def _compute_aggregate(scores: dict) -> float:

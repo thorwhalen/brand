@@ -35,7 +35,13 @@ from brand.registry import scorers, generators, filters, pipelines
 from brand.stages import Generate, Score, Filter
 
 # -- Pipeline engine ----------------------------------------------------------
-from brand.pipeline import run_pipeline, evaluate_name, load_template, list_templates
+from brand.pipeline import (
+    run_pipeline,
+    evaluate_name,
+    load_template,
+    list_templates,
+    rescore_unknown,
+)
 
 # -- Backward-compatible API from brand.base ----------------------------------
 from brand.base import (

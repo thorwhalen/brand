@@ -16,6 +16,8 @@ class ComponentMeta:
     parallelizable: bool = True
     description: str = ""
     requires_extras: tuple = ()
+    rate_limit: float | None = None  # max requests/second across all threads
+    max_workers: int | None = None  # thread-pool size; None = pipeline default
 
     def __call__(self, *args, **kwargs):
         return self.func(*args, **kwargs)
@@ -66,6 +68,8 @@ class Registry(Mapping):
         parallelizable=True,
         description="",
         requires_extras=(),
+        rate_limit=None,
+        max_workers=None,
     ):
         """Register a function. Usable as decorator with or without arguments.
 
@@ -88,6 +92,8 @@ class Registry(Mapping):
             parallelizable=parallelizable,
             description=description,
             requires_extras=requires_extras,
+            rate_limit=rate_limit,
+            max_workers=max_workers,
         )
 
         def decorator(func):

@@ -13,6 +13,7 @@ import socket
 
 import requests
 
+from brand._http import request_with_retry
 from brand.registry import scorers
 
 
@@ -64,7 +65,7 @@ def _rdap_is_available(domain: str, *, timeout: int = 10) -> bool | None:
     if base is None:
         return None
     try:
-        r = requests.get(base + domain, timeout=timeout)
+        r = request_with_retry("GET", base + domain, timeout=timeout)
     except requests.RequestException:
         return None
     return {404: True, 200: False}.get(r.status_code)
@@ -75,7 +76,7 @@ def _url_is_available(
 ) -> bool | None:
     """Check URL status code.  True if the resource doesn't exist, None if unclear."""
     try:
-        r = requests.get(url, timeout=10, allow_redirects=True)
+        r = request_with_retry("GET", url, timeout=10, allow_redirects=True)
     except requests.RequestException:
         return None
     if r.status_code in available_codes:
@@ -152,6 +153,7 @@ def whois_com(name: str) -> bool | None:
     requires_network=True,
     latency="fast",
     parallelizable=True,
+    rate_limit=5,
     description="Authoritative .com registration check via Verisign RDAP",
 )
 def rdap_com(name: str) -> bool | None:
@@ -283,6 +285,9 @@ _PLATFORM_CHECKS = {
     ),
 }
 
+# Requests per second; the registries below throttle (429) after a few dozen calls
+_PLATFORM_RATE_LIMITS = {"npm": 1, "npm_scope": 1}
+
 for _name, (_template, _desc) in _PLATFORM_CHECKS.items():
     _func = _make_url_scorer(_template, _name, _desc)
     scorers.register(
@@ -291,5 +296,6 @@ for _name, (_template, _desc) in _PLATFORM_CHECKS.items():
         requires_network=True,
         latency="medium",
         parallelizable=True,
+        rate_limit=_PLATFORM_RATE_LIMITS.get(_name),
         description=_desc,
     )(_func)
