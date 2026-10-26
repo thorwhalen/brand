@@ -26,6 +26,7 @@ import re
 
 import requests
 
+from brand._http import request_with_retry
 from brand.registry import scorers
 
 _CORP_SUFFIXES = re.compile(
@@ -233,8 +234,11 @@ def uspto_trademarks(name: str, *, size=100, timeout=20) -> list[dict]:
     Each record: ``wordmark``, ``alive``, ``classes`` (e.g. ``['009']``),
     ``status``, ``owner``, ``serial``, ``registration``.
     """
-    r = requests.post(
+    # USPTO answers 403 once it decides a client is too fast
+    r = request_with_retry(
+        "POST",
         USPTO_SEARCH_URL,
+        retry_on=(403, 429, 503),
         json={
             "query": {"bool": {"must": [{"match_phrase": {"WM": name}}]}},
             "size": size,
@@ -291,6 +295,7 @@ def trademark_conflicts_us(
 
 @scorers.register(
     "trademark_us",
+    rate_limit=1,
     description="No live exact USPTO word mark in classes 9/15/41/42",
     cost="moderate",
     requires_network=True,
