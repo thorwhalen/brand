@@ -1,6 +1,6 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-26T06:33:23.009021Z
+timestamp,2026-10-26T06:33:24.641104Z
 commit_sha,bc63feb939799d024a8ba55acafa1a4d3870fc74
 commit_message,"domain_sale_status: rank listed prices by frequency instead of taking the first
 
@@ -11,18 +11,18 @@ as a hint to confirm by eye.
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,18127
-metrics.umpyre_stats.num_classes,3307
-metrics.umpyre_stats.total_lines,603505
-metrics.umpyre_stats.empty_lines,75640
-metrics.umpyre_stats.comment_lines,36469
-metrics.umpyre_stats.docs_lines,80972
-metrics.umpyre_stats.function_lines,301851
-metrics.umpyre_stats.empty_lines_ratio,0.12533450427088424
-metrics.umpyre_stats.comment_lines_ratio,0.060428662562861946
-metrics.umpyre_stats.function_lines_ratio,0.5001632132293851
-metrics.umpyre_stats.mean_lines_per_function,16.65201081259999
-metrics.umpyre_stats.files_analyzed,1296
+metrics.umpyre_stats.num_functions,17855
+metrics.umpyre_stats.num_classes,3248
+metrics.umpyre_stats.total_lines,597404
+metrics.umpyre_stats.empty_lines,74668
+metrics.umpyre_stats.comment_lines,36017
+metrics.umpyre_stats.docs_lines,80168
+metrics.umpyre_stats.function_lines,297550
+metrics.umpyre_stats.empty_lines_ratio,0.12498744568164927
+metrics.umpyre_stats.comment_lines_ratio,0.0602891845384363
+metrics.umpyre_stats.function_lines_ratio,0.49807165670132775
+metrics.umpyre_stats.mean_lines_per_function,16.664799775973115
+metrics.umpyre_stats.files_analyzed,1287
 metrics.umpyre_stats.pypi_version,0.1.9
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
@@ -45,4 +45,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,7.8295533657073975
+collection_duration_seconds,7.496003150939941
