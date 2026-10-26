@@ -5,21 +5,19 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-10-26 09:38 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/487e50e9bda7ab261b2a0d242adaf31f965a4257"><code>487e50e</code></a> on branch <code>master</code>, for **brand 0.1.15** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 15:47 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/4a351e9e1a3d6d15e0590f27a53ba94d433b9872"><code>4a351e9</code></a> on branch <code>master</code>, for **brand 0.1.16** (from <code>pyproject.toml</code>).
 
-:::{warning}
-The documentation and the package may be misaligned:
-
-- The documented version (0.1.15) is ahead of the latest release on PyPI (0.1.14): these docs describe unreleased code.
+:::{note}
+Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
 :::
 
 ## Source
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/brand/commit/487e50e9bda7ab261b2a0d242adaf31f965a4257"><code>487e50e9bda7ab261b2a0d242adaf31f965a4257</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/brand/commit/4a351e9e1a3d6d15e0590f27a53ba94d433b9872"><code>4a351e9e1a3d6d15e0590f27a53ba94d433b9872</code></a> |
 | Branch | <code>master</code> |
-| Tags at this commit | <code>0.1.15</code> |
+| Tags at this commit | <code>0.1.16</code> |
 | Working tree | clean |
 | Remote | <code>https://github.com/thorwhalen/brand</code> |
 
@@ -28,9 +26,9 @@ The documentation and the package may be misaligned:
 | | |
 |---|---|
 | Repository | <code>thorwhalen/brand</code> |
-| Run | <a href="https://github.com/thorwhalen/brand/actions/runs/40300865943">40300865943</a> |
+| Run | <a href="https://github.com/thorwhalen/brand/actions/runs/40352427507">40352427507</a> |
 | Ref | <code>refs/heads/master</code> |
-| Event commit | <code>585059b0dcc3c0d519c7b3fde0938c473ce5af2f</code> (in the history of the built commit) |
+| Event commit | <code>b811e83feecddf0bd1c5a6e3849ffcb2bb5f842f</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -55,13 +53,13 @@ The documentation and the package may be misaligned:
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.14/">0.1.14</a>, older than the documented version (0.1.15).
+Latest release: <a href="https://pypi.org/project/brand/0.1.16/">0.1.16</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout 487e50e9bda7ab261b2a0d242adaf31f965a4257
+git checkout 4a351e9e1a3d6d15e0590f27a53ba94d433b9872
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

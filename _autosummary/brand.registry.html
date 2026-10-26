@@ -93,7 +93,9 @@ data-aria-dark="Switch to auto color mode">
     <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
 <li><a class="reference internal" href="#brand.registry.ComponentMeta"><code class="docutils literal notranslate"><span class="pre">ComponentMeta</span></code></a></li>
 <li><a class="reference internal" href="#brand.registry.Registry"><code class="docutils literal notranslate"><span class="pre">Registry</span></code></a><ul>
+<li><a class="reference internal" href="#brand.registry.Registry.on_duplicate"><code class="docutils literal notranslate"><span class="pre">Registry.on_duplicate</span></code></a></li>
 <li><a class="reference internal" href="#brand.registry.Registry.register"><code class="docutils literal notranslate"><span class="pre">Registry.register()</span></code></a></li>
+<li><a class="reference internal" href="#brand.registry.Registry.unregister"><code class="docutils literal notranslate"><span class="pre">Registry.unregister()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -181,6 +183,24 @@ check membership just like a dict.</p>
 </div>
 <dl class="field-list simple">
 </dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="brand.registry.Registry.on_duplicate">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">on_duplicate</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><span class="pre">str</span></a></span><a class="headerlink" href="#brand.registry.Registry.on_duplicate" title="Link to this definition">#</a></dt>
+<dd><p>one of
+<code class="docutils literal notranslate"><span class="pre">&quot;warn&quot;</span></code> (default), <code class="docutils literal notranslate"><span class="pre">&quot;raise&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;overwrite&quot;</span></code>. Assignable.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">on_duplicate</span> <span class="o">=</span> <span class="s1">'raise'</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">on_duplicate</span>
+</span><span data-line="4"><span class="go">'raise'</span>
+</span></pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>What registering a different function under a taken name does</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="brand.registry.Registry.register">
 <span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">cost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cheap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requires_network</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fast'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallelizable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requires_extras</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rate_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_workers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/brand/registry.html#Registry.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.registry.Registry.register" title="Link to this definition">#</a></dt>
@@ -197,6 +217,23 @@ check membership just like a dict.</p>
 </span><span data-line="9"><span class="go">'expensive'</span>
 </span></pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="brand.registry.Registry.unregister">
+<span class="sig-name descname"><span class="pre">unregister</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/brand/registry.html#Registry.unregister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#brand.registry.Registry.unregister" title="Link to this definition">#</a></dt>
+<dd><p>Remove <code class="docutils literal notranslate"><span class="pre">name</span></code> and return what was registered under it (KeyError if absent).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)(</span><span class="nb">len</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">unregister</span><span class="p">(</span><span class="s1">'x'</span><span class="p">)</span><span class="o">.</span><span class="n">func</span> <span class="ow">is</span> <span class="nb">len</span><span class="p">,</span> <span class="s1">'x'</span> <span class="ow">in</span> <span class="n">r</span>
+</span><span data-line="4"><span class="go">(True, False)</span>
+</span></pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#brand.registry.ComponentMeta" title="brand.registry.ComponentMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComponentMeta</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -243,7 +280,7 @@ check membership just like a dict.</p>
     </div>
   </div>
 </footer>
-      <script src="../_static/documentation_options.js?v=e2f3408e"></script>
+      <script src="../_static/documentation_options.js?v=d50bcae4"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>

@@ -38,6 +38,21 @@ check membership just like a dict.
 'cheap'
 ```
 
+#### *property* on_duplicate *: [str](https://docs.python.org/3/builtins/stdtypes.html#str)*
+
+one of
+`"warn"` (default), `"raise"`, `"overwrite"`. Assignable.
+
+```pycon
+>>> r = Registry('s')
+>>> r.on_duplicate = 'raise'
+>>> r.on_duplicate
+'raise'
+```
+
+* **Type:**
+  What registering a different function under a taken name does
+
 #### register(name=None, , cost='cheap', requires_network=False, latency='fast', parallelizable=True, description='', requires_extras=(), rate_limit=None, max_workers=None)
 
 Register a function. Usable as decorator with or without arguments.
@@ -55,3 +70,17 @@ True
 >>> r['bar'].cost
 'expensive'
 ```
+
+#### unregister(name)
+
+Remove `name` and return what was registered under it (KeyError if absent).
+
+```pycon
+>>> r = Registry('s')
+>>> _ = r.register('x')(len)
+>>> r.unregister('x').func is len, 'x' in r
+(True, False)
+```
+
+* **Return type:**
+  [`ComponentMeta`](#brand.registry.ComponentMeta)

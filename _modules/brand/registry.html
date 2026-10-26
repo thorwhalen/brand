@@ -200,128 +200,162 @@ data-aria-dark="Switch to auto color mode">
 </span><span data-line="72"><span class="sd">    """</span>
 </span><span data-line="73">
 </span><span data-line="74">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">on_duplicate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"warn"</span><span class="p">):</span>
-</span><span data-line="75">        <span class="k">if</span> <span class="n">on_duplicate</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_ON_DUPLICATE</span><span class="p">:</span>
-</span><span data-line="76">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"on_duplicate must be one of </span><span class="si">{</span><span class="n">_ON_DUPLICATE</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</span><span data-line="77">        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
-</span><span data-line="78">        <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span> <span class="o">=</span> <span class="n">on_duplicate</span>
-</span><span data-line="79">        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ComponentMeta</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-</span><span data-line="80">
-</span><span data-line="81">    <span class="k">def</span><span class="w"> </span><span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">stacklevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_kwargs</span><span class="p">):</span>
-</span><span data-line="82"><span class="w">        </span><span class="sd">"""Store ``func`` under ``key``, applying the ``on_duplicate`` policy.</span>
+</span><span data-line="75">        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span data-line="76">        <span class="bp">self</span><span class="o">.</span><span class="n">on_duplicate</span> <span class="o">=</span> <span class="n">on_duplicate</span>
+</span><span data-line="77">        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ComponentMeta</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span data-line="78">
+</span><span data-line="79">    <span class="nd">@property</span>
+</span><span data-line="80">    <span class="k">def</span><span class="w"> </span><span class="nf">on_duplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="81"><span class="w">        </span><span class="sd">"""What registering a different function under a taken name does: one of</span>
+</span><span data-line="82"><span class="sd">        ``"warn"`` (default), ``"raise"``, ``"overwrite"``. Assignable.</span>
 </span><span data-line="83">
-</span><span data-line="84"><span class="sd">        Re-registering the same module-level function (e.g. a module reload) is silent;</span>
-</span><span data-line="85"><span class="sd">        closures made in a factory are not recognised as the same.</span>
-</span><span data-line="86">
-</span><span data-line="87"><span class="sd">        &gt;&gt;&gt; r = Registry('scorers')</span>
-</span><span data-line="88"><span class="sd">        &gt;&gt;&gt; r.register('x')(lambda n: 1) and None</span>
-</span><span data-line="89"><span class="sd">        &gt;&gt;&gt; import warnings</span>
-</span><span data-line="90"><span class="sd">        &gt;&gt;&gt; with warnings.catch_warnings(record=True) as w:</span>
-</span><span data-line="91"><span class="sd">        ...     warnings.simplefilter('always')</span>
-</span><span data-line="92"><span class="sd">        ...     _ = r.register('x')(lambda n: 2)</span>
-</span><span data-line="93"><span class="sd">        &gt;&gt;&gt; len(w)</span>
-</span><span data-line="94"><span class="sd">        1</span>
-</span><span data-line="95"><span class="sd">        &gt;&gt;&gt; Registry('s', on_duplicate='raise').register('x')(len) is len</span>
-</span><span data-line="96"><span class="sd">        True</span>
-</span><span data-line="97"><span class="sd">        """</span>
-</span><span data-line="98">        <span class="n">old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-</span><span data-line="99">        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_same_function</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-</span><span data-line="100">            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-</span><span data-line="101">                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> already has </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> (</span><span class="si">{</span><span class="n">_identity</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">); "</span>
-</span><span data-line="102">                <span class="sa">f</span><span class="s2">"replacing it with </span><span class="si">{</span><span class="n">_identity</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-</span><span data-line="103">            <span class="p">)</span>
-</span><span data-line="104">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span> <span class="o">==</span> <span class="s2">"raise"</span><span class="p">:</span>
-</span><span data-line="105">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-</span><span data-line="106">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span> <span class="o">==</span> <span class="s2">"warn"</span><span class="p">:</span>
-</span><span data-line="107">                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="n">stacklevel</span><span class="p">)</span>
-</span><span data-line="108">        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentMeta</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_kwargs</span><span class="p">)</span>
-</span><span data-line="109">
-</span><span data-line="110">    <span class="c1"># -- Registration ---------------------------------------------------------</span>
+</span><span data-line="84"><span class="sd">        &gt;&gt;&gt; r = Registry('s')</span>
+</span><span data-line="85"><span class="sd">        &gt;&gt;&gt; r.on_duplicate = 'raise'</span>
+</span><span data-line="86"><span class="sd">        &gt;&gt;&gt; r.on_duplicate</span>
+</span><span data-line="87"><span class="sd">        'raise'</span>
+</span><span data-line="88"><span class="sd">        """</span>
+</span><span data-line="89">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span>
+</span><span data-line="90">
+</span><span data-line="91">    <span class="nd">@on_duplicate</span><span class="o">.</span><span class="n">setter</span>
+</span><span data-line="92">    <span class="k">def</span><span class="w"> </span><span class="nf">on_duplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">policy</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span data-line="93">        <span class="k">if</span> <span class="n">policy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_ON_DUPLICATE</span><span class="p">:</span>
+</span><span data-line="94">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"on_duplicate must be one of </span><span class="si">{</span><span class="n">_ON_DUPLICATE</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span data-line="95">        <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span> <span class="o">=</span> <span class="n">policy</span>
+</span><span data-line="96">
+<div class="viewcode-block" id="Registry.unregister">
+<a class="viewcode-back" href="../../_autosummary/brand.registry.html#brand.registry.Registry.unregister">[docs]</a>
+</span><span data-line="97">    <span class="k">def</span><span class="w"> </span><span class="nf">unregister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ComponentMeta</span><span class="p">:</span>
+</span><span data-line="98"><span class="w">        </span><span class="sd">"""Remove ``name`` and return what was registered under it (KeyError if absent).</span>
+</span><span data-line="99">
+</span><span data-line="100"><span class="sd">        &gt;&gt;&gt; r = Registry('s')</span>
+</span><span data-line="101"><span class="sd">        &gt;&gt;&gt; _ = r.register('x')(len)</span>
+</span><span data-line="102"><span class="sd">        &gt;&gt;&gt; r.unregister('x').func is len, 'x' in r</span>
+</span><span data-line="103"><span class="sd">        (True, False)</span>
+</span><span data-line="104"><span class="sd">        """</span>
+</span><span data-line="105">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="106">            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span data-line="107">        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+</span><span data-line="108">            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+</span><span data-line="109">                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> has no </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">; available: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span>
+</span><span data-line="110">            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span></div>
+
 </span><span data-line="111">
+</span><span data-line="112">    <span class="k">def</span><span class="w"> </span><span class="nf">_add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">stacklevel</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_kwargs</span><span class="p">):</span>
+</span><span data-line="113"><span class="w">        </span><span class="sd">"""Store ``func`` under ``key``, applying the ``on_duplicate`` policy.</span>
+</span><span data-line="114">
+</span><span data-line="115"><span class="sd">        Re-registering the same module-level function (e.g. a module reload) is silent;</span>
+</span><span data-line="116"><span class="sd">        closures made in a factory are not recognised as the same.</span>
+</span><span data-line="117">
+</span><span data-line="118"><span class="sd">        &gt;&gt;&gt; r = Registry('scorers')</span>
+</span><span data-line="119"><span class="sd">        &gt;&gt;&gt; r.register('x')(lambda n: 1) and None</span>
+</span><span data-line="120"><span class="sd">        &gt;&gt;&gt; import warnings</span>
+</span><span data-line="121"><span class="sd">        &gt;&gt;&gt; with warnings.catch_warnings(record=True) as w:</span>
+</span><span data-line="122"><span class="sd">        ...     warnings.simplefilter('always')</span>
+</span><span data-line="123"><span class="sd">        ...     _ = r.register('x')(lambda n: 2)</span>
+</span><span data-line="124"><span class="sd">        &gt;&gt;&gt; len(w)</span>
+</span><span data-line="125"><span class="sd">        1</span>
+</span><span data-line="126"><span class="sd">        &gt;&gt;&gt; Registry('s', on_duplicate='raise').register('x')(len) is len</span>
+</span><span data-line="127"><span class="sd">        True</span>
+</span><span data-line="128"><span class="sd">        """</span>
+</span><span data-line="129">        <span class="n">old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span data-line="130">        <span class="k">if</span> <span class="n">old</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_same_function</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="n">func</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+</span><span data-line="131">            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+</span><span data-line="132">                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> already has </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> (</span><span class="si">{</span><span class="n">_identity</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">); "</span>
+</span><span data-line="133">                <span class="sa">f</span><span class="s2">"replacing it with </span><span class="si">{</span><span class="n">_identity</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+</span><span data-line="134">            <span class="p">)</span>
+</span><span data-line="135">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span> <span class="o">==</span> <span class="s2">"raise"</span><span class="p">:</span>
+</span><span data-line="136">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span><span data-line="137">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_on_duplicate</span> <span class="o">==</span> <span class="s2">"warn"</span><span class="p">:</span>
+</span><span data-line="138">                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="n">stacklevel</span><span class="p">)</span>
+</span><span data-line="139">        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">ComponentMeta</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_kwargs</span><span class="p">)</span>
+</span><span data-line="140">
+</span><span data-line="141">    <span class="c1"># -- Registration ---------------------------------------------------------</span>
+</span><span data-line="142">
 <div class="viewcode-block" id="Registry.register">
 <a class="viewcode-back" href="../../_autosummary/brand.registry.html#brand.registry.Registry.register">[docs]</a>
-</span><span data-line="112">    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span>
-</span><span data-line="113">        <span class="bp">self</span><span class="p">,</span>
-</span><span data-line="114">        <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span data-line="115">        <span class="o">*</span><span class="p">,</span>
-</span><span data-line="116">        <span class="n">cost</span><span class="o">=</span><span class="s2">"cheap"</span><span class="p">,</span>
-</span><span data-line="117">        <span class="n">requires_network</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span data-line="118">        <span class="n">latency</span><span class="o">=</span><span class="s2">"fast"</span><span class="p">,</span>
-</span><span data-line="119">        <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-</span><span data-line="120">        <span class="n">description</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
-</span><span data-line="121">        <span class="n">requires_extras</span><span class="o">=</span><span class="p">(),</span>
-</span><span data-line="122">        <span class="n">rate_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span data-line="123">        <span class="n">max_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-</span><span data-line="124">    <span class="p">):</span>
-</span><span data-line="125"><span class="w">        </span><span class="sd">"""Register a function. Usable as decorator with or without arguments.</span>
-</span><span data-line="126">
-</span><span data-line="127"><span class="sd">        Examples</span>
-</span><span data-line="128"><span class="sd">        --------</span>
-</span><span data-line="129"><span class="sd">        &gt;&gt;&gt; r = Registry('test')</span>
-</span><span data-line="130"><span class="sd">        &gt;&gt;&gt; @r.register</span>
-</span><span data-line="131"><span class="sd">        ... def foo(x): return x</span>
-</span><span data-line="132"><span class="sd">        &gt;&gt;&gt; 'foo' in r</span>
-</span><span data-line="133"><span class="sd">        True</span>
-</span><span data-line="134"><span class="sd">        &gt;&gt;&gt; @r.register('bar', cost='expensive')</span>
-</span><span data-line="135"><span class="sd">        ... def bar_func(x): return x * 2</span>
-</span><span data-line="136"><span class="sd">        &gt;&gt;&gt; r['bar'].cost</span>
-</span><span data-line="137"><span class="sd">        'expensive'</span>
-</span><span data-line="138"><span class="sd">        """</span>
-</span><span data-line="139">        <span class="n">meta_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-</span><span data-line="140">            <span class="n">cost</span><span class="o">=</span><span class="n">cost</span><span class="p">,</span>
-</span><span data-line="141">            <span class="n">requires_network</span><span class="o">=</span><span class="n">requires_network</span><span class="p">,</span>
-</span><span data-line="142">            <span class="n">latency</span><span class="o">=</span><span class="n">latency</span><span class="p">,</span>
-</span><span data-line="143">            <span class="n">parallelizable</span><span class="o">=</span><span class="n">parallelizable</span><span class="p">,</span>
-</span><span data-line="144">            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
-</span><span data-line="145">            <span class="n">requires_extras</span><span class="o">=</span><span class="n">requires_extras</span><span class="p">,</span>
-</span><span data-line="146">            <span class="n">rate_limit</span><span class="o">=</span><span class="n">rate_limit</span><span class="p">,</span>
-</span><span data-line="147">            <span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">,</span>
-</span><span data-line="148">        <span class="p">)</span>
-</span><span data-line="149">
-</span><span data-line="150">        <span class="n">bare</span> <span class="o">=</span> <span class="nb">callable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span><span data-line="151">
-</span><span data-line="152">        <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-</span><span data-line="153">            <span class="n">key</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
-</span><span data-line="154">            <span class="bp">self</span><span class="o">.</span><span class="n">_add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">4</span> <span class="k">if</span> <span class="n">bare</span> <span class="k">else</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_kwargs</span><span class="p">)</span>
-</span><span data-line="155">            <span class="k">return</span> <span class="n">func</span>
-</span><span data-line="156">
-</span><span data-line="157">        <span class="c1"># @registry.register  (no parens, name is the function itself)</span>
-</span><span data-line="158">        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-</span><span data-line="159">            <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-</span><span data-line="160">
-</span><span data-line="161">        <span class="k">return</span> <span class="n">decorator</span></div>
-
-</span><span data-line="162">
-</span><span data-line="163">    <span class="c1"># -- Mapping interface ----------------------------------------------------</span>
-</span><span data-line="164">
-</span><span data-line="165">    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ComponentMeta</span><span class="p">:</span>
-</span><span data-line="166">        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
-</span><span data-line="167">            <span class="n">available</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">))</span>
-</span><span data-line="168">            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
-</span><span data-line="169">                <span class="sa">f</span><span class="s2">"No </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> "</span>
-</span><span data-line="170">                <span class="sa">f</span><span class="s2">"named </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">. Available: [</span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">]"</span>
-</span><span data-line="171">            <span class="p">)</span>
-</span><span data-line="172">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-</span><span data-line="173">
-</span><span data-line="174">    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span data-line="175">        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span>
-</span><span data-line="176">
-</span><span data-line="177">    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span data-line="178">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
-</span><span data-line="179">
-</span><span data-line="180">    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-</span><span data-line="181">        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span>
+</span><span data-line="143">    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span>
+</span><span data-line="144">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="145">        <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="146">        <span class="o">*</span><span class="p">,</span>
+</span><span data-line="147">        <span class="n">cost</span><span class="o">=</span><span class="s2">"cheap"</span><span class="p">,</span>
+</span><span data-line="148">        <span class="n">requires_network</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="149">        <span class="n">latency</span><span class="o">=</span><span class="s2">"fast"</span><span class="p">,</span>
+</span><span data-line="150">        <span class="n">parallelizable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="151">        <span class="n">description</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+</span><span data-line="152">        <span class="n">requires_extras</span><span class="o">=</span><span class="p">(),</span>
+</span><span data-line="153">        <span class="n">rate_limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="154">        <span class="n">max_workers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span data-line="155">    <span class="p">):</span>
+</span><span data-line="156"><span class="w">        </span><span class="sd">"""Register a function. Usable as decorator with or without arguments.</span>
+</span><span data-line="157">
+</span><span data-line="158"><span class="sd">        Examples</span>
+</span><span data-line="159"><span class="sd">        --------</span>
+</span><span data-line="160"><span class="sd">        &gt;&gt;&gt; r = Registry('test')</span>
+</span><span data-line="161"><span class="sd">        &gt;&gt;&gt; @r.register</span>
+</span><span data-line="162"><span class="sd">        ... def foo(x): return x</span>
+</span><span data-line="163"><span class="sd">        &gt;&gt;&gt; 'foo' in r</span>
+</span><span data-line="164"><span class="sd">        True</span>
+</span><span data-line="165"><span class="sd">        &gt;&gt;&gt; @r.register('bar', cost='expensive')</span>
+</span><span data-line="166"><span class="sd">        ... def bar_func(x): return x * 2</span>
+</span><span data-line="167"><span class="sd">        &gt;&gt;&gt; r['bar'].cost</span>
+</span><span data-line="168"><span class="sd">        'expensive'</span>
+</span><span data-line="169"><span class="sd">        """</span>
+</span><span data-line="170">        <span class="n">meta_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+</span><span data-line="171">            <span class="n">cost</span><span class="o">=</span><span class="n">cost</span><span class="p">,</span>
+</span><span data-line="172">            <span class="n">requires_network</span><span class="o">=</span><span class="n">requires_network</span><span class="p">,</span>
+</span><span data-line="173">            <span class="n">latency</span><span class="o">=</span><span class="n">latency</span><span class="p">,</span>
+</span><span data-line="174">            <span class="n">parallelizable</span><span class="o">=</span><span class="n">parallelizable</span><span class="p">,</span>
+</span><span data-line="175">            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+</span><span data-line="176">            <span class="n">requires_extras</span><span class="o">=</span><span class="n">requires_extras</span><span class="p">,</span>
+</span><span data-line="177">            <span class="n">rate_limit</span><span class="o">=</span><span class="n">rate_limit</span><span class="p">,</span>
+</span><span data-line="178">            <span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">,</span>
+</span><span data-line="179">        <span class="p">)</span>
+</span><span data-line="180">
+</span><span data-line="181">        <span class="n">bare</span> <span class="o">=</span> <span class="nb">callable</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </span><span data-line="182">
-</span><span data-line="183">    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span><span data-line="184">        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Registry(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">!r}</span><span class="s2">, keys=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">)"</span></div>
+</span><span data-line="183">        <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+</span><span data-line="184">            <span class="n">key</span> <span class="o">=</span> <span class="n">name</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+</span><span data-line="185">            <span class="bp">self</span><span class="o">.</span><span class="n">_add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">4</span> <span class="k">if</span> <span class="n">bare</span> <span class="k">else</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">meta_kwargs</span><span class="p">)</span>
+</span><span data-line="186">            <span class="k">return</span> <span class="n">func</span>
+</span><span data-line="187">
+</span><span data-line="188">        <span class="c1"># @registry.register  (no parens, name is the function itself)</span>
+</span><span data-line="189">        <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+</span><span data-line="190">            <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</span><span data-line="191">
+</span><span data-line="192">        <span class="k">return</span> <span class="n">decorator</span></div>
 
-</span><span data-line="185">
-</span><span data-line="186">
-</span><span data-line="187"><span class="c1"># -- Global registries -------------------------------------------------------</span>
-</span><span data-line="188">
-</span><span data-line="189"><span class="n">scorers</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"scorers"</span><span class="p">)</span>
-</span><span data-line="190"><span class="n">generators</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"generators"</span><span class="p">)</span>
-</span><span data-line="191"><span class="n">filters</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"filters"</span><span class="p">)</span>
-</span><span data-line="192"><span class="n">pipelines</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"pipelines"</span><span class="p">)</span>
+</span><span data-line="193">
+</span><span data-line="194">    <span class="c1"># -- Mapping interface ----------------------------------------------------</span>
+</span><span data-line="195">
+</span><span data-line="196">    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ComponentMeta</span><span class="p">:</span>
+</span><span data-line="197">        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
+</span><span data-line="198">            <span class="n">available</span> <span class="o">=</span> <span class="s2">", "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">))</span>
+</span><span data-line="199">            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+</span><span data-line="200">                <span class="sa">f</span><span class="s2">"No </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">'s'</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2"> "</span>
+</span><span data-line="201">                <span class="sa">f</span><span class="s2">"named </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">. Available: [</span><span class="si">{</span><span class="n">available</span><span class="si">}</span><span class="s2">]"</span>
+</span><span data-line="202">            <span class="p">)</span>
+</span><span data-line="203">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</span><span data-line="204">
+</span><span data-line="205">    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span data-line="206">        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span>
+</span><span data-line="207">
+</span><span data-line="208">    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span data-line="209">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
+</span><span data-line="210">
+</span><span data-line="211">    <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+</span><span data-line="212">        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span>
+</span><span data-line="213">
+</span><span data-line="214">    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span data-line="215">        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Registry(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">!r}</span><span class="s2">, keys=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">)"</span></div>
+
+</span><span data-line="216">
+</span><span data-line="217">
+</span><span data-line="218"><span class="c1"># -- Global registries -------------------------------------------------------</span>
+</span><span data-line="219">
+</span><span data-line="220"><span class="n">scorers</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"scorers"</span><span class="p">)</span>
+</span><span data-line="221"><span class="n">generators</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"generators"</span><span class="p">)</span>
+</span><span data-line="222"><span class="n">filters</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"filters"</span><span class="p">)</span>
+</span><span data-line="223"><span class="n">pipelines</span> <span class="o">=</span> <span class="n">Registry</span><span class="p">(</span><span class="s2">"pipelines"</span><span class="p">)</span>
 </span></pre></div>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -349,7 +383,7 @@ data-aria-dark="Switch to auto color mode">
     </div>
   </div>
 </footer>
-      <script src="../../_static/documentation_options.js?v=e2f3408e"></script>
+      <script src="../../_static/documentation_options.js?v=d50bcae4"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
