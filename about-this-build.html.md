@@ -2,18 +2,20 @@
 
 # About this build
 
-This documentation was built on **2026-10-25 14:58 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/e8818770eba9f782260659adc462165bfe4f3777"><code>e881877</code></a> on branch <code>master</code>, for **brand 0.1.9** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-26 06:35 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/cdb978616c119e13bb5b30f44bef2d251e27d1ba"><code>cdb9786</code></a> on branch <code>master</code>, for **brand 0.1.10** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.1.10) is ahead of the latest release on PyPI (0.1.9): these docs describe unreleased code.
 
 ## Source
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/e8818770eba9f782260659adc462165bfe4f3777"><code>e8818770eba9f782260659adc462165bfe4f3777</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/cdb978616c119e13bb5b30f44bef2d251e27d1ba"><code>cdb978616c119e13bb5b30f44bef2d251e27d1ba</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.9</code>                                                                                                                                      |
+| Tags at this commit | <code>0.1.10</code>                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -22,9 +24,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40204548605">40204548605</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/40280553207">40280553207</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>6e151404bb372cb7be48d0678ec08b396ea4e151</code> (in the history of the built commit) |
+| Event commit | <code>86e851330cd78930a3b2b10d28e64a42f2882832</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -49,13 +51,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.9/">0.1.9</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.9/">0.1.9</a>, older than the documented version (0.1.10).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout e8818770eba9f782260659adc462165bfe4f3777
+git checkout cdb978616c119e13bb5b30f44bef2d251e27d1ba
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
