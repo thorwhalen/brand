@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 6.259382009506226,
-  "commit_message": "Rate limits, retry on 429/503 and rescore_unknown for network scorers (#7)",
-  "commit_sha": "5b0ebf070d51b7cb106330138880b799481f28ac",
+  "collection_duration_seconds": 6.17361855506897,
+  "commit_message": "Merge 5b0ebf070d51b7cb106330138880b799481f28ac into cdb978616c119e13bb5b30f44bef2d251e27d1ba",
+  "commit_sha": "de45417f014bf4517097daf3eaccc8e90f3336c2",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -25,7 +25,7 @@
       "mean_lines_per_function": 16.653430399294066,
       "num_classes": 3308,
       "num_functions": 18132,
-      "pypi_version": "0.1.9",
+      "pypi_version": "0.1.10",
       "total_errors": 1,
       "total_lines": 603657
     },
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T06:36:25.460503Z",
+  "timestamp": "2026-10-26T06:36:27.908021Z",
   "workflow_status": {}
 }
