@@ -1,7 +1,7 @@
 {
-  "collection_duration_seconds": 7.2380335330963135,
-  "commit_message": "Fix bare-register warning location, document reload scope, cap enumerate by default (#16)",
-  "commit_sha": "ea2ece413cf22f05accd6b9a94ff448e625132aa",
+  "collection_duration_seconds": 5.414077520370483,
+  "commit_message": "Merge ea2ece413cf22f05accd6b9a94ff448e625132aa into d3d2f905ebc118496469d03a489f20d513b61d70",
+  "commit_sha": "7cd10afa83b133277771c8dc07eb94ff9f793088",
   "metrics": {
     "coverage": {
       "branch_coverage": 0.0,
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36034,
-      "comment_lines_ratio": 0.06024976717044795,
-      "docs_lines": 80275,
-      "empty_lines": 74778,
-      "empty_lines_ratio": 0.12503072346871724,
+      "comment_lines": 36486,
+      "comment_lines_ratio": 0.06038948786615865,
+      "docs_lines": 81079,
+      "empty_lines": 75750,
+      "empty_lines_ratio": 0.12537695844602087,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1290,
-      "function_lines": 297933,
-      "function_lines_ratio": 0.4981515758004404,
-      "mean_lines_per_function": 16.661987584586992,
-      "num_classes": 3250,
-      "num_functions": 17881,
-      "pypi_version": "0.1.13",
+      "files_analyzed": 1299,
+      "function_lines": 302234,
+      "function_lines_ratio": 0.5002399954980155,
+      "mean_lines_per_function": 16.64925907563488,
+      "num_classes": 3309,
+      "num_functions": 18153,
+      "pypi_version": "0.1.14",
       "total_errors": 1,
-      "total_lines": 598077
+      "total_lines": 604178
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T09:35:51.739120Z",
+  "timestamp": "2026-10-26T09:35:57.609276Z",
   "workflow_status": {}
 }
