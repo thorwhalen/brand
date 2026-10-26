@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 5.185461044311523,
+  "collection_duration_seconds": 5.505941390991211,
   "commit_message": "Registry duplicate-key warning; phonotactic_enumerate (#18)\n\n* Registry: warn on duplicate keys (opt-in raise); add phonotactic_enumerate generator (#16)\n\n* Fix enumerate doctest (#16)\n\n* Review fixes: lazy enumerate, correct warning stacklevel, single register path, safer same-function check (#16)\n\n* Fix bare-register warning location, document reload scope, cap enumerate by default (#16)",
   "commit_sha": "585059b0dcc3c0d519c7b3fde0938c473ce5af2f",
   "metrics": {
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36034,
-      "comment_lines_ratio": 0.06024976717044795,
-      "docs_lines": 80275,
-      "empty_lines": 74778,
-      "empty_lines_ratio": 0.12503072346871724,
+      "comment_lines": 36486,
+      "comment_lines_ratio": 0.06038948786615865,
+      "docs_lines": 81079,
+      "empty_lines": 75750,
+      "empty_lines_ratio": 0.12537695844602087,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1290,
-      "function_lines": 297933,
-      "function_lines_ratio": 0.4981515758004404,
-      "mean_lines_per_function": 16.661987584586992,
-      "num_classes": 3250,
-      "num_functions": 17881,
+      "files_analyzed": 1299,
+      "function_lines": 302234,
+      "function_lines_ratio": 0.5002399954980155,
+      "mean_lines_per_function": 16.64925907563488,
+      "num_classes": 3309,
+      "num_functions": 18153,
       "pypi_version": "0.1.14",
       "total_errors": 1,
-      "total_lines": 598077
+      "total_lines": 604178
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-26T09:37:19.680998Z",
+  "timestamp": "2026-10-26T09:37:30.184546Z",
   "workflow_status": {}
 }

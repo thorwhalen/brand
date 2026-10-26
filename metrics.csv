@@ -1,6 +1,6 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-26T09:37:19.680998Z
+timestamp,2026-10-26T09:37:30.184546Z
 commit_sha,585059b0dcc3c0d519c7b3fde0938c473ce5af2f
 commit_message,"Registry duplicate-key warning; phonotactic_enumerate (#18)
 
@@ -12,18 +12,18 @@ commit_message,"Registry duplicate-key warning; phonotactic_enumerate (#18)
 
 * Fix bare-register warning location, document reload scope, cap enumerate by default (#16)"
 python_version,3.10
-metrics.umpyre_stats.num_functions,17881
-metrics.umpyre_stats.num_classes,3250
-metrics.umpyre_stats.total_lines,598077
-metrics.umpyre_stats.empty_lines,74778
-metrics.umpyre_stats.comment_lines,36034
-metrics.umpyre_stats.docs_lines,80275
-metrics.umpyre_stats.function_lines,297933
-metrics.umpyre_stats.empty_lines_ratio,0.12503072346871724
-metrics.umpyre_stats.comment_lines_ratio,0.06024976717044795
-metrics.umpyre_stats.function_lines_ratio,0.4981515758004404
-metrics.umpyre_stats.mean_lines_per_function,16.661987584586992
-metrics.umpyre_stats.files_analyzed,1290
+metrics.umpyre_stats.num_functions,18153
+metrics.umpyre_stats.num_classes,3309
+metrics.umpyre_stats.total_lines,604178
+metrics.umpyre_stats.empty_lines,75750
+metrics.umpyre_stats.comment_lines,36486
+metrics.umpyre_stats.docs_lines,81079
+metrics.umpyre_stats.function_lines,302234
+metrics.umpyre_stats.empty_lines_ratio,0.12537695844602087
+metrics.umpyre_stats.comment_lines_ratio,0.06038948786615865
+metrics.umpyre_stats.function_lines_ratio,0.5002399954980155
+metrics.umpyre_stats.mean_lines_per_function,16.64925907563488
+metrics.umpyre_stats.files_analyzed,1299
 metrics.umpyre_stats.pypi_version,0.1.14
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
@@ -46,4 +46,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,5.185461044311523
+collection_duration_seconds,5.505941390991211
