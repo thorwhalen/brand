@@ -1,38 +1,43 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-26T15:46:36.789611Z
-commit_sha,b811e83feecddf0bd1c5a6e3849ffcb2bb5f842f
-commit_message,"Registry on_duplicate setter + unregister; phonotactic_enumerate prunes while building, seeded sampling (#17) (#19)"
+timestamp,2026-10-30T08:03:11.119774Z
+commit_sha,2ce4406d9d6104f39bbbe28d5ac4a9a0551ef2f2
+commit_message,"Tests and doctests write pipeline runs to a temp dir, not the user's config folder
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,17894
-metrics.umpyre_stats.num_classes,3251
-metrics.umpyre_stats.total_lines,598593
-metrics.umpyre_stats.empty_lines,74822
-metrics.umpyre_stats.comment_lines,36103
-metrics.umpyre_stats.docs_lines,80354
-metrics.umpyre_stats.function_lines,298174
-metrics.umpyre_stats.empty_lines_ratio,0.1249964500086035
-metrics.umpyre_stats.comment_lines_ratio,0.060313100888249614
-metrics.umpyre_stats.function_lines_ratio,0.4981247692505592
-metrics.umpyre_stats.mean_lines_per_function,16.663350843858275
-metrics.umpyre_stats.files_analyzed,1291
-metrics.umpyre_stats.pypi_version,0.1.15
+metrics.umpyre_stats.num_functions,17991
+metrics.umpyre_stats.num_classes,3258
+metrics.umpyre_stats.total_lines,601000
+metrics.umpyre_stats.empty_lines,75149
+metrics.umpyre_stats.comment_lines,36362
+metrics.umpyre_stats.docs_lines,80833
+metrics.umpyre_stats.function_lines,299970
+metrics.umpyre_stats.empty_lines_ratio,0.12503993344425957
+metrics.umpyre_stats.comment_lines_ratio,0.06050249584026622
+metrics.umpyre_stats.function_lines_ratio,0.4991181364392679
+metrics.umpyre_stats.mean_lines_per_function,16.673336668334166
+metrics.umpyre_stats.files_analyzed,1293
+metrics.umpyre_stats.pypi_version,0.1.16
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-26T15:44:51Z
+metrics.workflow_status.last_success_timestamp,2026-10-26T15:48:16Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/40352104790
+metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/40352838855
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
 metrics.wily.total_loc,0
 metrics.wily.files_analyzed,0
-metrics.wily.error,"wily build failed: [31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'[0m
+metrics.wily.error,"wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...
+Try 'wily report --help' for help.
+
+Error: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.
 "
 metrics.coverage.line_coverage,0.0
 metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,6.2140538692474365
+collection_duration_seconds,4.653407573699951
