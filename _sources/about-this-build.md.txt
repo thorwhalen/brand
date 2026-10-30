@@ -5,7 +5,7 @@ orphan: true
 
 # About this build
 
-This documentation was built on **2026-10-26 15:47 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/4a351e9e1a3d6d15e0590f27a53ba94d433b9872"><code>4a351e9</code></a> on branch <code>master</code>, for **brand 0.1.16** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-10-30 08:05 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/6bf237ed397d307c2f2048379ae844c4a6e592cb"><code>6bf237e</code></a> on branch <code>master</code>, for **brand 0.1.17** (from <code>pyproject.toml</code>).
 
 :::{note}
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -15,9 +15,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 | | |
 |---|---|
-| Commit | <a href="https://github.com/thorwhalen/brand/commit/4a351e9e1a3d6d15e0590f27a53ba94d433b9872"><code>4a351e9e1a3d6d15e0590f27a53ba94d433b9872</code></a> |
+| Commit | <a href="https://github.com/thorwhalen/brand/commit/6bf237ed397d307c2f2048379ae844c4a6e592cb"><code>6bf237ed397d307c2f2048379ae844c4a6e592cb</code></a> |
 | Branch | <code>master</code> |
-| Tags at this commit | <code>0.1.16</code> |
+| Tags at this commit | <code>0.1.17</code> |
 | Working tree | clean |
 | Remote | <code>https://github.com/thorwhalen/brand</code> |
 
@@ -26,9 +26,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 | | |
 |---|---|
 | Repository | <code>thorwhalen/brand</code> |
-| Run | <a href="https://github.com/thorwhalen/brand/actions/runs/40352427507">40352427507</a> |
+| Run | <a href="https://github.com/thorwhalen/brand/actions/runs/41023940895">41023940895</a> |
 | Ref | <code>refs/heads/master</code> |
-| Event commit | <code>b811e83feecddf0bd1c5a6e3849ffcb2bb5f842f</code> (in the history of the built commit) |
+| Event commit | <code>83a87d6e4b5638c2b0a15c2cd8653a7682ccc11a</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -53,13 +53,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.16/">0.1.16</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.17/">0.1.17</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout 4a351e9e1a3d6d15e0590f27a53ba94d433b9872
+git checkout 6bf237ed397d307c2f2048379ae844c4a6e592cb
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

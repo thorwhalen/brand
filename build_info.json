@@ -1,34 +1,34 @@
 {
   "schema_version": 1,
-  "built_at": "2026-10-26T15:47:41Z",
+  "built_at": "2026-10-30T08:05:54Z",
   "package": {
     "name": "brand",
-    "version": "0.1.16",
+    "version": "0.1.17",
     "display_name": "brand",
     "source": "pyproject.toml"
   },
   "git": {
     "available": true,
-    "commit": "4a351e9e1a3d6d15e0590f27a53ba94d433b9872",
-    "short_commit": "4a351e9",
+    "commit": "6bf237ed397d307c2f2048379ae844c4a6e592cb",
+    "short_commit": "6bf237e",
     "branch": "master",
     "tags": [
-      "0.1.16"
+      "0.1.17"
     ],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/brand",
-    "commit_url": "https://github.com/thorwhalen/brand/commit/4a351e9e1a3d6d15e0590f27a53ba94d433b9872",
+    "commit_url": "https://github.com/thorwhalen/brand/commit/6bf237ed397d307c2f2048379ae844c4a6e592cb",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/brand",
-    "sha": "b811e83feecddf0bd1c5a6e3849ffcb2bb5f842f",
+    "sha": "83a87d6e4b5638c2b0a15c2cd8653a7682ccc11a",
     "sha_in_history": true,
     "ref": "refs/heads/master",
     "ref_name": "master",
-    "run_id": "40352427507",
-    "run_url": "https://github.com/thorwhalen/brand/actions/runs/40352427507",
+    "run_id": "41023940895",
+    "run_url": "https://github.com/thorwhalen/brand/actions/runs/41023940895",
     "server_url": "https://github.com"
   },
   "tools": {
@@ -62,11 +62,11 @@
   },
   "pypi": {
     "checked": true,
-    "latest": "0.1.16",
+    "latest": "0.1.17",
     "relation": "same",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/brand && cd brand\ngit checkout 4a351e9e1a3d6d15e0590f27a53ba94d433b9872\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/brand && cd brand\ngit checkout 6bf237ed397d307c2f2048379ae844c4a6e592cb\npip install \"epythet==0.2.22\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
     "aligned": true,
