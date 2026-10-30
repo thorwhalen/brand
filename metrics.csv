@@ -1,23 +1,23 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-30T08:03:11.119774Z
+timestamp,2026-10-30T08:03:27.428084Z
 commit_sha,2ce4406d9d6104f39bbbe28d5ac4a9a0551ef2f2
 commit_message,"Tests and doctests write pipeline runs to a temp dir, not the user's config folder
 
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 python_version,3.10
-metrics.umpyre_stats.num_functions,17991
-metrics.umpyre_stats.num_classes,3258
-metrics.umpyre_stats.total_lines,601000
-metrics.umpyre_stats.empty_lines,75149
-metrics.umpyre_stats.comment_lines,36362
-metrics.umpyre_stats.docs_lines,80833
-metrics.umpyre_stats.function_lines,299970
-metrics.umpyre_stats.empty_lines_ratio,0.12503993344425957
-metrics.umpyre_stats.comment_lines_ratio,0.06050249584026622
-metrics.umpyre_stats.function_lines_ratio,0.4991181364392679
-metrics.umpyre_stats.mean_lines_per_function,16.673336668334166
-metrics.umpyre_stats.files_analyzed,1293
+metrics.umpyre_stats.num_functions,18263
+metrics.umpyre_stats.num_classes,3317
+metrics.umpyre_stats.total_lines,607101
+metrics.umpyre_stats.empty_lines,76121
+metrics.umpyre_stats.comment_lines,36814
+metrics.umpyre_stats.docs_lines,81637
+metrics.umpyre_stats.function_lines,304271
+metrics.umpyre_stats.empty_lines_ratio,0.12538440885453986
+metrics.umpyre_stats.comment_lines_ratio,0.06063900405369123
+metrics.umpyre_stats.function_lines_ratio,0.5011867877008933
+metrics.umpyre_stats.mean_lines_per_function,16.660515796966543
+metrics.umpyre_stats.files_analyzed,1302
 metrics.umpyre_stats.pypi_version,0.1.16
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
@@ -40,4 +40,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,4.653407573699951
+collection_duration_seconds,7.095678806304932

@@ -1,5 +1,5 @@
 {
-  "collection_duration_seconds": 4.653407573699951,
+  "collection_duration_seconds": 7.095678806304932,
   "commit_message": "Tests and doctests write pipeline runs to a temp dir, not the user's config folder\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>",
   "commit_sha": "2ce4406d9d6104f39bbbe28d5ac4a9a0551ef2f2",
   "metrics": {
@@ -11,23 +11,23 @@
       "statements_total": 0
     },
     "umpyre_stats": {
-      "comment_lines": 36362,
-      "comment_lines_ratio": 0.06050249584026622,
-      "docs_lines": 80833,
-      "empty_lines": 75149,
-      "empty_lines_ratio": 0.12503993344425957,
+      "comment_lines": 36814,
+      "comment_lines_ratio": 0.06063900405369123,
+      "docs_lines": 81637,
+      "empty_lines": 76121,
+      "empty_lines_ratio": 0.12538440885453986,
       "errors": [
         "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
       ],
-      "files_analyzed": 1293,
-      "function_lines": 299970,
-      "function_lines_ratio": 0.4991181364392679,
-      "mean_lines_per_function": 16.673336668334166,
-      "num_classes": 3258,
-      "num_functions": 17991,
+      "files_analyzed": 1302,
+      "function_lines": 304271,
+      "function_lines_ratio": 0.5011867877008933,
+      "mean_lines_per_function": 16.660515796966543,
+      "num_classes": 3317,
+      "num_functions": 18263,
       "pypi_version": "0.1.16",
       "total_errors": 1,
-      "total_lines": 601000
+      "total_lines": 607101
     },
     "wily": {
       "cyclomatic_avg": 0.0,
@@ -46,6 +46,6 @@
   },
   "python_version": "3.10",
   "schema_version": "1.0",
-  "timestamp": "2026-10-30T08:03:11.119774Z",
+  "timestamp": "2026-10-30T08:03:27.428084Z",
   "workflow_status": {}
 }
