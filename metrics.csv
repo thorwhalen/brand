@@ -1,43 +1,44 @@
 metric,value
 schema_version,1.0
-timestamp,2026-10-30T08:05:01.904127Z
-commit_sha,83a87d6e4b5638c2b0a15c2cd8653a7682ccc11a
-commit_message,"Tests and doctests write pipeline runs to a temp dir, not the user's config folder (#20)
+timestamp,2026-11-10T19:17:17.109771Z
+commit_sha,aa0abea0760a6e98b6193fd97e1ae0707844bcc5
+commit_message,"check_domain: WHOIS confirmation optional (scorers skip it), bootstrap failure cached and malformed entries skipped, export brand.check_domain
 
-Co-authored-by: Claude Opus 5.5 <noreply@anthropic.com>"
+Review fixes: the dns_* scorers stay fast; an unreachable or malformed IANA
+file costs one fetch, not one per domain; quiet python-whois; source
+rdap+whois when the confirmation ran.
+
+Closes thorwhalen/my_skills#74"
 python_version,3.10
-metrics.umpyre_stats.num_functions,17991
-metrics.umpyre_stats.num_classes,3258
-metrics.umpyre_stats.total_lines,601000
-metrics.umpyre_stats.empty_lines,75149
-metrics.umpyre_stats.comment_lines,36362
-metrics.umpyre_stats.docs_lines,80833
-metrics.umpyre_stats.function_lines,299970
-metrics.umpyre_stats.empty_lines_ratio,0.12503993344425957
-metrics.umpyre_stats.comment_lines_ratio,0.06050249584026622
-metrics.umpyre_stats.function_lines_ratio,0.4991181364392679
-metrics.umpyre_stats.mean_lines_per_function,16.673336668334166
-metrics.umpyre_stats.files_analyzed,1293
-metrics.umpyre_stats.pypi_version,0.1.16
+metrics.umpyre_stats.num_functions,17986
+metrics.umpyre_stats.num_classes,3250
+metrics.umpyre_stats.total_lines,601533
+metrics.umpyre_stats.empty_lines,75174
+metrics.umpyre_stats.comment_lines,36311
+metrics.umpyre_stats.docs_lines,81169
+metrics.umpyre_stats.function_lines,300572
+metrics.umpyre_stats.empty_lines_ratio,0.12497069986185297
+metrics.umpyre_stats.comment_lines_ratio,0.06036410305004048
+metrics.umpyre_stats.function_lines_ratio,0.49967665946839157
+metrics.umpyre_stats.mean_lines_per_function,16.71144223284777
+metrics.umpyre_stats.files_analyzed,1300
+metrics.umpyre_stats.pypi_version,0.1.17
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-30T08:03:40Z
+metrics.workflow_status.last_success_timestamp,2026-10-30T08:06:35Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/41023789435
+metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/41024183701
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
 metrics.wily.total_loc,0
 metrics.wily.files_analyzed,0
-metrics.wily.error,"wily report failed: Usage: wily report [OPTIONS] FILE [METRICS]...
-Try 'wily report --help' for help.
-
-Error: Invalid value for '-f' / '--format': 'json' is not one of 'CONSOLE', 'HTML'.
+metrics.wily.error,"wily build failed: [31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'[0m
 "
 metrics.coverage.line_coverage,0.0
 metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,7.0512988567352295
+collection_duration_seconds,5.112626791000366
