@@ -173,7 +173,7 @@ names = list(brand.generators["from_list"](names=["alpha", "beta"]))
 
 Availability scorers return `True` (available), `False` (taken) or `None` (unknown: the check could not run or got an ambiguous answer). `None` is never treated as available, so `Filter(rules={"dns_com": True})` drops it.
 
-- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability (DNS, then the registry's RDAP for .com/.net, else WHOIS)
+- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability (DNS, then the registry's RDAP server found in IANA's bootstrap file, else its WHOIS)
 - `rdap_com` — authoritative .com registration check (Verisign RDAP); sees registered domains that have no DNS
 - `whois_com` — WHOIS verification (.com)
 - `github_org` — GitHub organization
@@ -181,6 +181,15 @@ Availability scorers return `True` (available), `False` (taken) or `None` (unkno
 - `npm` — npm package (registry API)
 - `npm_scope` — npm scope `@name` (no user or org by that name)
 - `youtube` — YouTube channel
+
+`brand.check_domain("name.fr")` returns the same answer with the pass that decided it and the UTC time of the check, for any TLD with an RDAP server or a WHOIS that python-whois parses (others, such as .es, come back unknown). A name RDAP calls free is also asked of WHOIS, and counted taken when WHOIS shows a record for it, which is how some registries show a blocked name (`confirm_with_whois=False` skips that round; the `dns_*` scorers skip it to stay fast). From the command line:
+
+```
+python -m brand domains name1 name2 --tlds com,app,io,ai,fr,eu
+python -m brand domains name1 --json
+```
+
+It exits 0 when at least one domain is free, 1 otherwise. It asks registries only (DNS, RDAP, WHOIS), never a registrar's search page, since searches there can get a name front-run. `free` means not registered, not available at the normal price: registries keep premium and reserved names apart. Keep the check time with the result, because a free name can be registered by someone else within days.
 
 `brand._scorers.availability.domain_sale_status("name.com")` looks at a registered domain's landing page for parking and for-sale markers, and the listed price when one is shown.
 
