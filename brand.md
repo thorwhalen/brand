@@ -1,4 +1,4 @@
-> built 2026-10-30 08:05 UTC from 6bf237e (master) · brand 0.1.17. Details: build_info.json
+> built 2026-11-10 19:21 UTC from de95ee2 (master) · brand 0.1.18. Details: build_info.json
 
 # index.html.md
 
@@ -183,7 +183,7 @@ names = list(brand.generators["from_list"](names=["alpha", "beta"]))
 
 Availability scorers return `True` (available), `False` (taken) or `None` (unknown: the check could not run or got an ambiguous answer). `None` is never treated as available, so `Filter(rules={"dns_com": True})` drops it.
 
-- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability (DNS, then the registry’s RDAP for .com/.net, else WHOIS)
+- `dns_com`, `dns_net`, `dns_org`, `dns_io`, `dns_ai`, `dns_co`, `dns_dev`, `dns_app` — domain availability (DNS, then the registry’s RDAP server found in IANA’s bootstrap file, else its WHOIS)
 - `rdap_com` — authoritative .com registration check (Verisign RDAP); sees registered domains that have no DNS
 - `whois_com` — WHOIS verification (.com)
 - `github_org` — GitHub organization
@@ -191,6 +191,15 @@ Availability scorers return `True` (available), `False` (taken) or `None` (unkno
 - `npm` — npm package (registry API)
 - `npm_scope` — npm scope `@name` (no user or org by that name)
 - `youtube` — YouTube channel
+
+`brand.check_domain("name.fr")` returns the same answer with the pass that decided it and the UTC time of the check, for any TLD with an RDAP server or a WHOIS that python-whois parses (others, such as .es, come back unknown). A name RDAP calls free is also asked of WHOIS, and counted taken when WHOIS shows a record for it, which is how some registries show a blocked name (`confirm_with_whois=False` skips that round; the `dns_*` scorers skip it to stay fast). From the command line:
+
+```default
+python -m brand domains name1 name2 --tlds com,app,io,ai,fr,eu
+python -m brand domains name1 --json
+```
+
+It exits 0 when at least one domain is free, 1 otherwise. It asks registries only (DNS, RDAP, WHOIS), never a registrar’s search page, since searches there can get a name front-run. `free` means not registered, not available at the normal price: registries keep premium and reserved names apart. Keep the check time with the result, because a free name can be registered by someone else within days.
 
 `brand._scorers.availability.domain_sale_status("name.com")` looks at a registered domain’s landing page for parking and for-sale markers, and the listed price when one is shown.
 
@@ -873,7 +882,7 @@ use: To be able to track processes (and the time they take)
 
 # About this build
 
-This documentation was built on **2026-10-30 08:05 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/6bf237ed397d307c2f2048379ae844c4a6e592cb"><code>6bf237e</code></a> on branch <code>master</code>, for **brand 0.1.17** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-10 19:21 UTC** from commit <a href="https://github.com/thorwhalen/brand/commit/de95ee2e069acfb3059d0a611c8a9795af3b4d5f"><code>de95ee2</code></a> on branch <code>master</code>, for **brand 0.1.18** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -882,9 +891,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                         |
 |---------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/brand/commit/6bf237ed397d307c2f2048379ae844c4a6e592cb"><code>6bf237ed397d307c2f2048379ae844c4a6e592cb</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/brand/commit/de95ee2e069acfb3059d0a611c8a9795af3b4d5f"><code>de95ee2e069acfb3059d0a611c8a9795af3b4d5f</code></a> |
 | Branch              | <code>master</code>                                                                                                                                     |
-| Tags at this commit | <code>0.1.17</code>                                                                                                                                     |
+| Tags at this commit | <code>0.1.18</code>                                                                                                                                     |
 | Working tree        | clean                                                                                                                                                   |
 | Remote              | <code>https://github.com/thorwhalen/brand</code>                                                                                                        |
 
@@ -893,9 +902,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/brand</code>                                                              |
-| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/41023940895">41023940895</a>     |
+| Run          | <a href="https://github.com/thorwhalen/brand/actions/runs/42884045526">42884045526</a>     |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>83a87d6e4b5638c2b0a15c2cd8653a7682ccc11a</code> (in the history of the built commit) |
+| Event commit | <code>d3d0f1d0f129710eab503904c1f9c8d6cc883be0</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -904,7 +913,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 | epythet  | 0.2.22  |
 | Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.15 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -920,13 +929,13 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-Latest release: <a href="https://pypi.org/project/brand/0.1.17/">0.1.17</a>, the same as the documented version.
+Latest release: <a href="https://pypi.org/project/brand/0.1.18/">0.1.18</a>, the same as the documented version.
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/brand && cd brand
-git checkout 6bf237ed397d307c2f2048379ae844c4a6e592cb
+git checkout de95ee2e069acfb3059d0a611c8a9795af3b4d5f
 pip install "epythet==0.2.22"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

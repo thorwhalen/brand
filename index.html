@@ -358,7 +358,7 @@ branch from any checkpoint, and inspect what happened at each step.</p>
 <h3>Availability (network)<a class="headerlink" href="#availability-network" title="Link to this heading">#</a></h3>
 <p>Availability scorers return <code class="docutils literal notranslate"><span class="pre">True</span></code> (available), <code class="docutils literal notranslate"><span class="pre">False</span></code> (taken) or <code class="docutils literal notranslate"><span class="pre">None</span></code> (unknown: the check could not run or got an ambiguous answer). <code class="docutils literal notranslate"><span class="pre">None</span></code> is never treated as available, so <code class="docutils literal notranslate"><span class="pre">Filter(rules={&quot;dns_com&quot;:</span> <span class="pre">True})</span></code> drops it.</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">dns_com</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_net</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_org</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_io</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_ai</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_co</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_dev</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_app</span></code> — domain availability (DNS, then the registry’s RDAP for .com/.net, else WHOIS)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dns_com</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_net</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_org</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_io</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_ai</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_co</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_dev</span></code>, <code class="docutils literal notranslate"><span class="pre">dns_app</span></code> — domain availability (DNS, then the registry’s RDAP server found in IANA’s bootstrap file, else its WHOIS)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rdap_com</span></code> — authoritative .com registration check (Verisign RDAP); sees registered domains that have no DNS</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">whois_com</span></code> — WHOIS verification (.com)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">github_org</span></code> — GitHub organization</p></li>
@@ -367,6 +367,12 @@ branch from any checkpoint, and inspect what happened at each step.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">npm_scope</span></code> — npm scope <code class="docutils literal notranslate"><span class="pre">&#64;name</span></code> (no user or org by that name)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">youtube</span></code> — YouTube channel</p></li>
 </ul>
+<p><code class="docutils literal notranslate"><span class="pre">brand.check_domain(&quot;name.fr&quot;)</span></code> returns the same answer with the pass that decided it and the UTC time of the check, for any TLD with an RDAP server or a WHOIS that python-whois parses (others, such as .es, come back unknown). A name RDAP calls free is also asked of WHOIS, and counted taken when WHOIS shows a record for it, which is how some registries show a blocked name (<code class="docutils literal notranslate"><span class="pre">confirm_with_whois=False</span></code> skips that round; the <code class="docutils literal notranslate"><span class="pre">dns_*</span></code> scorers skip it to stay fast). From the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">brand</span> <span class="n">domains</span> <span class="n">name1</span> <span class="n">name2</span> <span class="o">--</span><span class="n">tlds</span> <span class="n">com</span><span class="p">,</span><span class="n">app</span><span class="p">,</span><span class="n">io</span><span class="p">,</span><span class="n">ai</span><span class="p">,</span><span class="n">fr</span><span class="p">,</span><span class="n">eu</span>
+</span><span data-line="2"><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">brand</span> <span class="n">domains</span> <span class="n">name1</span> <span class="o">--</span><span class="n">json</span>
+</span></pre></div>
+</div>
+<p>It exits 0 when at least one domain is free, 1 otherwise. It asks registries only (DNS, RDAP, WHOIS), never a registrar’s search page, since searches there can get a name front-run. <code class="docutils literal notranslate"><span class="pre">free</span></code> means not registered, not available at the normal price: registries keep premium and reserved names apart. Keep the check time with the result, because a free name can be registered by someone else within days.</p>
 <p><code class="docutils literal notranslate"><span class="pre">brand._scorers.availability.domain_sale_status(&quot;name.com&quot;)</span></code> looks at a registered domain’s landing page for parking and for-sale markers, and the listed price when one is shown.</p>
 </section>
 <section id="company-and-trademark-network-united-states">
@@ -521,7 +527,7 @@ either with <code class="docutils literal notranslate"><span class="pre">gh</spa
 </section>
 </section>
 
-<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-10-30 08:05 UTC from <a href="https://github.com/thorwhalen/brand/commit/6bf237ed397d307c2f2048379ae844c4a6e592cb">6bf237e</a> (master) · brand 0.1.17 · <a href="about-this-build.html">about this build</a></p>
+<p class="epythet-provenance" style="font-size:.8em;opacity:.65;margin-top:2.5em;text-align:right">built 2026-11-10 19:21 UTC from <a href="https://github.com/thorwhalen/brand/commit/de95ee2e069acfb3059d0a611c8a9795af3b4d5f">de95ee2</a> (master) · brand 0.1.18 · <a href="about-this-build.html">about this build</a></p>
         </article><button class="back-to-top" type="button">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
     <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
@@ -556,7 +562,7 @@ either with <code class="docutils literal notranslate"><span class="pre">gh</spa
     </div>
   </div>
 </footer>
-      <script src="_static/documentation_options.js?v=71734efd"></script>
+      <script src="_static/documentation_options.js?v=9969ed3f"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
