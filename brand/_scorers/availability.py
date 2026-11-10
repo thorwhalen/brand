@@ -44,7 +44,7 @@ def _whois_is_available(domain: str) -> bool | None:
     try:
         import whois
 
-        w = whois.whois(domain)
+        w = whois.whois(domain, quiet=True)
     except Exception as e:
         # python-whois raises WhoisDomainNotFoundError on a registry "not found"
         if type(e).__name__ == "WhoisDomainNotFoundError" or "no match" in str(e).lower():
@@ -69,22 +69,24 @@ _rdap_bootstrap_cache: dict[str, dict[str, str]] = {}
 def rdap_bootstrap(url: str = IANA_RDAP_BOOTSTRAP, *, timeout: int = 10) -> dict:
     """``{".tld": "<rdap base>/domain/"}`` from the IANA bootstrap file at *url*.
 
-    A successful fetch is cached for the process; a failed one returns ``{}``
-    and is retried on the next call.
+    The answer is cached for the process, a failure (``{}``) too, so a batch
+    of checks pays for an unreachable file once; ``RDAP_SERVERS`` and WHOIS
+    still answer.  Entries without a server are skipped.
     """
     if url not in _rdap_bootstrap_cache:
+        table = {}
         try:
             r = request_with_retry("GET", url, timeout=timeout)
             r.raise_for_status()
-            services = r.json()["services"]
+            for tlds, bases in r.json()["services"]:
+                if not bases:
+                    continue
+                base = next((b for b in bases if b.startswith("https")), bases[0])
+                for tld in tlds:
+                    table["." + tld.lower()] = base.rstrip("/") + "/domain/"
         except (requests.RequestException, ValueError, KeyError, TypeError):
-            return {}
-        _rdap_bootstrap_cache[url] = {
-            "." + tld.lower(): base.rstrip("/") + "/domain/"
-            for tlds, bases in services
-            for base in [next((b for b in bases if b.startswith("https")), bases[0])]
-            for tld in tlds
-        }
+            table = {}
+        _rdap_bootstrap_cache[url] = table
     return _rdap_bootstrap_cache[url]
 
 
@@ -126,13 +128,14 @@ def _url_is_available(
 # ---------------------------------------------------------------------------
 
 
-def check_domain(domain: str) -> dict:
+def check_domain(domain: str, *, confirm_with_whois: bool = True) -> dict:
     """Is *domain* registered?  Asks the registry only, never a registrar.
 
     Passes, cheapest first: DNS (a name that resolves is taken), then the
-    registry's RDAP server, then its WHOIS when the TLD has no RDAP.  A name
-    RDAP calls free is confirmed with WHOIS, which also shows names the
-    registry reserves or blocks without registering them.  Returns
+    registry's RDAP server, then its WHOIS when the TLD has no RDAP.  With
+    *confirm_with_whois*, a name RDAP calls free is also asked of WHOIS, and
+    taken if WHOIS shows a record for it (some registries hold blocked names
+    that way); the source is then ``"rdap+whois"``.  Returns
     ``{"domain", "available", "source", "checked_utc"}`` where ``available``
     is True / False / None (unknown), ``source`` names the pass that decided
     (None when none could), and ``checked_utc`` is when the check ran:
@@ -150,9 +153,10 @@ def check_domain(domain: str) -> dict:
         available, source = _rdap_is_available(domain), "rdap"
         if available is None:
             available, source = _whois_is_available(domain), "whois"
-        elif available and _whois_is_available(domain) is False:
-            # Not registered, but the registry holds it (reserved or blocked)
-            available, source = False, "whois"
+        elif available and confirm_with_whois:
+            if _whois_is_available(domain) is False:  # WHOIS shows a record
+                available = False
+            source = "rdap+whois"
         if available is None:
             source = None
     return {"domain": domain, "available": available, "source": source, "checked_utc": checked}
@@ -162,7 +166,8 @@ def _make_domain_scorer(tld: str, scorer_name: str):
     """Factory for DNS, then RDAP or WHOIS, domain availability scorers."""
 
     def domain_scorer(name: str) -> bool | None:
-        return check_domain(f"{name}{tld}")["available"]
+        # Bulk filters stay fast: no second, throttled WHOIS round per free name
+        return check_domain(f"{name}{tld}", confirm_with_whois=False)["available"]
 
     domain_scorer.__name__ = scorer_name
     domain_scorer.__doc__ = (

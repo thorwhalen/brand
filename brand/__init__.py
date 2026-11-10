@@ -30,6 +30,7 @@ import brand._generators  # noqa: F401
 import brand._phonotactics  # noqa: F401
 
 # -- Registries (import these to discover/register components) ----------------
+from brand._scorers.availability import check_domain
 from brand.registry import scorers, generators, filters, pipelines
 
 # -- Stage types (for building custom pipelines) ------------------------------

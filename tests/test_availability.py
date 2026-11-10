@@ -61,12 +61,29 @@ def test_rdap_bootstrap_maps_tlds_to_https_bases_and_caches(monkeypatch):
     assert calls == [availability.IANA_RDAP_BOOTSTRAP]  # fetched once
 
 
-def test_rdap_bootstrap_failure_is_empty_and_not_cached(monkeypatch):
+def test_rdap_bootstrap_failure_is_empty_and_asked_once(monkeypatch):
     monkeypatch.setattr(availability, "_rdap_bootstrap_cache", {})
-    _fake(monkeypatch, "get", lambda url, **kw: _Resp(503))
+    calls = []
+    _fake(monkeypatch, "get", lambda url, **kw: calls.append(url) or _Resp(404))
     assert availability.rdap_bootstrap() == {}
-    _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, _BOOTSTRAP))
-    assert ".fr" in availability.rdap_bootstrap()
+    assert availability.rdap_bootstrap() == {} and len(calls) == 1
+
+
+@pytest.mark.parametrize(
+    "payload", [{"nope": []}, {"services": [[["fr"]]]}, {"services": "x"}, None]
+)
+def test_rdap_bootstrap_malformed_file_is_empty(monkeypatch, payload):
+    monkeypatch.setattr(availability, "_rdap_bootstrap_cache", {})
+    _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, payload))
+    assert availability.rdap_bootstrap() == {}
+
+
+def test_rdap_bootstrap_skips_entries_without_servers(monkeypatch):
+    monkeypatch.setattr(availability, "_rdap_bootstrap_cache", {})
+    payload = {"services": [[["xx"], []], *_BOOTSTRAP["services"]]}
+    _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, payload))
+    table = availability.rdap_bootstrap()
+    assert ".xx" not in table and ".fr" in table
 
 
 def test_rdap_server_prefers_the_local_table(monkeypatch):
@@ -82,7 +99,7 @@ def _fake_whois(monkeypatch, behaviour):
     import types
 
     mod = types.ModuleType("whois")
-    mod.whois = behaviour
+    mod.whois = lambda domain, **kw: behaviour(domain)
     monkeypatch.setitem(__import__("sys").modules, "whois", mod)
 
 
@@ -116,22 +133,34 @@ def test_whois_only_an_explicit_not_found_is_available(monkeypatch, behaviour, e
     assert availability._whois_is_available("x.io") is expected
 
 
+_UNCALLED = "uncalled"  # a pass that must not run
+
+
 @pytest.mark.parametrize(
-    "dns_free,rdap,whois,expected",
+    "dns_free,rdap,whois,confirm,expected",
     [
-        (False, True, True, (False, "dns")),  # resolves: taken, nothing else asked
-        (True, False, None, (False, "rdap")),
-        (True, True, None, (True, "rdap")),
-        (True, True, False, (False, "whois")),  # reserved or blocked by the registry
-        (True, None, True, (True, "whois")),  # no RDAP for the TLD
-        (True, None, None, (None, None)),
+        (False, _UNCALLED, _UNCALLED, True, (False, "dns")),  # resolves: taken
+        (True, False, _UNCALLED, True, (False, "rdap")),
+        (True, True, None, True, (True, "rdap+whois")),  # WHOIS unclear: RDAP stands
+        (True, True, True, True, (True, "rdap+whois")),
+        (True, True, False, True, (False, "rdap+whois")),  # WHOIS shows a record
+        (True, True, _UNCALLED, False, (True, "rdap")),
+        (True, None, True, True, (True, "whois")),  # no RDAP for the TLD
+        (True, None, None, True, (None, None)),
     ],
 )
-def test_check_domain_passes(monkeypatch, dns_free, rdap, whois, expected):
+def test_check_domain_passes(monkeypatch, dns_free, rdap, whois, confirm, expected):
+    def answer(value):
+        def check(domain):
+            assert value is not _UNCALLED, "this pass should not have run"
+            return value
+
+        return check
+
     monkeypatch.setattr(availability, "_dns_is_available", lambda d: dns_free)
-    monkeypatch.setattr(availability, "_rdap_is_available", lambda d: rdap)
-    monkeypatch.setattr(availability, "_whois_is_available", lambda d: whois)
-    r = availability.check_domain("name.music")
+    monkeypatch.setattr(availability, "_rdap_is_available", answer(rdap))
+    monkeypatch.setattr(availability, "_whois_is_available", answer(whois))
+    r = availability.check_domain("name.music", confirm_with_whois=confirm)
     assert (r["available"], r["source"]) == expected
     assert r["domain"] == "name.music"
     assert __import__("re").fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ", r["checked_utc"])
@@ -140,10 +169,12 @@ def test_check_domain_passes(monkeypatch, dns_free, rdap, whois, expected):
 def test_domain_scorers_use_check_domain(monkeypatch):
     seen = []
     monkeypatch.setattr(
-        availability, "check_domain", lambda d: seen.append(d) or {"available": True}
+        availability,
+        "check_domain",
+        lambda d, **kw: seen.append((d, kw)) or {"available": True},
     )
     assert brand.scorers["dns_app"]("somename") is True
-    assert seen == ["somename.app"]
+    assert seen == [("somename.app", {"confirm_with_whois": False})]
 
 
 @pytest.mark.parametrize("scorer", ["pypi", "npm", "npm_scope"])
