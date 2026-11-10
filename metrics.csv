@@ -1,8 +1,23 @@
 metric,value
 schema_version,1.0
-timestamp,2026-11-10T19:17:35.269745Z
-commit_sha,aa0abea0760a6e98b6193fd97e1ae0707844bcc5
-commit_message,"check_domain: WHOIS confirmation optional (scorers skip it), bootstrap failure cached and malformed entries skipped, export brand.check_domain
+timestamp,2026-11-10T19:20:18.537452Z
+commit_sha,d3d0f1d0f129710eab503904c1f9c8d6cc883be0
+commit_message,"Domain check for any TLD: IANA RDAP bootstrap, check_domain, python -m brand domains (#21)
+
+* Domain check for any TLD: IANA RDAP bootstrap, check_domain with source and check time, python -m brand domains
+
+- rdap_server() resolves a TLD's registry RDAP server from IANA's bootstrap file
+  (RFC 9224), RDAP_SERVERS still taking precedence and covering an offline fetch.
+- check_domain() returns available, the deciding pass and checked_utc; a name RDAP
+  calls free is confirmed with WHOIS, which shows reserved or blocked names.
+- WHOIS: only an explicit not-found is available; an empty or throttled answer is
+  None, never True (python-whois raises WhoisDomainNotFoundError on not-found).
+- python -m brand domains NAME... --tlds ... [--json]: registry-only, never a
+  registrar search page.
+
+Refs thorwhalen/my_skills#74
+
+* check_domain: WHOIS confirmation optional (scorers skip it), bootstrap failure cached and malformed entries skipped, export brand.check_domain
 
 Review fixes: the dns_* scorers stay fast; an unreachable or malformed IANA
 file costs one fetch, not one per domain; quiet python-whois; source
@@ -10,25 +25,25 @@ rdap+whois when the confirmation ran.
 
 Closes thorwhalen/my_skills#74"
 python_version,3.10
-metrics.umpyre_stats.num_functions,18326
-metrics.umpyre_stats.num_classes,3321
-metrics.umpyre_stats.total_lines,608409
-metrics.umpyre_stats.empty_lines,76332
-metrics.umpyre_stats.comment_lines,36838
-metrics.umpyre_stats.docs_lines,82034
-metrics.umpyre_stats.function_lines,305235
-metrics.umpyre_stats.empty_lines_ratio,0.12546165490648561
-metrics.umpyre_stats.comment_lines_ratio,0.060548085251861825
-metrics.umpyre_stats.function_lines_ratio,0.5016937619265988
-metrics.umpyre_stats.mean_lines_per_function,16.655844155844157
-metrics.umpyre_stats.files_analyzed,1305
+metrics.umpyre_stats.num_functions,17986
+metrics.umpyre_stats.num_classes,3250
+metrics.umpyre_stats.total_lines,601533
+metrics.umpyre_stats.empty_lines,75174
+metrics.umpyre_stats.comment_lines,36311
+metrics.umpyre_stats.docs_lines,81169
+metrics.umpyre_stats.function_lines,300572
+metrics.umpyre_stats.empty_lines_ratio,0.12497069986185297
+metrics.umpyre_stats.comment_lines_ratio,0.06036410305004048
+metrics.umpyre_stats.function_lines_ratio,0.49967665946839157
+metrics.umpyre_stats.mean_lines_per_function,16.71144223284777
+metrics.umpyre_stats.files_analyzed,1300
 metrics.umpyre_stats.pypi_version,0.1.17
 metrics.umpyre_stats.errors,"[""test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte""]"
 metrics.umpyre_stats.total_errors,1
 metrics.workflow_status.last_run_status,success
-metrics.workflow_status.last_success_timestamp,2026-10-30T08:06:35Z
+metrics.workflow_status.last_success_timestamp,2026-11-10T19:17:37Z
 metrics.workflow_status.recent_failure_count,0
-metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/41024183701
+metrics.workflow_status.run_url,https://github.com/thorwhalen/brand/actions/runs/42883577454
 metrics.workflow_status.total_runs_analyzed,10
 metrics.wily.cyclomatic_avg,0.0
 metrics.wily.maintainability_index,0.0
@@ -41,4 +56,4 @@ metrics.coverage.branch_coverage,0.0
 metrics.coverage.statements_covered,0
 metrics.coverage.statements_total,0
 metrics.coverage.error,No coverage file found
-collection_duration_seconds,6.9130401611328125
+collection_duration_seconds,5.186950445175171
