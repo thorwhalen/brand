@@ -47,7 +47,10 @@ def _whois_is_available(domain: str) -> bool | None:
         w = whois.whois(domain, quiet=True)
     except Exception as e:
         # python-whois raises WhoisDomainNotFoundError on a registry "not found"
-        if type(e).__name__ == "WhoisDomainNotFoundError" or "no match" in str(e).lower():
+        if (
+            type(e).__name__ == "WhoisDomainNotFoundError"
+            or "no match" in str(e).lower()
+        ):
             return True
         return None
     return False if w.domain_name else None
@@ -159,7 +162,12 @@ def check_domain(domain: str, *, confirm_with_whois: bool = True) -> dict:
             source = "rdap+whois"
         if available is None:
             source = None
-    return {"domain": domain, "available": available, "source": source, "checked_utc": checked}
+    return {
+        "domain": domain,
+        "available": available,
+        "source": source,
+        "checked_utc": checked,
+    }
 
 
 def _make_domain_scorer(tld: str, scorer_name: str):

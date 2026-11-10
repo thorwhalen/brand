@@ -26,7 +26,9 @@ def _domains(names: Sequence[str], tlds: Sequence[str]) -> list[str]:
 
 def _render(rows: Sequence[dict]) -> str:
     head = ["domain", "verdict", "source", "checked_utc"]
-    body = [[r["domain"], r["verdict"], r["source"] or "-", r["checked_utc"]] for r in rows]
+    body = [
+        [r["domain"], r["verdict"], r["source"] or "-", r["checked_utc"]] for r in rows
+    ]
     widths = [max(len(c) for c in col) for col in zip(head, *body)]
     return "\n".join(
         "  ".join(c.ljust(w) for c, w in zip(cells, widths)).rstrip()
@@ -39,13 +41,20 @@ def domains(argv: Sequence[str] | None = None, *, check=None) -> int:
     from brand._scorers.availability import DEFAULT_DOMAIN_TLDS, check_domain
 
     check = check or check_domain
-    ap = argparse.ArgumentParser(prog="python -m brand domains", description=__doc__.split("\n")[0])
+    ap = argparse.ArgumentParser(
+        prog="python -m brand domains", description=__doc__.split("\n")[0]
+    )
     ap.add_argument("names", nargs="+")
-    ap.add_argument("--tlds", default=",".join(DEFAULT_DOMAIN_TLDS), help="comma list, no dots")
+    ap.add_argument(
+        "--tlds", default=",".join(DEFAULT_DOMAIN_TLDS), help="comma list, no dots"
+    )
     ap.add_argument("--json", action="store_true")
     a = ap.parse_args(argv)
     tlds = [t.strip().lstrip(".") for t in a.tlds.split(",") if t.strip()]
-    rows = [{**r, "verdict": VERDICTS[r["available"]]} for r in map(check, _domains(a.names, tlds))]
+    rows = [
+        {**r, "verdict": VERDICTS[r["available"]]}
+        for r in map(check, _domains(a.names, tlds))
+    ]
     print(json.dumps(rows, indent=2) if a.json else _render(rows))
     return 0 if any(r["available"] is True for r in rows) else 1
 
