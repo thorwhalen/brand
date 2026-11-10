@@ -36,8 +36,114 @@ def test_rdap_com(monkeypatch, code, expected):
     assert brand.scorers["rdap_com"]("somename") is expected
 
 
-def test_rdap_unsupported_tld_is_unknown():
+def test_rdap_unsupported_tld_is_unknown(monkeypatch):
+    monkeypatch.setattr(availability, "rdap_bootstrap", lambda *a, **kw: {})
     assert availability._rdap_is_available("somename.xyz") is None
+
+
+_BOOTSTRAP = {
+    "services": [
+        [["fr"], ["https://rdap.nic.fr/"]],
+        [["app", "DEV"], ["http://plain.example/rdap", "https://pubapi.example/rdap/"]],
+        [["com"], ["https://elsewhere.example/"]],
+    ]
+}
+
+
+def test_rdap_bootstrap_maps_tlds_to_https_bases_and_caches(monkeypatch):
+    monkeypatch.setattr(availability, "_rdap_bootstrap_cache", {})
+    calls = []
+    _fake(monkeypatch, "get", lambda url, **kw: calls.append(url) or _Resp(200, _BOOTSTRAP))
+    table = availability.rdap_bootstrap()
+    assert table[".fr"] == "https://rdap.nic.fr/domain/"
+    assert table[".dev"] == table[".app"] == "https://pubapi.example/rdap/domain/"
+    availability.rdap_bootstrap()
+    assert calls == [availability.IANA_RDAP_BOOTSTRAP]  # fetched once
+
+
+def test_rdap_bootstrap_failure_is_empty_and_not_cached(monkeypatch):
+    monkeypatch.setattr(availability, "_rdap_bootstrap_cache", {})
+    _fake(monkeypatch, "get", lambda url, **kw: _Resp(503))
+    assert availability.rdap_bootstrap() == {}
+    _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, _BOOTSTRAP))
+    assert ".fr" in availability.rdap_bootstrap()
+
+
+def test_rdap_server_prefers_the_local_table(monkeypatch):
+    monkeypatch.setattr(availability, "_rdap_bootstrap_cache", {})
+    _fake(monkeypatch, "get", lambda url, **kw: _Resp(200, _BOOTSTRAP))
+    assert availability.rdap_server(".com") == availability.RDAP_SERVERS[".com"]
+    assert availability.rdap_server(".FR") == "https://rdap.nic.fr/domain/"
+    assert availability.rdap_server(".nope") is None
+
+
+def _fake_whois(monkeypatch, behaviour):
+    """Install a stand-in ``whois`` module whose ``whois()`` does *behaviour*."""
+    import types
+
+    mod = types.ModuleType("whois")
+    mod.whois = behaviour
+    monkeypatch.setitem(__import__("sys").modules, "whois", mod)
+
+
+class WhoisDomainNotFoundError(Exception):  # the name python-whois raises
+    pass
+
+
+class WhoisQuotaExceededError(Exception):
+    pass
+
+
+def _raise(exc):
+    def f(domain):
+        raise exc
+
+    return f
+
+
+@pytest.mark.parametrize(
+    "behaviour,expected",
+    [
+        (_raise(WhoisDomainNotFoundError("Domain not found.")), True),
+        (_raise(Exception("No match for X.COM")), True),
+        (_raise(WhoisQuotaExceededError("limit exceeded")), None),
+        (lambda d: type("W", (), {"domain_name": d})(), False),
+        (lambda d: type("W", (), {"domain_name": None})(), None),  # empty, not free
+    ],
+)
+def test_whois_only_an_explicit_not_found_is_available(monkeypatch, behaviour, expected):
+    _fake_whois(monkeypatch, behaviour)
+    assert availability._whois_is_available("x.io") is expected
+
+
+@pytest.mark.parametrize(
+    "dns_free,rdap,whois,expected",
+    [
+        (False, True, True, (False, "dns")),  # resolves: taken, nothing else asked
+        (True, False, None, (False, "rdap")),
+        (True, True, None, (True, "rdap")),
+        (True, True, False, (False, "whois")),  # reserved or blocked by the registry
+        (True, None, True, (True, "whois")),  # no RDAP for the TLD
+        (True, None, None, (None, None)),
+    ],
+)
+def test_check_domain_passes(monkeypatch, dns_free, rdap, whois, expected):
+    monkeypatch.setattr(availability, "_dns_is_available", lambda d: dns_free)
+    monkeypatch.setattr(availability, "_rdap_is_available", lambda d: rdap)
+    monkeypatch.setattr(availability, "_whois_is_available", lambda d: whois)
+    r = availability.check_domain("name.music")
+    assert (r["available"], r["source"]) == expected
+    assert r["domain"] == "name.music"
+    assert __import__("re").fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ", r["checked_utc"])
+
+
+def test_domain_scorers_use_check_domain(monkeypatch):
+    seen = []
+    monkeypatch.setattr(
+        availability, "check_domain", lambda d: seen.append(d) or {"available": True}
+    )
+    assert brand.scorers["dns_app"]("somename") is True
+    assert seen == ["somename.app"]
 
 
 @pytest.mark.parametrize("scorer", ["pypi", "npm", "npm_scope"])

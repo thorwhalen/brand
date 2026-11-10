@@ -36,32 +36,67 @@ def _dns_is_available(domain: str, *, timeout: int = 3) -> bool:
 
 
 def _whois_is_available(domain: str) -> bool | None:
-    """WHOIS-based check.  True if unregistered, None if WHOIS failed."""
+    """WHOIS-based check.  True if the registry says not found, None if unclear.
+
+    Only an explicit "not found" answer counts as available: an empty or
+    throttled answer (no ``domain_name`` parsed) is ``None``, never ``True``.
+    """
     try:
         import whois
 
         w = whois.whois(domain)
-        if w.domain_name:
-            return False
-        return True
     except Exception as e:
-        # python-whois raises on "No match", which means available
-        if "no match" in str(e).lower():
+        # python-whois raises WhoisDomainNotFoundError on a registry "not found"
+        if type(e).__name__ == "WhoisDomainNotFoundError" or "no match" in str(e).lower():
             return True
         return None
+    return False if w.domain_name else None
 
 
-# Authoritative registry RDAP servers (404 = not registered).  Extend to add TLDs.
+# IANA's registry of RDAP servers per TLD (RFC 9224), fetched once per process.
+IANA_RDAP_BOOTSTRAP = "https://data.iana.org/rdap/dns.json"
+
+# Registry RDAP servers that take precedence over the IANA bootstrap file, and
+# keep working when it cannot be fetched (404 = not registered).  Extend to add TLDs.
 RDAP_SERVERS = {
     ".com": "https://rdap.verisign.com/com/v1/domain/",
     ".net": "https://rdap.verisign.com/net/v1/domain/",
 }
 
+_rdap_bootstrap_cache: dict[str, dict[str, str]] = {}
+
+
+def rdap_bootstrap(url: str = IANA_RDAP_BOOTSTRAP, *, timeout: int = 10) -> dict:
+    """``{".tld": "<rdap base>/domain/"}`` from the IANA bootstrap file at *url*.
+
+    A successful fetch is cached for the process; a failed one returns ``{}``
+    and is retried on the next call.
+    """
+    if url not in _rdap_bootstrap_cache:
+        try:
+            r = request_with_retry("GET", url, timeout=timeout)
+            r.raise_for_status()
+            services = r.json()["services"]
+        except (requests.RequestException, ValueError, KeyError, TypeError):
+            return {}
+        _rdap_bootstrap_cache[url] = {
+            "." + tld.lower(): base.rstrip("/") + "/domain/"
+            for tlds, bases in services
+            for base in [next((b for b in bases if b.startswith("https")), bases[0])]
+            for tld in tlds
+        }
+    return _rdap_bootstrap_cache[url]
+
+
+def rdap_server(tld: str) -> str | None:
+    """The registry RDAP domain-query base for *tld* (``".com"``), or None."""
+    tld = tld.lower()
+    return RDAP_SERVERS.get(tld) or rdap_bootstrap().get(tld)
+
 
 def _rdap_is_available(domain: str, *, timeout: int = 10) -> bool | None:
     """Registry RDAP check.  True if not registered, None if unsupported/failed."""
-    tld = "." + domain.rsplit(".", 1)[-1]
-    base = RDAP_SERVERS.get(tld)
+    base = rdap_server("." + domain.rsplit(".", 1)[-1])
     if base is None:
         return None
     try:
@@ -91,15 +126,43 @@ def _url_is_available(
 # ---------------------------------------------------------------------------
 
 
+def check_domain(domain: str) -> dict:
+    """Is *domain* registered?  Asks the registry only, never a registrar.
+
+    Passes, cheapest first: DNS (a name that resolves is taken), then the
+    registry's RDAP server, then its WHOIS when the TLD has no RDAP.  A name
+    RDAP calls free is confirmed with WHOIS, which also shows names the
+    registry reserves or blocks without registering them.  Returns
+    ``{"domain", "available", "source", "checked_utc"}`` where ``available``
+    is True / False / None (unknown), ``source`` names the pass that decided
+    (None when none could), and ``checked_utc`` is when the check ran:
+    a free name can be registered by someone else days later.
+
+    ``available=True`` means *not registered*, not *for sale at the normal
+    price*: registries reserve and price premium names separately.
+    """
+    from datetime import datetime, timezone
+
+    checked = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    if not _dns_is_available(domain):
+        available, source = False, "dns"
+    else:
+        available, source = _rdap_is_available(domain), "rdap"
+        if available is None:
+            available, source = _whois_is_available(domain), "whois"
+        elif available and _whois_is_available(domain) is False:
+            # Not registered, but the registry holds it (reserved or blocked)
+            available, source = False, "whois"
+        if available is None:
+            source = None
+    return {"domain": domain, "available": available, "source": source, "checked_utc": checked}
+
+
 def _make_domain_scorer(tld: str, scorer_name: str):
-    """Factory for DNS+WHOIS two-pass domain availability scorers."""
+    """Factory for DNS, then RDAP or WHOIS, domain availability scorers."""
 
     def domain_scorer(name: str) -> bool | None:
-        domain = f"{name}{tld}"
-        if not _dns_is_available(domain):
-            return False
-        rdap = _rdap_is_available(domain)
-        return rdap if rdap is not None else _whois_is_available(domain)
+        return check_domain(f"{name}{tld}")["available"]
 
     domain_scorer.__name__ = scorer_name
     domain_scorer.__doc__ = (
@@ -120,6 +183,9 @@ _TLDS = {
     "dns_app": ".app",
 }
 
+#: TLDs (without the dot) checked by ``python -m brand domains`` when none are given.
+DEFAULT_DOMAIN_TLDS = tuple(t.lstrip(".") for t in _TLDS.values())
+
 for _name, _tld in _TLDS.items():
     _func = _make_domain_scorer(_tld, _name)
     # Quick DNS-only scorers
@@ -129,7 +195,7 @@ for _name, _tld in _TLDS.items():
         requires_network=True,
         latency="fast",
         parallelizable=True,
-        description=f"Domain availability for {_tld} (DNS + WHOIS)",
+        description=f"Domain availability for {_tld} (DNS, then registry RDAP or WHOIS)",
     )(_func)
 
 
