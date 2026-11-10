@@ -1,0 +1,51 @@
+{
+  "collection_duration_seconds": 6.082515001296997,
+  "commit_message": "Domain check for any TLD: IANA RDAP bootstrap, check_domain, python -m brand domains (#21)\n\n* Domain check for any TLD: IANA RDAP bootstrap, check_domain with source and check time, python -m brand domains\n\n- rdap_server() resolves a TLD's registry RDAP server from IANA's bootstrap file\n  (RFC 9224), RDAP_SERVERS still taking precedence and covering an offline fetch.\n- check_domain() returns available, the deciding pass and checked_utc; a name RDAP\n  calls free is confirmed with WHOIS, which shows reserved or blocked names.\n- WHOIS: only an explicit not-found is available; an empty or throttled answer is\n  None, never True (python-whois raises WhoisDomainNotFoundError on not-found).\n- python -m brand domains NAME... --tlds ... [--json]: registry-only, never a\n  registrar search page.\n\nRefs thorwhalen/my_skills#74\n\n* check_domain: WHOIS confirmation optional (scorers skip it), bootstrap failure cached and malformed entries skipped, export brand.check_domain\n\nReview fixes: the dns_* scorers stay fast; an unreachable or malformed IANA\nfile costs one fetch, not one per domain; quiet python-whois; source\nrdap+whois when the confirmation ran.\n\nCloses thorwhalen/my_skills#74",
+  "commit_sha": "d3d0f1d0f129710eab503904c1f9c8d6cc883be0",
+  "metrics": {
+    "coverage": {
+      "branch_coverage": 0.0,
+      "error": "No coverage file found",
+      "line_coverage": 0.0,
+      "statements_covered": 0,
+      "statements_total": 0
+    },
+    "umpyre_stats": {
+      "comment_lines": 36838,
+      "comment_lines_ratio": 0.060548085251861825,
+      "docs_lines": 82034,
+      "empty_lines": 76332,
+      "empty_lines_ratio": 0.12546165490648561,
+      "errors": [
+        "test_func_inspect_special_encoding.py: 'utf-8' codec can't decode byte 0xa4 in position 64: invalid start byte"
+      ],
+      "files_analyzed": 1305,
+      "function_lines": 305235,
+      "function_lines_ratio": 0.5016937619265988,
+      "mean_lines_per_function": 16.655844155844157,
+      "num_classes": 3321,
+      "num_functions": 18326,
+      "pypi_version": "0.1.17",
+      "total_errors": 1,
+      "total_lines": 608409
+    },
+    "wily": {
+      "cyclomatic_avg": 0.0,
+      "error": "wily build failed: \u001b[31mFailed to setup archiver: 'Dirty repository, make sure you commit/stash files first'\u001b[0m\n",
+      "files_analyzed": 0,
+      "maintainability_index": 0.0,
+      "total_loc": 0
+    },
+    "workflow_status": {
+      "last_run_status": "success",
+      "last_success_timestamp": "2026-11-10T19:17:37Z",
+      "recent_failure_count": 0,
+      "run_url": "https://github.com/thorwhalen/brand/actions/runs/42883577454",
+      "total_runs_analyzed": 10
+    }
+  },
+  "python_version": "3.10",
+  "schema_version": "1.0",
+  "timestamp": "2026-11-10T19:20:23.510418Z",
+  "workflow_status": {}
+}
